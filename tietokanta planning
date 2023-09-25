@@ -1,0 +1,10 @@
+
+Säätaulu
+id(pk) esim 1
+tila(VARCHAR45) esim aurinkoinen, pilvinen
+lämpö(int) esim. -12, +25
+muu? esim tuulen nopeus?
+
+
+Säätaulu liitetään lentokenttä tauluun johon
+luodaan uusi pylväs joka toimii foreign keynä
