@@ -71,3 +71,8 @@ def create_user_by_name(name):
     my_cursor.execute(sql)
     connector.mydb.commit()
     print(my_cursor.rowcount, 'ROWCOUNTSS')
+
+
+def update_player_location(icao, player):
+    sql = f"UPDATE game SET location={icao} WHERE screen_name={player}"
+    my_cursor.execute(sql)
