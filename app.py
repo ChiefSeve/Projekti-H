@@ -29,7 +29,7 @@ def main_app():
             for airport in airports:
                 print(airport['ident'], 'airport')
             destination = input('minne mennään: ')
-            module.change_current_airport(destination, user['id'])
+            module.change_current_airport(destination.upper(), user['id'])
         else:
             print(f'Peli loppui. lensit {jumps} kertaa')
             return False
