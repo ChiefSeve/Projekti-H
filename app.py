@@ -28,7 +28,8 @@ def main_app():
             airports = module.check_if_inside_range(user['location'])
             for airport in airports:
                 print(airport['ident'], 'airport')
-            input('minne mennään: ')
+            destination = input('minne mennään: ')
+            module.change_current_airport(destination, user['id'])
         else:
             print(f'Peli loppui. lensit {jumps} kertaa')
             return False

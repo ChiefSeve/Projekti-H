@@ -43,3 +43,8 @@ def create_user(name):
     resp = connector.create_user_by_name(name)
     if resp != 'ERROR':
         return resp
+
+
+def change_current_airport(icao, player):
+    connector.update_player_location(icao, player)
+    return True
