@@ -1,6 +1,6 @@
 import helpers.connector as connector
 
-my_cursor = connector.mydb.cursor(dictionary=True)
+my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
 
 
 def get_random_airport():
@@ -13,39 +13,17 @@ def get_random_airport():
         return 'ERROR'
 
 
-def get_current_location(icao):
-    sql = f'SELECT ident, name, latitude_deg, longitude_deg FROM airport WHERE ident ="{icao}"'
-    my_cursor.execute(sql)
-    return my_cursor.fetchone()
-
-
 def get_random_airports():
     sql = f'SELECT ident, name FROM airport ORDER BY RAND() limit 30'
     my_cursor.execute(sql)
     result = my_cursor.fetchall()
     return result
 
+
 def get_airport_by_icao(icao):
     sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
     return my_cursor.fetchone()
-
-
-def get_random_weather_id():
-    sql = f'''SELECT id FROM weather'''
-    my_cursor.execute(sql)
-    return my_cursor.fetchone()
-
-def update_player_goal(weather_id, user_id):
-    sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
-    my_cursor.execute(sql, (weather_id, user_id,))
-    connector.mydb.commit()
-
-def update_airport_weather(weather_id):
-    airports = get_random_airport()
-    weather = get_random_weather_id()
-    sql = f'''UPDATE airport SET weather_id = %s WHERE id = %s'''
-    return my_cursor.execute(sql, (weather['id'], airports['id']))
 
 
 def get_start_airport():
@@ -54,6 +32,33 @@ def get_start_airport():
     my_cursor.execute(sql)
     first = my_cursor.fetchone()
     return first
+
+
+def get_current_location(icao):
+    sql = f'SELECT ident, name, latitude_deg, longitude_deg FROM airport WHERE ident ="{icao}"'
+    my_cursor.execute(sql)
+    return my_cursor.fetchone()
+
+
+def get_random_weather_id():
+    sql = f'''SELECT id FROM weather order by RAND()'''
+    my_cursor.execute(sql)
+    return my_cursor.fetchone()
+
+
+def update_player_goal(weather_id, user_id):
+    sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
+    values = (weather_id, user_id)
+    data = my_cursor.execute(sql, values)
+    connector.mydb.commit()
+
+
+def update_airport_weather(weather_id):
+    airports = get_random_airport()
+    weather = get_random_weather_id(weather_id)
+    sql = f'''UPDATE airport SET weather_id = %s WHERE id = %s'''
+    my_cursor.execute(sql, (weather['id'], airports['id']))
+    connector.mydb.commit()
 
 
 def find_player(name):
@@ -65,12 +70,25 @@ def find_player(name):
     else:
         return 'no data'
 
+def get_weather_info(weather_id):
+    sql = f'''select * from weather where id = %s'''
+    my_cursor.execute(sql, (weather_id, ))
+    return my_cursor.fetchone()
+
 
 def create_user_by_name(name):
-    sql = f'INSERT INTO game (screen_name) VALUES ("{name}")'
-    my_cursor.execute(sql)
+    print('name', name)
+    sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id) VALUES (%s, %s, %s, %s)'''
+    values = (name, 0, 'KABE', 1)
+    my_cursor.execute(sql, values)
     connector.mydb.commit()
-    print(my_cursor.rowcount, 'ROWCOUNTSS')
+
+
+def reset_frustration(player_id):
+    sql = f'''UPDATE game SET frustration = 0 WHERE id %s'''
+    my_cursor.execute(sql, (player_id, ))
+    connector.mydb.commit()
+
 
 
 def update_player_location(icao, player):
