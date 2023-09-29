@@ -13,23 +13,30 @@ def main_app():
         module.create_user(player_name)
         user = module.find_player(player_name)
     else:
-        print(player_name)
         print(f'Tervetuloa takaisin,{player_name}')
-    frustration = user['frustration']
+    frustration = 0
     module.create_new_weather_goal(user['id'])
     weather = database.get_weather_info(user['weather_id'])
-    print(user, 'useriii')
     print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta')
     while True:
         # tässä kohdassa luodaan pelaajalle tavoite säätila. katsotaan aina kun lennetään uudelle lentokentälle eli päivitetään game taulussa location.
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         if int(frustration) < 100:
-            print('Voit jatkaa lentämistä')
+            input('Voit jatkaa lentämistä. paina entteriä jatkaaksesi')
             airports = module.check_if_inside_range(user['location'])
+            airport_icao=[]
             for airport in airports:
-                print(airport['ident'], 'airport')
+                airport_icao.append(airport['ident'])
             destination = input('minne mennään: ')
-            module.change_current_airport(destination.upper(), user['id'])
+            if destination in airport_icao:
+                module.change_current_airport(destination.upper(), user['id'])
+                current_location = database.get_airport_by_icao(destination.upper())
+                new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
+                frustration += new_frust
+                print(frustration)
+            else:
+                print('no')
+
         else:
             print(f'Peli loppui. lensit {jumps} kertaa')
             return False

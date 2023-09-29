@@ -14,14 +14,14 @@ def get_random_airport():
 
 
 def get_random_airports():
-    sql = f'SELECT ident, name FROM airport ORDER BY RAND() limit 30'
+    sql = f'SELECT ident, name, weather_id FROM airport ORDER BY RAND() limit 30'
     my_cursor.execute(sql)
     result = my_cursor.fetchall()
     return result
 
 
 def get_airport_by_icao(icao):
-    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg FROM airport WHERE ident = %s'''
+    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
     return my_cursor.fetchone()
 
@@ -32,12 +32,6 @@ def get_start_airport():
     my_cursor.execute(sql)
     first = my_cursor.fetchone()
     return first
-
-
-def get_current_location(icao):
-    sql = f'SELECT ident, name, latitude_deg, longitude_deg FROM airport WHERE ident ="{icao}"'
-    my_cursor.execute(sql)
-    return my_cursor.fetchone()
 
 
 def get_random_weather_id():
@@ -76,9 +70,8 @@ def get_weather_info(weather_id):
     my_cursor.execute(sql, (weather_id,))
     return my_cursor.fetchone()
 
-
+ # TODO change start airport to random, now it is hard coded
 def create_user_by_name(name):
-    print('name', name)
     sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id) VALUES (%s, %s, %s, %s)'''
     values = (name, 0, 'KABE', 1)
     my_cursor.execute(sql, values)
@@ -92,7 +85,6 @@ def reset_frustration(player_id):
 
 
 def update_player_location(icao, player):
-    print(icao, 'ICAOO', player, 'PLAYERRt')
     sql = f'''UPDATE game SET location=%s WHERE id=%s'''
     val = (icao, player)
     my_cursor.execute(sql, val)

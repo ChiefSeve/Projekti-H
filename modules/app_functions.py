@@ -27,8 +27,6 @@ def create_new_weather_goal(player_id):
     connector.update_player_goal(weather['id'], player_id)
 
 
-
-
 def find_player(name):
     player = connector.find_player(name)
     if player != 'no data':
@@ -39,7 +37,6 @@ def find_player(name):
 
 def create_user(name):
     airport = connector.get_start_airport()
-    print(name, 'name')
     resp = connector.create_user_by_name(name)
     if resp != 'ERROR':
         return resp
