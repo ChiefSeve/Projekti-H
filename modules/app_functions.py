@@ -45,6 +45,24 @@ def create_user(name):
         return resp
 
 
+def frustration_adder(goal_id, local_weather_id):
+    frust = 0
+    goal = connector.get_weather_info(goal_id)
+    weather = connector.get_weather_info(local_weather_id)
+    if goal == weather:
+        frust += 0
+        return frust
+    elif goal['status'] == weather['status']:
+        frust += 5
+        return frust
+    elif goal['temperature'] == weather['temperature']:
+        frust += 5
+        return frust
+    else:
+        frust += 10
+        return frust
+
+
 def change_current_airport(icao, player):
     connector.update_player_location(icao, player)
     return True
