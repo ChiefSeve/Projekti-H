@@ -18,21 +18,11 @@ def check_if_inside_range(icao):
             return airport
 
 
-check_if_inside_range('foobar')
-
-
-# def generate_weather():
-#     connector.update_airport_weather()
-# def end():
-#     print("Hävisit pelin.")
-#     print(f"Selvisit {jumps} hyppyä.")
-#
-#
-# def frustration_check(frustration):
-#     if frustration < 100:
-#         return True
-#     else:
-#         return False
+def create_new_weather_goal(player_id):
+    weather = connector.get_random_weather_id()
+    # this is not our top priority, we will do it if we have time
+    # connector.update_airport_weather(weather['id'])
+    connector.update_player_goal(player_id, weather['id'])
 
 
 def find_player(name):

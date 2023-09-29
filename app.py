@@ -19,6 +19,7 @@ def main_app():
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         if int(frustration) < 100:
             print('Voit jatkaa lentämistä')
+            module.create_new_weather_goal(user['id'])
             module.check_if_inside_range(user['location'])
         else:
             return False

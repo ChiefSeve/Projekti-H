@@ -36,8 +36,12 @@ def get_random_weather_id():
     my_cursor.execute(sql)
     return my_cursor.fetchone()
 
+def update_player_goal(weather_id, user_id):
+    sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
+    my_cursor.execute(sql, (weather_id, user_id,))
+    connector.mydb.commit()
 
-def update_airport_weather():
+def update_airport_weather(weather_id):
     airports = get_random_airport()
     weather = get_random_weather_id()
     sql = f'''UPDATE airport SET weather_id = %s WHERE id = %s'''
