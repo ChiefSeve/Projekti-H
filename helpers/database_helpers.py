@@ -70,9 +70,10 @@ def find_player(name):
     else:
         return 'no data'
 
+
 def get_weather_info(weather_id):
     sql = f'''select * from weather where id = %s'''
-    my_cursor.execute(sql, (weather_id, ))
+    my_cursor.execute(sql, (weather_id,))
     return my_cursor.fetchone()
 
 
@@ -86,11 +87,13 @@ def create_user_by_name(name):
 
 def reset_frustration(player_id):
     sql = f'''UPDATE game SET frustration = 0 WHERE id %s'''
-    my_cursor.execute(sql, (player_id, ))
+    my_cursor.execute(sql, (player_id,))
     connector.mydb.commit()
 
 
-
 def update_player_location(icao, player):
-    sql = f"UPDATE game SET location={icao} WHERE screen_name={player}"
-    my_cursor.execute(sql)
+    print(icao, 'ICAOO', player, 'PLAYERRt')
+    sql = f'''UPDATE game SET location=%s WHERE id=%s'''
+    val = (icao, player)
+    my_cursor.execute(sql, val)
+    connector.mydb.commit()

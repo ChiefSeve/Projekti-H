@@ -38,7 +38,6 @@ def main_app():
 #     check = start_menu()
 #     while check is True:
 #     location = startplace()
-#     while frustration < 100:
 #         kok = input("Lisää turhautuneisuutta: ")
 #         frustration += int(kok)
 #         check = fcheck(frustration)
