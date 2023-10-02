@@ -29,7 +29,11 @@ def get_airports_by_weather(weather_id):
 def get_airport_by_icao(icao):
     sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id, iso_region FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
-    return my_cursor.fetchone()
+    result = my_cursor.fetchone()
+    if result:
+        return result
+    else:
+        return 'no data'
 
 
 def get_start_airport():
