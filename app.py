@@ -6,39 +6,87 @@ import modules.app_functions as module
 
 def main_app():
     jumps = 0
+    flight_range = 2778
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
+    airport_icaos = database.get_all_airport_icaos()
     user = module.find_player(player_name)
     if user == 'no data':
         print(f'Käyttäjää ei löytynyt, luoodaan se')
         module.create_user(player_name)
         user = module.find_player(player_name)
     else:
-        print(f'Tervetuloa takaisin,{player_name}')
+        print(f'Tervetuloa takaisin, {player_name}')
     frustration = 0
     module.create_new_weather_goal(user['id'])
     weather = database.get_weather_info(user['weather_id'])
-    print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta')
+    nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
+    print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
+          f'Voit lentää {flight_range} km kerrallaan.')
+    print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
+    print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
+          f'johon on matkaa {nearest_eligible_airport[0]} km.')
     while True:
         # tässä kohdassa luodaan pelaajalle tavoite säätila. katsotaan aina kun lennetään uudelle lentokentälle eli päivitetään game taulussa location.
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         if int(frustration) < 100:
-            input('Voit jatkaa lentämistä. paina entteriä jatkaaksesi')
+            print("")
+            print('1. Lennä toiselle lentoasemalle.')
+            print('2. Hae tiedot lentoasemasta.')
+            print('3. Laske kahden lentoaseman välinen etäisyys.')
+            print('4. Lopeta peli.')
+            print("")
+            choice = input(f'Voit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi ({user["location"]})\n')
             airports = module.check_if_inside_range(user['location'])
             airport_icao=[]
             for airport in airports:
                 airport_icao.append(airport['ident'])
-            destination = input('minne mennään: ')
-            if destination in airport_icao:
-                module.change_current_airport(destination.upper(), user['id'])
-                current_location = database.get_airport_by_icao(destination.upper())
-                new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
-                frustration += new_frust
-                print(frustration)
-            else:
-                print('no')
+
+            if choice == '1' or choice == '1.':
+                destination = input('minne mennään: ')
+                if destination in airport_icao:
+                    module.change_current_airport(destination.upper(), user['id'])
+                    current_location = database.get_airport_by_icao(destination.upper())
+                    new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
+                    frustration += new_frust
+                    print(frustration)
+                else:
+                    print('no')
+
+            elif choice == '2' or choice == '2.':
+                search_icao = input('Anna lentoaseman ICAO-koodi: ')
+                while search_icao not in airport_icaos:
+                    print('ICAO-koodia ei löytynyt.')
+                    search_icao = input('Anna lentoaseman ICAO-koodi: ')
+                search_airport = database.get_airport_by_icao(search_icao)
+                search_distance = module.calculate_distance(user["location"], search_icao)
+                search_weather = database.get_weather_info(search_airport["weather_id"])
+                print(f'\nNimi: {search_airport["name"]}')
+                print(f'Maa: {search_airport["iso_country"]}')
+                print(f'Alue: {search_airport["iso_region"]}')
+                # print(f'Säätila: {search_weather["status"]}, {search_weather["temperature"]} C')
+                # kaataa ohjelman toistaiseksi, koska kaikilla kentillä weather_id = NULL
+                # toimii kun lisää kentälle weather_id:n
+                print(f'Etäisyys: {search_distance}')
+                input('\nPaina Enter jatkaaksesi.')
+
+            elif choice == '3' or choice == '3.':
+                distance_airport1 = input('Anna 1. lentoaseman ICAO-koodi: ')
+                while distance_airport1 not in airport_icaos:
+                    print('ICAO-koodia ei löytynyt.')
+                    distance_airport1 = input('Anna 1. lentoaseman ICAO-koodi: ')
+                distance_airport2 = input('Anna 2. lentoaseman ICAO-koodi: ')
+                while distance_airport2 not in airport_icaos:
+                    print('ICAO-koodia ei löytynyt.')
+                    distance_airport2 = input('Anna 2. lentoaseman ICAO-koodi: ')
+                distance_result = module.calculate_distance(distance_airport1, distance_airport2)
+                print(f'{distance_airport1}:n ja {distance_airport2}:n välinen etäisyys on {distance_result}')
+                input('\nPaina Enter jatkaaksesi')
+
+            elif choice == '4' or choice == '4.':
+                exit()
 
         else:
-            print(f'Peli loppui. lensit {jumps} kertaa')
+            print(f'Peli loppui. Lensit {jumps} kertaa')
             return False
 # while check is False:
 #     print("Kirjoita 1 tai 2")
