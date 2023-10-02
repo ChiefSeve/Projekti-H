@@ -43,7 +43,7 @@ def main_app():
 
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
-                while database.get_airport_by_icao(destination) == 'no data':
+                while not module.is_airport(destination):
                     if destination == exit_button:
                         break
                     print('ICAO-koodia ei ole olemassa.')
