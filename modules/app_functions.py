@@ -20,6 +20,34 @@ def check_if_inside_range(icao):
     return airports_in_range
 
 
+def check_if_inside_range2(user_icao, destination_icao):
+    airport = connector.get_airport_by_icao(destination_icao)
+    distance3 = calculate_distance(user_icao, airport["ident"])
+    if distance3 <= 2778:
+        return True
+    else:
+        return False
+
+
+def is_airport(icao):
+    result = connector.get_airport_by_icao(icao)
+    if result == 'no data':
+        return False
+    else:
+        return True
+
+
+def all_airports_in_range(icao):
+    # jos lentokenttä palaa etäisyydellä <1500nm(2778km) se hyväksytään, muuten ei
+    airport_list = connector.get_all_airport_icaos()
+    airports_in_range = []
+    for airport in airport_list:
+        dis = calculate_distance(icao, airport)
+        if dis < 2778:
+            airports_in_range.append(airport)
+    return airports_in_range
+
+
 def create_new_weather_goal(player_id):
     weather = connector.get_random_weather_id()
     # this is not our top priority, we will do it if we have time
