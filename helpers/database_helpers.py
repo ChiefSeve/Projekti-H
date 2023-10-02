@@ -20,8 +20,14 @@ def get_random_airports():
     return result
 
 
+def get_airports_by_weather(weather_id):
+    sql = f'''SELECT ident, name FROM airport WHERE weather_id=%s'''
+    my_cursor.execute(sql, (weather_id, ))
+    result = my_cursor.fetchall()
+    return result
+
 def get_airport_by_icao(icao):
-    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id FROM airport WHERE ident = %s'''
+    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id, iso_region FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
     return my_cursor.fetchone()
 
@@ -89,3 +95,13 @@ def update_player_location(icao, player):
     val = (icao, player)
     my_cursor.execute(sql, val)
     connector.mydb.commit()
+
+
+def get_all_airport_icaos():
+    sql = 'SELECT ident FROM airport'
+    my_cursor.execute(sql)
+    a = my_cursor.fetchall()
+    result = []
+    for x in a:
+        result.append(x["ident"])
+    return result
