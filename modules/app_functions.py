@@ -63,3 +63,14 @@ def frustration_adder(goal_id, local_weather_id):
 def change_current_airport(icao, player):
     connector.update_player_location(icao, player)
     return True
+
+
+def find_nearest_eligible_airport(weather_id, player_location):
+    airports = connector.get_airports_by_weather(weather_id)
+    airport_list = []
+    for airport in airports:
+        distance1 = calculate_distance(player_location, airport["ident"])
+        airport_list.append((distance1, airport["ident"]))
+    airport_list.sort()
+    result = airport_list[0]
+    return result
