@@ -14,7 +14,7 @@ def get_random_airport():
 
 
 def get_random_airports():
-    sql = f'SELECT ident, name, weather_id FROM airport ORDER BY RAND() limit 30'
+    sql = f'SELECT ident, name, weather_id, iso_country, iso_region FROM airport ORDER BY RAND() limit 30'
     my_cursor.execute(sql)
     result = my_cursor.fetchall()
     return result
@@ -26,8 +26,10 @@ def get_airports_by_weather(weather_id):
     result = my_cursor.fetchall()
     return result
 
+
 def get_airport_by_icao(icao):
-    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id, iso_region FROM airport WHERE ident = %s'''
+    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id, iso_region
+     FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
     result = my_cursor.fetchone()
     if result:

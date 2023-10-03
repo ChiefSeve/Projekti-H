@@ -1,10 +1,11 @@
 import helpers.database_helpers as database
 import modules.app_functions as module
+from dotenv import load_dotenv
+import os
 
 
 def main_app():
     jumps = 0
-    flight_range = 2778
     exit_button = '0'
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
     user = module.find_player(player_name)
@@ -19,7 +20,7 @@ def main_app():
     weather = database.get_weather_info(user['weather_id'])
     nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
     print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
-          f'Voit lentää {flight_range} km kerrallaan.')
+          f'Voit lentää {os.getenv("FLIGHT_RANGE")} km kerrallaan.')
     print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
     print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
           f'johon on matkaa {nearest_eligible_airport[0]} km.')
@@ -28,15 +29,15 @@ def main_app():
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         while int(frustration) < 100:
             user = module.find_player(player_name)
-            print("")
+            print('')
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
             print('3. Laske kahden lentoaseman välinen etäisyys.')
-            print('4. Lopeta peli.')
-            print("")
+            print('4. Näytä 30 satunnaista lentoaseman lähellä olevaa lentoasemaa.')
+            print('5. Lopeta peli.')
+            print('')
             print(f'Voit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi ({user["location"]})\n')
             choice = input()
-            # airports_in_range = module.all_airports_in_range(user["location"])
 
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
@@ -49,7 +50,7 @@ def main_app():
                     break
                 in_range = module.check_if_inside_range2(user["location"], destination)
                 while not in_range:
-                    print(f'Kohdelentokenttäsi on liian kaukana (> {flight_range})')
+                    print(f'Kohdelentokenttäsi on liian kaukana (> {os.getenv("FLIGHT_RANGE")})')
                     destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
                     if destination == exit_button:
                         break
@@ -114,6 +115,28 @@ def main_app():
                 break
 
             while choice == '4' or choice == '4.':
+                inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
+                while not module.is_airport(inrange_airport):
+                    if inrange_airport == exit_button:
+                        break
+                    print('ICAO-koodia ei ole olemassa')
+                    inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
+                if inrange_airport == exit_button:
+                    break
+                print("")
+                print('------------------------------------------------\n')
+                for airport in module.check_if_inside_range(inrange_airport):
+                    print(f'ICAO: {airport["ident"]}')
+                    print(f'Nimi: {airport["name"]}')
+                    print(f'Säätila: {airport["weather_id"]}')
+                    print(f'Maa: {airport["iso_country"]}')
+                    print(f'Alue: {airport["iso_region"]}\n')
+                    print('------------------------------------------------\n')
+                print('Paina Enter jatkaaksesi.')
+                input()  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
+                break
+
+            while choice == '5' or choice == '5.':
                 exit()
 
         else:
