@@ -4,7 +4,7 @@ my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
 
 
 def get_random_airport():
-    sql = f'SELECT name, type, id FROM airport ORDER BY RAND()'
+    sql = f'SELECT name, type, id, ident FROM airport ORDER BY RAND()'
     my_cursor.execute(sql)
     data_result = my_cursor.fetchone()
     if data_result:
@@ -36,14 +36,6 @@ def get_airport_by_icao(icao):
         return result
     else:
         return 'no data'
-
-
-def get_start_airport():
-    sql = f"SELECT name, ident FROM airport ORDER BY RAND() LIMIT 1;"
-    # Hakee lentokentän listasta
-    my_cursor.execute(sql)
-    first = my_cursor.fetchone()
-    return first
 
 
 def get_random_weather_id():
@@ -82,10 +74,9 @@ def get_weather_info(weather_id):
     my_cursor.execute(sql, (weather_id,))
     return my_cursor.fetchone()
 
- # TODO change start airport to random, now it is hard coded
-def create_user_by_name(name):
+def create_user_by_name(name, start_airport, start_weather):
     sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id) VALUES (%s, %s, %s, %s)'''
-    values = (name, 0, 'KABE', 1)
+    values = (name, 0, start_airport['ident'], start_weather['id'])
     my_cursor.execute(sql, values)
     connector.mydb.commit()
 

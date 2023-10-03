@@ -66,8 +66,9 @@ def find_player(name):
 
 
 def create_user(name):
-    airport = connector.get_start_airport()
-    resp = connector.create_user_by_name(name)
+    airport = connector.get_random_airport()
+    start_weather = connector.get_random_weather_id()
+    resp = connector.create_user_by_name(name, airport, start_weather)
     if resp != 'ERROR':
         return resp
 
