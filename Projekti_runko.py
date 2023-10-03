@@ -8,3 +8,4 @@ connect = mysql.connector.connect(
          password='3042',
          autocommit=True
          )
+

@@ -1,6 +1,4 @@
 import helpers.database_helpers as database
-from geopy import distance
-import random
 import modules.app_functions as module
 from dotenv import load_dotenv
 import os
@@ -71,6 +69,7 @@ def main_app():
                     break
 
                 module.change_current_airport(destination.upper(), user['id'])
+                jumps += 1
                 current_location = database.get_airport_by_icao(destination.upper())
                 new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
                 frustration += new_frust
@@ -97,7 +96,7 @@ def main_app():
                 print(f'\nNimi: {search_airport["name"]}')
                 print(f'Maa: {search_airport["iso_country"]}')
                 print(f'Alue: {search_airport["iso_region"]}')
-                # print(f'Säätila: {search_weather["status"]}, {search_weather["temperature"]} C')
+                print(f'Säätila: {search_weather["status"]}, {search_weather["temperature"]} C')
                 # weatheriin liittyvät tässä kaataa ohjelman toistaiseksi, koska kaikilla kentillä weather_id = NULL
                 # toimii kun lisää kentälle weather_id:n
                 print(f'Etäisyys: {search_distance}')
@@ -153,15 +152,6 @@ def main_app():
         else:
             print(f'Peli loppui. Lensit {jumps} kertaa')
             return False
-# while check is False:
-#     print("Kirjoita 1 tai 2")
-#     check = start_menu()
-#     while check is True:
-#     location = startplace()
-#         kok = input("Lisää turhautuneisuutta: ")
-#         frustration += int(kok)
-#         check = fcheck(frustration)
-# else:
-#     end()
+
 
 main_app()
