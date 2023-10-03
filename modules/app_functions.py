@@ -17,7 +17,7 @@ def check_if_inside_range(icao):
     airports_in_range = []
     for airport in airport_list:
         dis = (calculate_distance(icao, airport['ident']))
-        if dis < 2778:
+        if dis < int(os.getenv("FLIGHT_RANGE")):
             airports_in_range.append(airport)
     return airports_in_range
 
@@ -45,7 +45,7 @@ def all_airports_in_range(icao):
     airports_in_range = []
     for airport in airport_list:
         dis = calculate_distance(icao, airport)
-        if dis < 2778:
+        if dis < int(os.getenv("FLIGHT_RANGE")):
             airports_in_range.append(airport)
     return airports_in_range
 

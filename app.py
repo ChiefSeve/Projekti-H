@@ -31,15 +31,15 @@ def main_app():
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         while int(frustration) < 100:
             user = module.find_player(player_name)
-            print("")
+            print('')
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
             print('3. Laske kahden lentoaseman välinen etäisyys.')
-            print('4. Lopeta peli.')
-            print("")
+            print('4. Näytä 30 satunnaista lentoaseman lähellä olevaa lentoasemaa.')
+            print('5. Lopeta peli.')
+            print('')
             print(f'Voit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi ({user["location"]})\n')
             choice = input()
-            # airports_in_range = module.all_airports_in_range(user["location"])
 
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
@@ -116,6 +116,27 @@ def main_app():
                 break
 
             while choice == '4' or choice == '4.':
+                inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
+                print("")
+                print('------------------------------------------------\n')
+                while not module.is_airport(inrange_airport):
+                    if inrange_airport == exit_button:
+                        break
+                    print('ICAO-koodia ei ole olemassa')
+                    inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
+                if inrange_airport == exit_button:
+                    break
+                for airport in module.check_if_inside_range(inrange_airport):
+                    print(f'ICAO: {airport["ident"]}')
+                    print(f'Nimi: {airport["name"]}')
+                    print(f'Säätila: {airport["weather_id"]}')
+                    print(f'Maa: {airport["iso_country"]}')
+                    print(f'Alue: {airport["iso_region"]}\n')
+                    print('------------------------------------------------\n')
+                input('Paina Enter jaktaaksesi.')
+                break
+
+            while choice == '5' or choice == '5.':
                 exit()
 
         else:
