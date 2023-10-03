@@ -1,5 +1,7 @@
 from geopy import distance
 import helpers.database_helpers as connector
+from dotenv import load_dotenv
+import os
 
 
 def calculate_distance(current, target):
@@ -23,7 +25,7 @@ def check_if_inside_range(icao):
 def check_if_inside_range2(user_icao, destination_icao):
     airport = connector.get_airport_by_icao(destination_icao)
     distance3 = calculate_distance(user_icao, airport["ident"])
-    if distance3 <= 2778:
+    if distance3 <= int(os.getenv("FLIGHT_RANGE")):
         return True
     else:
         return False

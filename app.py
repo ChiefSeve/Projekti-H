@@ -2,14 +2,14 @@ import helpers.database_helpers as database
 from geopy import distance
 import random
 import modules.app_functions as module
+from dotenv import load_dotenv
+import os
 
 
 def main_app():
     jumps = 0
-    flight_range = 2778
     exit_button = '0'
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
-    # airport_icaos = database.get_all_airport_icaos()
     user = module.find_player(player_name)
     if user == 'no data':
         print(f'Käyttäjää ei löytynyt, luoodaan se')
@@ -22,7 +22,7 @@ def main_app():
     weather = database.get_weather_info(user['weather_id'])
     nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
     print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
-          f'Voit lentää {flight_range} km kerrallaan.')
+          f'Voit lentää {os.getenv("FLIGHT_RANGE")} km kerrallaan.')
     print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
     print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
           f'johon on matkaa {nearest_eligible_airport[0]} km.')
@@ -52,7 +52,7 @@ def main_app():
                     break
                 in_range = module.check_if_inside_range2(user["location"], destination)
                 while not in_range:
-                    print(f'Kohdelentokenttäsi on liian kaukana (> {flight_range})')
+                    print(f'Kohdelentokenttäsi on liian kaukana (> {os.getenv("FLIGHT_RANGE")})')
                     destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
                     if destination == exit_button:
                         break
