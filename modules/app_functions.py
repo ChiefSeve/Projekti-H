@@ -66,8 +66,9 @@ def find_player(name):
 
 
 def create_user(name):
-    airport = connector.get_start_airport()
-    resp = connector.create_user_by_name(name)
+    airport = connector.get_random_airport()
+    start_weather = connector.get_random_weather_id()
+    resp = connector.create_user_by_name(name, airport, start_weather)
     if resp != 'ERROR':
         return resp
 
@@ -99,7 +100,6 @@ def find_nearest_eligible_airport(weather_id, player_location):
     airports = connector.get_airports_by_weather(weather_id)
     airport_list = []
     for airport in airports:
-        print(airport, 'AIRPORT :D:D')
         distance1 = calculate_distance(player_location, airport["ident"])
         airport_list.append((distance1, airport["ident"]))
     airport_list.sort()
