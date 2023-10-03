@@ -21,24 +21,29 @@ def main_app():
     module.create_new_weather_goal(user['id'])
     weather = database.get_weather_info(user['weather_id'])
     nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
-    print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
-          f'Voit lentää {os.getenv("FLIGHT_RANGE")} km kerrallaan.')
+    print(f'\nSinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
+          )
     print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
     print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
-          f'johon on matkaa {nearest_eligible_airport[0]} km.')
+          f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
+    input('Paina Enter jatkaaksesi.')
     while True:
         # tässä kohdassa luodaan pelaajalle tavoite säätila. katsotaan aina kun lennetään uudelle lentokentälle eli päivitetään game taulussa location.
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         while int(frustration) < 100:
             user = module.find_player(player_name)
-            print('')
+            print(f'\nVoit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi')
+            print(f'Voit lentää {os.getenv("FLIGHT_RANGE")} km.')
+            print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
+            print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta.')
+            print("")
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
             print('3. Laske kahden lentoaseman välinen etäisyys.')
             print('4. Näytä 30 satunnaista lentoaseman lähellä olevaa lentoasemaa.')
             print('5. Lopeta peli.')
-            print('')
-            print(f'Voit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi ({user["location"]})\n')
+            print("")
+
             choice = input()
 
             while choice == '1' or choice == '1.':
@@ -70,6 +75,11 @@ def main_app():
                 new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
                 frustration += new_frust
                 print(frustration)
+                destination_info = database.get_airport_by_icao(destination)
+                if destination_info["weather_id"] == user["weather_id"]:
+                    print('Saavutit ehdot täyttävän lentokentän.')
+                    module.create_new_weather_goal(user['id'])
+                    weather = database.get_weather_info(user['weather_id'])
                 break
 
             while choice == '2' or choice == '2.':
