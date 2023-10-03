@@ -72,4 +72,5 @@ def update_weather():
         connector.mydb.commit()
         print('bar')
 
+generate_weather()
 update_weather()

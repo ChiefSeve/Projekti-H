@@ -24,7 +24,8 @@ def main_app():
     print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
     print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
           f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
-    input('Paina Enter jatkaaksesi.')
+    print('Paina Enter jatkaaksesi.')
+    input()
     while True:
         # tässä kohdassa luodaan pelaajalle tavoite säätila. katsotaan aina kun lennetään uudelle lentokentälle eli päivitetään game taulussa location.
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
@@ -63,7 +64,7 @@ def main_app():
                 if destination == exit_button:
                     break
 
-                if destination == user["location"]:
+                if destination.upper() == user["location"]:
                     print(f'Olet jo kohteessa {user["location"]}.')
                     input('Paina Enter jatkaaksesi.')
                     break
@@ -75,10 +76,13 @@ def main_app():
                 frustration += new_frust
                 print(frustration)
                 destination_info = database.get_airport_by_icao(destination)
+                print(destination_info)
+                print(user)
                 if destination_info["weather_id"] == user["weather_id"]:
                     print('Saavutit ehdot täyttävän lentokentän.')
                     module.create_new_weather_goal(user['id'])
                     weather = database.get_weather_info(user['weather_id'])
+                    input("Paina Enteriä jatkaaksesi.")
                 break
 
             while choice == '2' or choice == '2.':
