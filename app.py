@@ -117,8 +117,6 @@ def main_app():
 
             while choice == '4' or choice == '4.':
                 inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
-                print("")
-                print('------------------------------------------------\n')
                 while not module.is_airport(inrange_airport):
                     if inrange_airport == exit_button:
                         break
@@ -126,6 +124,8 @@ def main_app():
                     inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
                 if inrange_airport == exit_button:
                     break
+                print("")
+                print('------------------------------------------------\n')
                 for airport in module.check_if_inside_range(inrange_airport):
                     print(f'ICAO: {airport["ident"]}')
                     print(f'Nimi: {airport["name"]}')
@@ -133,7 +133,8 @@ def main_app():
                     print(f'Maa: {airport["iso_country"]}')
                     print(f'Alue: {airport["iso_region"]}\n')
                     print('------------------------------------------------\n')
-                input('Paina Enter jaktaaksesi.')
+                print('Paina Enter jatkaaksesi.')
+                input()  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
                 break
 
             while choice == '5' or choice == '5.':
