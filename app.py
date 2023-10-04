@@ -6,6 +6,7 @@ import os
 
 def main_app():
     jumps = 0
+    flight_range = 2778
     exit_button = '0'
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
     user = module.find_player(player_name)
@@ -17,10 +18,10 @@ def main_app():
         print(f'Tervetuloa takaisin, {player_name}')
     frustration = 0
     module.create_new_weather_goal(user['id'])
+    user = module.find_player(player_name)
     weather = database.get_weather_info(user['weather_id'])
     nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
-    print(f'\nSinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. '
-          )
+    print(f'\nSinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta. ')
     print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
     print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
           f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
@@ -32,9 +33,12 @@ def main_app():
         while int(frustration) < 100:
             user = module.find_player(player_name)
             print(f'\nVoit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi')
-            print(f'Voit lentää {os.getenv("FLIGHT_RANGE")} km.')
+            print(f'Voit lentää {flight_range} km.')
             print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
             print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta.')
+            nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
+            print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
+                  f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
             print("")
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
@@ -56,7 +60,7 @@ def main_app():
                     break
                 in_range = module.check_if_inside_range2(user["location"], destination)
                 while not in_range:
-                    print(f'Kohdelentokenttäsi on liian kaukana (> {os.getenv("FLIGHT_RANGE")})')
+                    print(f'Kohdelentokenttäsi on liian kaukana (> {flight_range})')
                     destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
                     if destination == exit_button:
                         break
@@ -81,6 +85,7 @@ def main_app():
                 if destination_info["weather_id"] == user["weather_id"]:
                     print('Saavutit ehdot täyttävän lentokentän.')
                     module.create_new_weather_goal(user['id'])
+                    user = module.find_player(player_name)
                     weather = database.get_weather_info(user['weather_id'])
                     input("Paina Enteriä jatkaaksesi.")
                 break
