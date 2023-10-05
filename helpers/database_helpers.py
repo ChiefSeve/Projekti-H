@@ -24,7 +24,10 @@ def get_airports_by_weather(weather_id):
     sql = f'''SELECT ident, name FROM airport WHERE weather_id=%s'''
     my_cursor.execute(sql, (weather_id, ))
     result = my_cursor.fetchall()
-    return result
+    if result:
+        return result
+    else:
+        return 'ERROR'
 
 
 def get_airport_by_icao(icao):
@@ -71,7 +74,7 @@ def find_player(name):
 
 def get_weather_info(weather_id):
     sql = f'''select * from weather where id = %s'''
-    my_cursor.execute(sql, (weather_id,))
+    my_cursor.execute(sql, (weather_id, ))
     return my_cursor.fetchone()
 
 def create_user_by_name(name, start_airport, start_weather):
@@ -82,9 +85,13 @@ def create_user_by_name(name, start_airport, start_weather):
 
 
 def reset_frustration(player_id):
-    sql = f'''UPDATE game SET frustration = 0 WHERE id %s'''
-    my_cursor.execute(sql, (player_id,))
+    sql = f'''UPDATE game SET frustration=0 WHERE id=%s'''
+    my_cursor.execute(sql, (player_id, ))
     connector.mydb.commit()
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'
 
 
 def update_player_location(icao, player):
@@ -102,6 +109,17 @@ def get_all_airport_icaos():
     for x in a:
         result.append(x["ident"])
     return result
+
+
+def update_player_frustration(frust, player_id):
+    sql = f'''UPDATE game SET frustration=%s WHERE id=%s'''
+    val = (frust, player_id)
+    my_cursor.execute(sql, val)
+    connector.mydb.commit()
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'
 
 
 def get_random_region():

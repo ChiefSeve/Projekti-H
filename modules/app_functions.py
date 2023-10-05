@@ -98,10 +98,21 @@ def change_current_airport(icao, player):
 
 def find_nearest_eligible_airport(weather_id, player_location):
     airports = connector.get_airports_by_weather(weather_id)
-    airport_list = []
-    for airport in airports:
-        distance1 = calculate_distance(player_location, airport["ident"])
-        airport_list.append((distance1, airport["ident"]))
-    airport_list.sort()
-    result = airport_list[0]
-    return result
+    if airports != 'ERROR':
+        airport_list = []
+        for airport in airports:
+            distance1 = calculate_distance(player_location, airport["ident"])
+            airport_list.append((distance1, airport["ident"]))
+        airport_list.sort()
+        result = airport_list[0]
+        return result
+
+
+def save_frustration(frust, player_id):
+    data = connector.update_player_frustration(frust, player_id)
+    if data == 'ERROR':
+        return data
+
+
+def reset_frustration(player_id):
+    data = connector.reset_frustration(player_id)
