@@ -37,7 +37,7 @@ def main_app():
                     flight_range = flight_range / 2
                     print("Pomosi halusi säästää rahaa ja tankkasi tankin vain puoleen väliin."
                           " Lentokantamasi on puolittunut.")
-                if 25 <= chance <= 35:
+                elif 25 <= chance <= 35:
                     flight_range = flight_range / 4
                     print("Pomosi halusi säästää rahaa ja tankkasi vain neljäsosan tankista täyteen. Hyvää matkaa!")
             print(f'\nVoit jatkaa lentämistä.')
