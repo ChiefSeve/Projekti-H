@@ -6,7 +6,9 @@ import os
 
 def main_app():
     jumps = 0
+    success = 3
     flight_range = 2778
+    region_goal = 0
     exit_button = '0'
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
     user = module.find_player(player_name)
@@ -31,7 +33,9 @@ def main_app():
             print(f'\nVoit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi')
             print(f'Voit lentää {flight_range} km.')
             print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
-            print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta.')
+            print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta,')
+            if region_goal != 0:
+                print(f'ja joka sijaitsee alueella {region_goal}')
             print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
                   f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
             print('Paina Enter jatkaaksesi.')
@@ -77,6 +81,7 @@ def main_app():
                 frustration += new_frust
                 print(frustration)
                 if current_location["weather_id"] == user["weather_id"]:
+                    success += 1
                     print('Saavutit ehdot täyttävän lentokentän.')
                     module.create_new_weather_goal(user['id'])
                     user = module.find_player(player_name)
@@ -139,9 +144,11 @@ def main_app():
                 print("")
                 print('------------------------------------------------\n')
                 for airport in module.check_if_inside_range(inrange_airport, flight_range):
+                    inrange_airport_info = database.get_airport_by_icao(airport["ident"])
+                    inrange_airport_weather = database.get_weather_info(inrange_airport_info["weather_id"])
                     print(f'ICAO: {airport["ident"]}')
                     print(f'Nimi: {airport["name"]}')
-                    print(f'Säätila: {airport["weather_id"]}')
+                    print(f'Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temperature"]} C')
                     print(f'Maa: {airport["iso_country"]}')
                     print(f'Alue: {airport["iso_region"]}\n')
                     print('------------------------------------------------\n')

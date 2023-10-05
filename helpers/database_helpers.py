@@ -102,3 +102,10 @@ def get_all_airport_icaos():
     for x in a:
         result.append(x["ident"])
     return result
+
+
+def get_random_region():
+    sql = 'SELECT iso_region FROM airport ORDER BY RAND()'
+    my_cursor.execute(sql)
+    result = my_cursor.fetchone()
+    return result["iso_region"]
