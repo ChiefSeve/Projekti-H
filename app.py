@@ -55,7 +55,7 @@ def main_app():
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
             print('3. Laske kahden lentoaseman välinen etäisyys.')
-            print('4. Näytä 30 satunnaista lentoaseman lähellä olevaa lentoasemaa.')
+            print('4. Näytä lentoaseman lähellä olevat lentoasemat.')
             print('5. Tallenna ja lopeta peli.')
             print("")
 
