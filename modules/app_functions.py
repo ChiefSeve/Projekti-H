@@ -11,21 +11,21 @@ def calculate_distance(current, target):
                              (end['latitude_deg'], end['longitude_deg'])).km
 
 
-def check_if_inside_range(icao):
+def check_if_inside_range(icao, flight_range):
     # jos lentokenttä palaa etäisyydellä <1500nm(2778km) se hyväksytään, muuten ei
     airport_list = connector.get_random_airports()
     airports_in_range = []
     for airport in airport_list:
         dis = (calculate_distance(icao, airport['ident']))
-        if dis < int(os.getenv("FLIGHT_RANGE")):
+        if dis < flight_range:
             airports_in_range.append(airport)
     return airports_in_range
 
 
-def check_if_inside_range2(user_icao, destination_icao):
+def check_if_inside_range2(user_icao, destination_icao, flight_range):
     airport = connector.get_airport_by_icao(destination_icao)
     distance3 = calculate_distance(user_icao, airport["ident"])
-    if distance3 <= int(os.getenv("FLIGHT_RANGE")):
+    if distance3 <= flight_range:
         return True
     else:
         return False
@@ -39,13 +39,13 @@ def is_airport(icao):
         return True
 
 
-def all_airports_in_range(icao):
+def all_airports_in_range(icao, flight_range):
     # jos lentokenttä palaa etäisyydellä <1500nm(2778km) se hyväksytään, muuten ei
     airport_list = connector.get_all_airport_icaos()
     airports_in_range = []
     for airport in airport_list:
         dis = calculate_distance(icao, airport)
-        if dis < int(os.getenv("FLIGHT_RANGE")):
+        if dis < flight_range:
             airports_in_range.append(airport)
     return airports_in_range
 
