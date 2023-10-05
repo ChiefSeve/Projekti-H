@@ -47,7 +47,7 @@ def get_random_weather_id():
 def update_player_goal(weather_id, user_id):
     sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
     values = (weather_id, user_id)
-    my_cursor.execute(sql, values)
+    data = my_cursor.execute(sql, values)
     connector.mydb.commit()
 
 

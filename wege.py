@@ -4,7 +4,11 @@ import helpers.connector as connector
 my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
 
 status = ['pilvinen', 'aurinkoinen', 'sateinen', 'luminen', 'sumuinen']
-temperature = [-10, -5, 0, 5, 10, 15, 20, 25, 30]
+
+
+def temperature():
+    temp = random.randrange(-15, 31, 5)
+    return temp
 
 
 class Weather:
@@ -23,20 +27,25 @@ def generate_weather():
             print(all_weathers, 'foo')
             for wee in all_weathers:
                 print('WEEE', wee)
-                weather = Weather(random.choice(status), random.choice(temperature))
+                weather = Weather(random.choice(status), temperature())
                 print('not smae')
                 if wee['status'] != weather.status and wee['temperature'] != weather.temperature:
                     print('foo')
-                    sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
-                    values = (weather.status, weather.temperature)
-                    my_cursor.execute(sql, values)
-                    connector.mydb.commit()
-                    i += 1
+                    if weather.status == 'luminen' and weather.temperature > 0:
+                        print("not valid")
+                    elif weather.status == 'sateinen' and weather.temperature <= 0:
+                        print("not valid")
+                    else:
+                        sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
+                        values = (weather.status, weather.temperature)
+                        my_cursor.execute(sql, values)
+                        connector.mydb.commit()
+                        i += 1
                 else:
                     print('This smae')
         else:
             print(' NO DATA ')
-            weather = Weather(random.choice(status), random.choice(temperature))
+            weather = Weather(random.choice(status), temperature)
             sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
             values = (weather.status, weather.temperature)
             my_cursor.execute(sql, values)
@@ -44,7 +53,7 @@ def generate_weather():
             i += 1
 
 
-# generate_weather()
+generate_weather()
 
 def get_ariports():
     sql = '''SELECT id FROM airport'''
@@ -72,5 +81,5 @@ def update_weather():
         connector.mydb.commit()
         print('bar')
 
-generate_weather()
-update_weather()
+
+#update_weather()
