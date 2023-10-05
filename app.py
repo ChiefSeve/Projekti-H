@@ -1,5 +1,6 @@
 import helpers.database_helpers as database
 import modules.app_functions as module
+import menus
 from random import randint
 from dotenv import load_dotenv
 import os
@@ -30,8 +31,12 @@ def main_app():
         # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         while int(frustration) < 100:
             user = module.find_player(player_name)
-            nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
-            if success >= 5:
+            if region_goal == 0:
+                nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
+            else:
+                nearest_eligible_airport = module.find_nearest_eligible_airport2(user["weather_id"], user["location"],
+                                                                                 region_goal)
+            if success >= 5 and flight_range == 2778:
                 chance = randint(0, 100)
                 if 0 <= chance < 25:
                     flight_range = flight_range / 2
@@ -92,6 +97,8 @@ def main_app():
                 frustration += new_frust
                 print(frustration)
                 if current_location["weather_id"] == user["weather_id"]:
+                    if region_goal != 0 and current_location["iso_region"] != region_goal:
+                        break
                     success += 1
                     flight_range = 2778
                     print('Saavutit ehdot täyttävän lentokentän.')

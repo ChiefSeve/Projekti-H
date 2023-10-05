@@ -112,6 +112,18 @@ def find_nearest_eligible_airport(weather_id, player_location):
         return result
 
 
+def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
+    airports = connector.get_airports_by_weather_and_region(weather_id, region_goal)
+    if airports != 'ERROR':
+        airport_list = []
+        for airport in airports:
+            distance1 = calculate_distance(player_location, airport["ident"])
+            airport_list.append((distance1, airport["ident"]))
+        airport_list.sort()
+        result = airport_list[0]
+        return result
+
+
 def save_frustration(frust, player_id):
     data = connector.update_player_frustration(frust, player_id)
     if data == 'ERROR':
