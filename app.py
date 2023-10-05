@@ -19,9 +19,9 @@ def main_app():
         user = module.find_player(player_name)
     else:
         print(f'Tervetuloa takaisin, {player_name}')
-    frustration = 0
-    module.create_new_weather_goal(user['id'], user["screen_name"])
+    module.create_new_weather_goal(user['id'], user['screen_name'])
     user = module.find_player(player_name)
+    frustration = user['frustration']
     weather = database.get_weather_info(user['weather_id'])
     print('Paina Enter jatkaaksesi.')
     input()
@@ -56,10 +56,10 @@ def main_app():
             print('2. Hae tiedot lentoasemasta.')
             print('3. Laske kahden lentoaseman välinen etäisyys.')
             print('4. Näytä 30 satunnaista lentoaseman lähellä olevaa lentoasemaa.')
-            print('5. Lopeta peli.')
+            print('5. Tallenna ja lopeta peli.')
             print("")
 
-            choice = input()
+            choice = input('Syötä numero: ')
 
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
@@ -171,10 +171,12 @@ def main_app():
                 break
 
             while choice == '5' or choice == '5.':
+                module.save_frustration(frustration, user['id'])
                 exit()
 
         else:
             print(f'Peli loppui. Lensit {jumps} kertaa')
+            module.reset_frustration(user['id'])
             return False
 
 
