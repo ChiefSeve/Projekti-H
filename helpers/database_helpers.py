@@ -74,6 +74,7 @@ def get_weather_info(weather_id):
     my_cursor.execute(sql, (weather_id,))
     return my_cursor.fetchone()
 
+
 def create_user_by_name(name, start_airport, start_weather):
     sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id) VALUES (%s, %s, %s, %s)'''
     values = (name, 0, start_airport['ident'], start_weather['id'])

@@ -1,12 +1,13 @@
 import helpers.database_helpers as database
 import modules.app_functions as module
+from random import randint
 from dotenv import load_dotenv
 import os
 
 
 def main_app():
     jumps = 0
-    success = 3
+    success = 5
     flight_range = 2778
     region_goal = 0
     exit_button = '0'
@@ -19,7 +20,7 @@ def main_app():
     else:
         print(f'Tervetuloa takaisin, {player_name}')
     frustration = 0
-    module.create_new_weather_goal(user['id'])
+    module.create_new_weather_goal(user['id'], user["screen_name"])
     user = module.find_player(player_name)
     weather = database.get_weather_info(user['weather_id'])
     print('Paina Enter jatkaaksesi.')
@@ -30,7 +31,16 @@ def main_app():
         while int(frustration) < 100:
             user = module.find_player(player_name)
             nearest_eligible_airport = module.find_nearest_eligible_airport(user["weather_id"], user["location"])
-            print(f'\nVoit jatkaa lentämistä. Valitse vaihtoehdoista jatkaaksesi')
+            if success >= 5:
+                chance = randint(0, 100)
+                if 0 <= chance < 25:
+                    flight_range = flight_range / 2
+                    print("Pomosi halusi säästää rahaa ja tankkasi tankin vain puoleen väliin."
+                          " Lentokantamasi on puolittunut.")
+                if 25 <= chance <= 35:
+                    flight_range = flight_range / 4
+                    print("Pomosi halusi säästää rahaa ja tankkasi vain neljäsosan tankista täyteen. Hyvää matkaa!")
+            print(f'\nVoit jatkaa lentämistä.')
             print(f'Voit lentää {flight_range} km.')
             print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
             print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta,')
@@ -40,6 +50,7 @@ def main_app():
                   f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
             print('Paina Enter jatkaaksesi.')
             input()
+            print('Valitse vaihtoehdoista jatkaaksesi')
             print("")
             print('1. Lennä toiselle lentoasemalle.')
             print('2. Hae tiedot lentoasemasta.')
@@ -82,10 +93,13 @@ def main_app():
                 print(frustration)
                 if current_location["weather_id"] == user["weather_id"]:
                     success += 1
+                    flight_range = 2778
                     print('Saavutit ehdot täyttävän lentokentän.')
-                    module.create_new_weather_goal(user['id'])
+                    module.create_new_weather_goal(user['id'], user["screen_name"])
                     user = module.find_player(player_name)
                     weather = database.get_weather_info(user['weather_id'])
+                    if success >= 3:
+                        region_goal = database.get_random_region()
                     input("Paina Enteriä jatkaaksesi.")
                 break
 
