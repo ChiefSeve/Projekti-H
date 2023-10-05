@@ -14,7 +14,7 @@ def get_random_airport():
 
 
 def get_random_airports():
-    sql = f'SELECT ident, name, weather_id, iso_country, iso_region FROM airport ORDER BY RAND() limit 30'
+    sql = f'SELECT ident, name, weather_id, iso_country, iso_region FROM airport ORDER BY RAND()'
     my_cursor.execute(sql)
     result = my_cursor.fetchall()
     return result
@@ -60,7 +60,7 @@ def get_random_weather_id():
 def update_player_goal(weather_id, user_id):
     sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
     values = (weather_id, user_id)
-    data = my_cursor.execute(sql, values)
+    my_cursor.execute(sql, values)
     connector.mydb.commit()
 
 
