@@ -4,7 +4,11 @@ import helpers.connector as connector
 my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
 
 status = ['pilvinen', 'aurinkoinen', 'sateinen', 'luminen', 'sumuinen']
-temperature = random.randrange(-15, 31, 5)
+
+
+def temperature():
+    temp = random.randrange(-15, 31, 5)
+    return temp
 
 
 class Weather:
@@ -23,7 +27,7 @@ def generate_weather():
             print(all_weathers, 'foo')
             for wee in all_weathers:
                 print('WEEE', wee)
-                weather = Weather(random.choice(status), temperature)
+                weather = Weather(random.choice(status), temperature())
                 print('not smae')
                 if wee['status'] != weather.status and wee['temperature'] != weather.temperature:
                     print('foo')
