@@ -19,7 +19,7 @@ class Weather:
 
 def generate_weather():
     i = 0
-    while i <= 10:
+    while i <= 30:
         select_sql = '''SELECT * FROM weather'''
         my_cursor.execute(select_sql)
         all_weathers = my_cursor.fetchall()
@@ -53,9 +53,9 @@ def generate_weather():
             i += 1
 
 
-# generate_weather()
+#generate_weather()
 
-def get_airports():
+def get_ariports():
     sql = '''SELECT id FROM airport'''
     my_cursor.execute(sql)
     airports = my_cursor.fetchall()
@@ -72,7 +72,7 @@ def get_weather():
 
 
 def update_weather():
-    airports = get_airports()
+    airports = get_ariports()
     for airport in airports:
         sql = '''UPDATE airport SET weather_id =%s WHERE id = %s'''
         weather = get_weather()
@@ -82,4 +82,4 @@ def update_weather():
         print('bar')
 
 
-# update_weather()
+#update_weather()
