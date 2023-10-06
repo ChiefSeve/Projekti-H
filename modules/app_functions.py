@@ -103,6 +103,9 @@ def frustration_adder(goal_id, local_weather_id, local_region, goal_region):
         elif goal['temperature'] == weather['temperature']:
             frust += 10
             return frust
+        elif region == goal_region:
+            frust += 10
+            return frust
         else:
             frust += 15
             return frust
