@@ -177,7 +177,6 @@ def main_app():
                     print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
                           f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}')
                     print('------------------------------------------------\n')
-                input('Paina Enter jatkaaksesi.')  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
                 break
 
             while choice == '5' or choice == '5.':
