@@ -138,3 +138,10 @@ def get_random_region():
     my_cursor.execute(sql)
     result = my_cursor.fetchone()
     return result["iso_region"]
+
+
+def get_assigned_weather_id():
+    sql = 'SELECT DISTINCT weather_id FROM airport ORDER BY RAND()'
+    my_cursor.execute(sql)
+    result = my_cursor.fetchone()
+    return result["weather_id"]

@@ -51,11 +51,13 @@ def all_airports_in_range(icao, flight_range):
 
 
 def create_new_weather_goal(player_id, player_name):
-    weather = connector.get_random_weather_id()
+    weather_id = connector.get_assigned_weather_id()
+    weather = connector.get_weather_info(weather_id)
     user = connector.find_player(player_name)
     user_location = connector.get_airport_by_icao(user["location"])
     while weather["id"] == user_location["weather_id"]:
-        weather = connector.get_random_weather_id()
+        weather_id = connector.get_assigned_weather_id()
+        weather = connector.get_weather_info(weather_id)
     # this is not our top priority, we will do it if we have time
     # connector.update_airport_weather(weather['id'])
     connector.update_player_goal(weather['id'], player_id)
@@ -110,6 +112,8 @@ def find_nearest_eligible_airport(weather_id, player_location):
         airport_list.sort()
         result = airport_list[0]
         return result
+    else:
+        return "ERROR"
 
 
 def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
@@ -122,6 +126,8 @@ def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
         airport_list.sort()
         result = airport_list[0]
         return result
+    else:
+        return 'ERROR'
 
 
 def save_frustration(frust, player_id):

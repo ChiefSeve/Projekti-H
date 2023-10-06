@@ -172,6 +172,8 @@ def main_app():
                     print(f'Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temperature"]} C')
                     print(f'Maa: {airport["iso_country"]}')
                     print(f'Alue: {airport["iso_region"]}\n')
+                    print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
+                          f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}')
                     print('------------------------------------------------\n')
                 print('Paina Enter jatkaaksesi.')
                 input()  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
