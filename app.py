@@ -76,11 +76,7 @@ def main_app():
 
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
-                while not module.is_airport(destination):
-                    if destination == exit_button:
-                        break
-                    print('ICAO-koodia ei ole olemassa.')
-                    destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
+                destination = module.icao_input_error_check(destination, exit_button)
                 if destination == exit_button:
                     break
                 in_range = module.check_if_inside_range2(user["location"], destination, flight_range)
@@ -89,6 +85,7 @@ def main_app():
                     destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
                     if destination == exit_button:
                         break
+                    destination = module.icao_input_error_check(destination, exit_button)
                     in_range = module.check_if_inside_range2(user["location"], destination, flight_range)
                 if destination == exit_button:
                     break
@@ -181,9 +178,9 @@ def main_app():
                     print(f'Nimi: {airport["name"]}')
                     print(f'Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temperature"]} C')
                     print(f'Maa: {airport["iso_country"]}')
-                    print(f'Alue: {airport["iso_region"]}\n')
+                    print(f'Alue: {airport["iso_region"]}')
                     print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
-                          f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}')
+                          f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}\n')
                     print('------------------------------------------------\n')
                 break
 

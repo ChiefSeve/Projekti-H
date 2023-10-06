@@ -170,3 +170,12 @@ def reset_frustration(player_id):
 
 def region_goal():
     return connector.get_random_region()
+
+
+def icao_input_error_check(destination, exit_button):
+    while not is_airport(destination):
+        if destination == exit_button:
+            return destination
+        print('ICAO-koodia ei ole olemassa.')
+        destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
+    return destination
