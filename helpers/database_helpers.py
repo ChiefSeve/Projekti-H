@@ -146,6 +146,7 @@ def get_assigned_weather_id():
     result = my_cursor.fetchone()
     return result["weather_id"]
 
+
 def get_local_region(ident):
     sql = f"SELECT iso_region FROM airport WHERE ident = '{ident}'"
     my_cursor.execute(sql)
