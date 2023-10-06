@@ -131,6 +131,13 @@ def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
         resp = connector.update_region_airport_weather(weather_id, region_goal)
         if resp != 'ERROR':
             print('NOT ERROR')
+            airport_list = []
+            for airport in airports:
+                distance1 = calculate_distance(player_location, airport["ident"])
+                airport_list.append((distance1, airport["ident"]))
+            airport_list.sort()
+            result = airport_list[0]
+            return result
 
 
 def save_frustration(frust, player_id):
