@@ -46,13 +46,21 @@ def main_app():
                     flight_range = flight_range / 4
                     print("Pomosi halusi säästää rahaa ja tankkasi vain neljäsosan tankista täyteen. Hyvää matkaa!")
             print(f'\nVoit jatkaa lentämistä.')
+            print("")
+            print('-------------------------------------------------------------------------------------')
             print(f'Voit lentää {flight_range} km.')
+            print('-------------------------------------------------------------------------------------')
             print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
+            print('-------------------------------------------------------------------------------------')
             print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta,')
+            print('-------------------------------------------------------------------------------------')
             if region_goal != 0:
                 print(f'ja joka sijaitsee alueella {region_goal}')
+                print('-------------------------------------------------------------------------------------')
             print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
-                  f'johon on matkaa {nearest_eligible_airport[0]} km.\n')
+                  f'johon on matkaa {nearest_eligible_airport[0]} km.')
+            print('-------------------------------------------------------------------------------------')
+            print("")
             print('Paina Enter jatkaaksesi.')
             input()
             print('Valitse vaihtoehdoista jatkaaksesi')
@@ -175,7 +183,7 @@ def main_app():
                     print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
                           f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}')
                     print('------------------------------------------------\n')
-                input('Paina Enter jatkaaksesi.')  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
+                input('Paina Enter jatkaaksesi.')
                 break
 
             while choice == '5' or choice == '5.':
