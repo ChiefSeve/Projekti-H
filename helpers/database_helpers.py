@@ -138,3 +138,17 @@ def get_random_region():
     my_cursor.execute(sql)
     result = my_cursor.fetchone()
     return result["iso_region"]
+
+
+def update_region_airport_weather(weather_id, region):
+    sql = '''SELECT id FROM airport WHERE iso_region =%s'''
+    my_cursor.execute(sql, (region, ))
+    data = my_cursor.fetchone()
+    new_sql = '''UPDATE airport SET weather_goal = %s WHERE id = %s'''
+    val = (weather_id, data['id'])
+    my_cursor.execute(new_sql, val)
+    connector.mydb.commit()
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'

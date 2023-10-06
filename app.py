@@ -173,8 +173,7 @@ def main_app():
                     print(f'Maa: {airport["iso_country"]}')
                     print(f'Alue: {airport["iso_region"]}\n')
                     print('------------------------------------------------\n')
-                print('Paina Enter jatkaaksesi.')
-                input()  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
+                input('Paina Enter jatkaaksesi.')  # erikseen, koska muuten printtasi päävalikon 2 kertaa mikäli enteriä joutui painaa kahdesti
                 break
 
             while choice == '5' or choice == '5.':
