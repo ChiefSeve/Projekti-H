@@ -15,7 +15,7 @@ def main_app():
     player_name = input("Tervetuloa peliin! Syötä nimi: ")
     user = module.find_player(player_name)
     if user == 'no data':
-        print(f'Käyttäjää ei löytynyt, luoodaan se')
+        print(f'Käyttäjää ei löytynyt, luodaan se')
         module.create_user(player_name)
         user = module.find_player(player_name)
     else:
@@ -101,7 +101,9 @@ def main_app():
                 module.change_current_airport(destination.upper(), user['id'])
                 jumps += 1
                 current_location = database.get_airport_by_icao(destination.upper())
-                new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'])
+                new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'],
+                                                     database.get_local_region(current_location['ident']),
+                                                     region_goal)
                 frustration += new_frust
                 print(frustration)
                 if current_location["weather_id"] == user["weather_id"]:
@@ -114,7 +116,7 @@ def main_app():
                     user = module.find_player(player_name)
                     weather = database.get_weather_info(user['weather_id'])
                     if success >= 3:
-                        region_goal = database.get_random_region()
+                        region_goal = module.region_goal()
                     input("Paina Enteriä jatkaaksesi.")
                 break
 
@@ -183,7 +185,6 @@ def main_app():
                     print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
                           f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}')
                     print('------------------------------------------------\n')
-                input('Paina Enter jatkaaksesi.')
                 break
 
             while choice == '5' or choice == '5.':

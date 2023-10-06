@@ -79,22 +79,40 @@ def create_user(name):
         return resp
 
 
-def frustration_adder(goal_id, local_weather_id):
+def frustration_adder(goal_id, local_weather_id, local_region, goal_region):
     frust = 0
     goal = connector.get_weather_info(goal_id)
     weather = connector.get_weather_info(local_weather_id)
-    if goal == weather:
-        frust += 0
-        return frust
-    elif goal['status'] == weather['status']:
-        frust += 5
-        return frust
-    elif goal['temperature'] == weather['temperature']:
-        frust += 5
-        return frust
+    region = local_region
+    if goal_region != 0:
+        if goal == weather and region == region_goal:
+            frust += 0
+            return frust
+        if goal == weather:
+            frust += 5
+            return frust
+        elif goal['status'] == weather['status']:
+            frust += 10
+            return frust
+        elif goal['temperature'] == weather['temperature']:
+            frust += 10
+            return frust
+        else:
+            frust += 15
+            return frust
     else:
-        frust += 10
-        return frust
+        if goal == weather:
+            frust += 0
+            return frust
+        elif goal['status'] == weather['status']:
+            frust += 5
+            return frust
+        elif goal['temperature'] == weather['temperature']:
+            frust += 5
+            return frust
+        else:
+            frust += 10
+            return frust
 
 
 def change_current_airport(icao, player):
@@ -118,7 +136,6 @@ def find_nearest_eligible_airport(weather_id, player_location):
 
 def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
     airports = connector.get_airports_by_weather_and_region(weather_id, region_goal)
-    print(airports, 'AIRPOR&TS')
     if airports != 'ERROR':
         airport_list = []
         for airport in airports:
@@ -130,11 +147,12 @@ def find_nearest_eligible_airport2(weather_id, player_location, region_goal):
     else:
         resp = connector.update_region_airport_weather(weather_id, region_goal)
         if resp != 'ERROR':
-            print('NOT ERROR')
+            airports = connector.get_airports_by_weather_and_region(weather_id, region_goal)
             airport_list = []
             for airport in airports:
-                distance1 = calculate_distance(player_location, airport["ident"])
-                airport_list.append((distance1, airport["ident"]))
+                print(airport, 'FOOBAR')
+                distance1 = calculate_distance(player_location, airport['ident'])
+                airport_list.append((distance1, airport['ident']))
             airport_list.sort()
             result = airport_list[0]
             return result
@@ -148,3 +166,7 @@ def save_frustration(frust, player_id):
 
 def reset_frustration(player_id):
     data = connector.reset_frustration(player_id)
+
+
+def region_goal():
+    return connector.get_random_region()
