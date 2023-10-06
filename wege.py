@@ -26,7 +26,6 @@ def generate_weather():
         if all_weathers:
             for wee in all_weathers:
                 weather = Weather(random.choice(status), temperature())
-                print(wee['status'] != weather.status and wee['temperature'] != weather.temperature, 'TRUE OR FALSE?')
                 if wee['status'] != weather.status and wee['temperature'] != weather.temperature:
                     if weather.status == 'luminen' and weather.temperature > 0:
                         print("not valid")
@@ -39,7 +38,7 @@ def generate_weather():
                         connector.mydb.commit()
                         i += 1
                 else:
-                    print('This smae')
+                    print('This same')
         else:
             print(' NO DATA ')
             weather = Weather(random.choice(status), temperature())
