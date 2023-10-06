@@ -8,7 +8,7 @@ import os
 
 def main_app():
     jumps = 0
-    success = 5
+    success = 0
     flight_range = 2778
     region_goal = 0
     exit_button = '0'
@@ -105,7 +105,7 @@ def main_app():
                                                      database.get_local_region(current_location['ident']),
                                                      region_goal)
                 frustration += new_frust
-                print(frustration)
+                print(f'Tämän hetkinen tyytymättömyys {frustration}/100')
                 if current_location["weather_id"] == user["weather_id"]:
                     if region_goal != 0 and current_location["iso_region"] != region_goal:
                         break
@@ -117,7 +117,6 @@ def main_app():
                     weather = database.get_weather_info(user['weather_id'])
                     if success >= 3:
                         region_goal = module.region_goal()
-                    input("Paina Enteriä jatkaaksesi.")
                 break
 
             while choice == '2' or choice == '2.':
@@ -139,7 +138,6 @@ def main_app():
                 # weatheriin liittyvät tässä kaataa ohjelman toistaiseksi, koska kaikilla kentillä weather_id = NULL
                 # toimii kun lisää kentälle weather_id:n
                 print(f'Etäisyys: {search_distance}')
-                input('\nPaina Enter jatkaaksesi.')
                 break
 
             while choice == '3' or choice == '3.':
@@ -160,7 +158,6 @@ def main_app():
                     break
                 distance_result = module.calculate_distance(distance_airport1, distance_airport2)
                 print(f'{distance_airport1}:n ja {distance_airport2}:n välinen etäisyys on {distance_result}')
-                input('\nPaina Enter jatkaaksesi')
                 break
 
             while choice == '4' or choice == '4.':
