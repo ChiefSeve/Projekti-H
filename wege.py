@@ -24,13 +24,9 @@ def generate_weather():
         my_cursor.execute(select_sql)
         all_weathers = my_cursor.fetchall()
         if all_weathers:
-            print(all_weathers, 'foo')
             for wee in all_weathers:
-                print('WEEE', wee)
                 weather = Weather(random.choice(status), temperature())
-                print('not smae')
                 if wee['status'] != weather.status and wee['temperature'] != weather.temperature:
-                    print('foo')
                     if weather.status == 'luminen' and weather.temperature > 0:
                         print("not valid")
                     elif weather.status == 'sateinen' and weather.temperature <= 0:
@@ -42,10 +38,10 @@ def generate_weather():
                         connector.mydb.commit()
                         i += 1
                 else:
-                    print('This smae')
+                    print('Not valid')
         else:
             print(' NO DATA ')
-            weather = Weather(random.choice(status), temperature)
+            weather = Weather(random.choice(status), temperature())
             sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
             values = (weather.status, weather.temperature)
             my_cursor.execute(sql, values)
@@ -53,14 +49,13 @@ def generate_weather():
             i += 1
 
 
-#generate_weather()
+# generate_weather()
 
 def get_ariports():
     sql = '''SELECT id FROM airport'''
     my_cursor.execute(sql)
     airports = my_cursor.fetchall()
     return airports
-    print(airports, 'airpors')
 
 
 def get_weather():
@@ -68,7 +63,6 @@ def get_weather():
     my_cursor.execute(sql)
     weather = my_cursor.fetchone()
     return weather
-    print(weather, 'SÄÄ')
 
 
 def update_weather():
@@ -79,7 +73,6 @@ def update_weather():
         values = (weather['id'], airport['id'])
         my_cursor.execute(sql, values)
         connector.mydb.commit()
-        print('bar')
 
 
-#update_weather()
+update_weather()
