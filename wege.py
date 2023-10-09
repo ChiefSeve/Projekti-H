@@ -38,7 +38,7 @@ def generate_weather():
                         connector.mydb.commit()
                         i += 1
                 else:
-                    print('This same')
+                    print('Not valid')
         else:
             print(' NO DATA ')
             weather = Weather(random.choice(status), temperature())
@@ -56,7 +56,6 @@ def get_ariports():
     my_cursor.execute(sql)
     airports = my_cursor.fetchall()
     return airports
-    print(airports, 'airpors')
 
 
 def get_weather():
@@ -64,7 +63,6 @@ def get_weather():
     my_cursor.execute(sql)
     weather = my_cursor.fetchone()
     return weather
-    print(weather, 'SÄÄ')
 
 
 def update_weather():
@@ -75,7 +73,6 @@ def update_weather():
         values = (weather['id'], airport['id'])
         my_cursor.execute(sql, values)
         connector.mydb.commit()
-        print('bar')
 
 
 update_weather()

@@ -1,6 +1,7 @@
 import helpers.database_helpers as database
 import modules.app_functions as module
 import menus
+import story
 from random import randint
 from dotenv import load_dotenv
 import os
@@ -18,6 +19,8 @@ def main_app():
         print(f'Käyttäjää ei löytynyt, luodaan se')
         module.create_user(player_name)
         user = module.find_player(player_name)
+        for line in story.get_story():
+            print(line)
     else:
         print(f'Tervetuloa takaisin, {player_name}')
     module.create_new_weather_goal(user['id'], user['screen_name'])
@@ -45,32 +48,28 @@ def main_app():
                 elif 25 <= chance <= 35:
                     flight_range = flight_range / 4
                     print("Pomosi halusi säästää rahaa ja tankkasi vain neljäsosan tankista täyteen. Hyvää matkaa!")
-            print(f'\nVoit jatkaa lentämistä.')
-            print("")
-            print('-------------------------------------------------------------------------------------')
-            print(f'Voit lentää {flight_range} km.')
-            print('-------------------------------------------------------------------------------------')
-            print(f'Tämänhetkinen sijaintisi on {user["location"]}.')
-            print('-------------------------------------------------------------------------------------')
-            print(f'Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta,')
-            print('-------------------------------------------------------------------------------------')
+            print(f'''\nVoit jatkaa lentämistä.
+-------------------------------------------------------------------------------------
+Voit lentää {flight_range} km.
+-------------------------------------------------------------------------------------
+Tämänhetkinen sijaintisi on {user["location"]}.
+-------------------------------------------------------------------------------------
+Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["temperature"]} astetta,
+-------------------------------------------------------------------------------------''')
             if region_goal != 0:
-                print(f'ja joka sijaitsee alueella {region_goal}')
-                print('-------------------------------------------------------------------------------------')
-            print(f'Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]}, '
-                  f'johon on matkaa {nearest_eligible_airport[0]} km.')
-            print('-------------------------------------------------------------------------------------')
-            print("")
-            print('Paina Enter jatkaaksesi.')
+                print(f'''ja joka sijaitsee alueella {region_goal}'
+-------------------------------------------------------------------------------------''')
+            print(f'''Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]},
+johon on matkaa {nearest_eligible_airport[0]} km.
+-------------------------------------------------------------------------------------
+Paina Enter jatkaaksesi.''')
             input()
-            print('Valitse vaihtoehdoista jatkaaksesi')
-            print("")
-            print('1. Lennä toiselle lentoasemalle.')
-            print('2. Hae tiedot lentoasemasta.')
-            print('3. Laske kahden lentoaseman välinen etäisyys.')
-            print('4. Näytä lentoaseman lähellä olevat lentoasemat.')
-            print('5. Tallenna ja lopeta peli.')
-            print("")
+            print(f'''Valitse vaihtoehdoista jatkaaksesi
+1. Lennä toiselle lentoasemalle.
+2. Hae tiedot lentoasemasta.
+3. Laske kahden lentoaseman välinen etäisyys.
+4. Näytä lentoaseman lähellä olevat lentoasemat.
+5. Tallenna ja lopeta peli.''')
 
             choice = input('Syötä numero: ')
 
@@ -128,13 +127,11 @@ def main_app():
                 search_distance = module.calculate_distance(user["location"], search_icao)
                 search_airport = database.get_airport_by_icao(search_icao)
                 search_weather = database.get_weather_info(search_airport["weather_id"])
-                print(f'\nNimi: {search_airport["name"]}')
-                print(f'Maa: {search_airport["iso_country"]}')
-                print(f'Alue: {search_airport["iso_region"]}')
-                print(f'Säätila: {search_weather["status"]}, {search_weather["temperature"]} C')
-                # weatheriin liittyvät tässä kaataa ohjelman toistaiseksi, koska kaikilla kentillä weather_id = NULL
-                # toimii kun lisää kentälle weather_id:n
-                print(f'Etäisyys: {search_distance}')
+                print(f'''\nNimi: {search_airport["name"]}'
+Maa: {search_airport["iso_country"]}'
+Alue: {search_airport["iso_region"]}'
+Säätila: {search_weather["status"]}, {search_weather["temperature"]} C
+Etäisyys: {search_distance}''')
                 break
 
             while choice == '3' or choice == '3.':
@@ -166,19 +163,19 @@ def main_app():
                     inrange_airport = input('Anna haluamasi lentokentän ICAO-koodi: ')
                 if inrange_airport == exit_button:
                     break
-                print("")
-                print('------------------------------------------------\n')
+                print(""
+                      '------------------------------------------------\n')
                 for airport in module.check_if_inside_range(inrange_airport, flight_range):
                     inrange_airport_info = database.get_airport_by_icao(airport["ident"])
                     inrange_airport_weather = database.get_weather_info(inrange_airport_info["weather_id"])
-                    print(f'ICAO: {airport["ident"]}')
-                    print(f'Nimi: {airport["name"]}')
-                    print(f'Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temperature"]} C')
-                    print(f'Maa: {airport["iso_country"]}')
-                    print(f'Alue: {airport["iso_region"]}')
-                    print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
-                          f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}\n')
-                    print('------------------------------------------------\n')
+                    print(f'''ICAO: {airport["ident"]}
+Nimi: {airport["name"]}
+Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temperature"]} C
+Maa: {airport["iso_country"]}
+Alue: {airport["iso_region"]}
+Etäisyys tämänhetkisestä lentoasemastasi:
+{module.calculate_distance(user["location"], inrange_airport_info["ident"])}\n
+------------------------------------------------\n''')
                 break
 
             while choice == '5' or choice == '5.':
