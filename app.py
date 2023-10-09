@@ -89,8 +89,7 @@ Paina Enter jatkaaksesi.''')
                 jumps += 1
                 current_location = database.get_airport_by_icao(destination.upper())
                 new_frust = module.frustration_adder(current_location['weather_id'], user['weather_id'],
-                                                     database.get_local_region(current_location['ident']),
-                                                     region_goal)
+                                                     current_location['iso_region'], region_goal)
                 frustration += new_frust
                 print(f'Tämän hetkinen tyytymättömyys {frustration}/100')
                 if current_location["weather_id"] == user["weather_id"]:

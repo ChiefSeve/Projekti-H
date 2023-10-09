@@ -179,16 +179,6 @@ def get_assigned_weather_id():
         return 'ERROR'
 
 
-def get_local_region(ident):
-    sql = f"SELECT iso_region FROM airport WHERE ident = '{ident}'"
-    my_cursor.execute(sql)
-    result = my_cursor.fetchone()
-    if result:
-        return result
-    else:
-        return 'ERROR'
-
-
 def update_region_airport_weather(weather_id, region):
     sql = '''SELECT id FROM airport WHERE iso_region =%s'''
     my_cursor.execute(sql, (region,))
