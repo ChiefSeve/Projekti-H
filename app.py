@@ -4,6 +4,7 @@ import modules.app_functions as module
 import story
 
 
+
 def main_app():
     jumps = 0
     success = 0
