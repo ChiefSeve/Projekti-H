@@ -1,10 +1,7 @@
 import helpers.database_helpers as database
 import modules.app_functions as module
-import menus
 import story
 from random import randint
-from dotenv import load_dotenv
-import os
 
 
 def main_app():
