@@ -1,7 +1,8 @@
+from random import randint
 import helpers.database_helpers as database
 import modules.app_functions as module
 import story
-from random import randint
+
 
 
 def main_app():
@@ -27,8 +28,6 @@ def main_app():
     print('Paina Enter jatkaaksesi.')
     input()
     while True:
-        # tässä kohdassa luodaan pelaajalle tavoite säätila. katsotaan aina kun lennetään uudelle lentokentälle eli päivitetään game taulussa location.
-        # Jos pelaaja lentää kentälle missä on oikea säätila, ei nosteta "frustration" määrää ja luodaan uusi ´säätila tavoite. Muuten jatketaan samalla tavoitteella.
         while int(frustration) < 100:
             user = module.find_player(player_name)
             if region_goal == 0:
@@ -67,9 +66,7 @@ Paina Enter jatkaaksesi.''')
 3. Laske kahden lentoaseman välinen etäisyys.
 4. Näytä lentoaseman lähellä olevat lentoasemat.
 5. Tallenna ja lopeta peli.''')
-
             choice = input('Syötä numero: ')
-
             while choice == '1' or choice == '1.':
                 destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
                 destination = module.icao_input_error_check(destination, exit_button)
@@ -85,12 +82,10 @@ Paina Enter jatkaaksesi.''')
                     in_range = module.check_if_inside_range2(user["location"], destination, flight_range)
                 if destination == exit_button:
                     break
-
                 if destination.upper() == user["location"]:
                     print(f'Olet jo kohteessa {user["location"]}.')
                     input('Paina Enter jatkaaksesi.')
                     break
-
                 module.change_current_airport(destination.upper(), user['id'])
                 jumps += 1
                 current_location = database.get_airport_by_icao(destination.upper())
