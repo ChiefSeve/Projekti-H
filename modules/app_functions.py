@@ -7,8 +7,9 @@ import os
 def calculate_distance(current, target):
     start = connector.get_airport_by_icao(current)
     end = connector.get_airport_by_icao(target)
-    return distance.distance((start['latitude_deg'], start['longitude_deg']),
+    result = distance.distance((start['latitude_deg'], start['longitude_deg']),
                              (end['latitude_deg'], end['longitude_deg'])).km
+    return result
 
 
 def check_if_inside_range(icao, flight_range):

@@ -57,7 +57,7 @@ Sinun pitää päästä lentokentälle missä {weather["status"]} ja {weather["t
                 print(f'''ja joka sijaitsee alueella {region_goal}'
 -------------------------------------------------------------------------------------''')
             print(f'''Lähin ehdot täyttävä lentoasema on {nearest_eligible_airport[1]},
-johon on matkaa {nearest_eligible_airport[0]} km.
+johon on matkaa {nearest_eligible_airport[0]:.0f} km.
 -------------------------------------------------------------------------------------
 Paina Enter jatkaaksesi.''')
             input()
@@ -124,11 +124,12 @@ Paina Enter jatkaaksesi.''')
                 search_distance = module.calculate_distance(user["location"], search_icao)
                 search_airport = database.get_airport_by_icao(search_icao)
                 search_weather = database.get_weather_info(search_airport["weather_id"])
-                print(f'''\nNimi: {search_airport["name"]}'
-Maa: {search_airport["iso_country"]}'
-Alue: {search_airport["iso_region"]}'
+                print(f'''\nNimi: {search_airport["name"]}
+Maa: {search_airport["iso_country"]}
+Alue: {search_airport["iso_region"]}
 Säätila: {search_weather["status"]}, {search_weather["temperature"]} C
-Etäisyys: {search_distance}''')
+Etäisyys: {search_distance:.0f}''')
+                input('Paina Enter jatkaaksesi')
                 break
 
             while choice == '3' or choice == '3.':
@@ -148,7 +149,8 @@ Etäisyys: {search_distance}''')
                 if distance_airport1 == exit_button or distance_airport2 == exit_button:
                     break
                 distance_result = module.calculate_distance(distance_airport1, distance_airport2)
-                print(f'{distance_airport1}:n ja {distance_airport2}:n välinen etäisyys on {distance_result}')
+                print(f'{distance_airport1}:n ja {distance_airport2}:n välinen etäisyys on {distance_result:.0f} km.')
+                input('Paina Enter jatkaaksesi.')
                 break
 
             while choice == '4' or choice == '4.':
@@ -171,8 +173,9 @@ Säätila: {inrange_airport_weather["status"]} ja {inrange_airport_weather["temp
 Maa: {airport["iso_country"]}
 Alue: {airport["iso_region"]}
 Etäisyys tämänhetkisestä lentoasemastasi:
-{module.calculate_distance(user["location"], inrange_airport_info["ident"])}\n
+{module.calculate_distance(user["location"], inrange_airport_info["ident"]):.0f} km.\n
 ------------------------------------------------\n''')
+                input('Paina Enter jatkaaksesi.')
                 break
 
             while choice == '5' or choice == '5.':
