@@ -22,6 +22,7 @@ def get_random_airports():
     else:
         return 'ERROR'
 
+
 def get_airports_by_weather(weather_id):
     sql = f'''SELECT ident, name FROM airport WHERE weather_id=%s'''
     my_cursor.execute(sql, (weather_id,))
@@ -61,6 +62,7 @@ def get_random_weather_id():
         return result
     else:
         return 'ERROR'
+
 
 def update_player_goal(weather_id, user_id):
     sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''

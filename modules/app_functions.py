@@ -1,7 +1,5 @@
 from geopy import distance
 import helpers.database_helpers as connector
-from dotenv import load_dotenv
-import os
 
 
 def calculate_distance(current, target):
