@@ -179,6 +179,7 @@ def main_app():
                     print(f'Etäisyys tämänhetkisestä lentoasemastasi:'
                           f' {module.calculate_distance(user["location"], inrange_airport_info["ident"])}\n')
                     print('------------------------------------------------\n')
+                input("Paina Enter jatkaaksesi.")
                 break
 
             while choice == '5' or choice == '5.':
