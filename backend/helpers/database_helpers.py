@@ -1,4 +1,4 @@
-import helpers.connector as connector
+import backend.helpers.connector as connector
 
 my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
 
