@@ -3,6 +3,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
+const redIcon = new L.Icon({
+iconUrl:
+  "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+shadowUrl:
+  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+iconSize: [25, 41],
+iconAnchor: [12, 41],
+popupAnchor: [1, -34],
+shadowSize: [41, 41]
+});
+
 const airportMarkers = L.featureGroup().addTo(map);
 
 // Search by ICAO ******************************
@@ -14,7 +25,7 @@ window.addEventListener('load', async function(evt) {
   airportsData.forEach(airport =>{
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`);
+      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button>hallo</button>');
   airportMarkers.addLayer(marker);
   })
 
@@ -29,7 +40,9 @@ searchForm.addEventListener('submit', async (evt) => {
   const airport = await response.json();
   // remove possible other markers
   // add marker
-  const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
+  const marker = L.marker([airport.latitude_deg, airport.longitude_deg], {
+    icon: redIcon
+  }).
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`).
       openPopup();
