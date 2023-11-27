@@ -184,7 +184,7 @@
 # main_app()
 
 import json
-from flask import Flask
+from flask import Flask, request
 from helpers.connector import Database
 from flask_cors import CORS
 
@@ -206,12 +206,21 @@ def continents():
 
 @app.route('/airportsAll/')
 def countries_by_continent():
-    sql = f'''SELECT name, latitude_deg, longitude_deg
+    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
               FROM airport'''
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
+
+
+@app.route('/calculateDistance')
+def distance():
+    args = request.args
+    airportFrom = args.get('from')
+    airportTo = args.get('to')
+    print(airportFrom, airportTo, 'foobar')
+    return json.dumps('nice goin my guy')
 
 
 @app.route('/airports/<country>')
@@ -227,7 +236,7 @@ def airports_by_country(country):
 
 @app.route('/airport/<icao>')
 def airport(icao):
-    sql = f'''SELECT name, latitude_deg, longitude_deg
+    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
               FROM airport
               WHERE ident=%s'''
     cursor = db.get_conn().cursor(dictionary=True)
