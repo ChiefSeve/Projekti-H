@@ -75,9 +75,9 @@
 #                 while not in_range:
 #                     print(f'Kohdelentokenttäsi on liian kaukana (> {flight_range})')
 #                     destination = input('Syötä kohdelentokenttäsi ICAO-koodi: ')
+#                     destination = module.icao_input_error_check(destination, exit_button)
 #                     if destination == exit_button:
 #                         break
-#                     destination = module.icao_input_error_check(destination, exit_button)
 #                     in_range = module.check_if_inside_range2(user["location"], destination, flight_range)
 #                 if destination == exit_button:
 #                     break

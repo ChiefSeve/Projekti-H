@@ -10,9 +10,9 @@ class Database:
         self.conn = mysql.connector.connect(
             host=os.getenv('DB_HOST'),
             user=os.getenv('DB_USER'),
-            port=os.getenv('DB_PORT'),
             password=os.getenv('DB_PASSWORD'),
             database=os.getenv('DB_DATABASE'),
+            port=3306,
             autocommit=True
         )
 
