@@ -194,6 +194,8 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+
+# Routes
 @app.route('/continents')
 def continents():
     sql = f'''SELECT DISTINCT continent
@@ -220,7 +222,7 @@ def distance():
     airportFrom = args.get('from')
     airportTo = args.get('to')
     print(airportFrom, airportTo, 'foobar')
-    return json.dumps('nice goin my guy')
+    return json.dumps('This returns the distance in Km')
 
 
 @app.route('/airports/<country>')
