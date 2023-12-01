@@ -196,6 +196,8 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+
+# Routes
 @app.route('/continents')
 def continents():
     sql = f'''SELECT DISTINCT continent
