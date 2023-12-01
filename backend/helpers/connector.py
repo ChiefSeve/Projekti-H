@@ -18,3 +18,6 @@ class Database:
 
     def get_conn(self):
         return self.conn
+
+
+mydb = Database()

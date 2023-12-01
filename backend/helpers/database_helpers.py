@@ -1,6 +1,6 @@
-import backend.helpers.connector as connector
+import helpers.connector as connector
 
-my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
+my_cursor = connector.mydb.conn.cursor(dictionary=True, buffered=True)
 
 
 def get_random_airport():
@@ -191,3 +191,13 @@ def update_region_airport_weather(weather_id, region):
         return True
     else:
         return 'ERROR'
+
+
+def get_airport_by_coordinates(lat, lng):
+    sql = '''SELECT ident FROM airport 
+    WHERE latitude_deg= %s
+    AND longitude_deg= %s'''
+    val = (lat, lng)
+    my_cursor.execute(sql, val)
+    data = my_cursor.fetchone()
+    return data

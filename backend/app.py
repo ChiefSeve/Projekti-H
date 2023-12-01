@@ -184,6 +184,8 @@
 # main_app()
 
 import json
+import modules.app_functions as module
+import helpers.database_helpers as database
 from flask import Flask, request
 from helpers.connector import Database
 from flask_cors import CORS
@@ -219,8 +221,9 @@ def distance():
     args = request.args
     airportFrom = args.get('from')
     airportTo = args.get('to')
-    print(airportFrom, airportTo, 'foobar')
-    return json.dumps('nice goin my guy')
+    result = module.calculate_distance(airportFrom, airportTo)
+    # print(airportFrom, airportTo, 'foobar')
+    return json.dumps(result)
 
 
 @app.route('/airports/<country>')
@@ -244,6 +247,13 @@ def airport(icao):
     result = cursor.fetchone()
     return json.dumps(result)
 
+
+@app.route('/fly')
+def fly():
+    args = request.args
+    airport_lat = args.get('lat')
+    airport_lng = args.get('lng')
+    return database.get_airport_by_coordinates(airport_lat, airport_lng)
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

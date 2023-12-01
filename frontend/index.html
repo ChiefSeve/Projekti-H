@@ -11,13 +11,16 @@
 <body>
 <div id="map"></div>
 <form id="single">
+    <label for="icao">Search for Airport</label>
     <input name="icao" placeholder="Input airport icao code">
     <input type="submit" value="Search">
 </form>
 <form id="calculate-distance">
+    <label for="airport1 airport2">Calculate Distance Between Airports</label>
     <input name="airport1" placeholder="From airport(icao)">
     <input name="airport2" placeholder="To airport(icao)">
     <input value="Calculate" type="submit">
+    <div id="distance_result"></div>
 </form>
 </body>
 </html>

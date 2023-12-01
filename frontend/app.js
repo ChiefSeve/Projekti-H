@@ -16,7 +16,6 @@ shadowSize: [41, 41]
 
 const airportMarkers = L.featureGroup().addTo(map);
 
-// Search by ICAO ******************************
 
 window.addEventListener('load', async function(evt) {
   evt.preventDefault();
@@ -25,11 +24,13 @@ window.addEventListener('load', async function(evt) {
   airportsData.forEach(airport =>{
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button>hallo</button>');
+      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button">hallo</button>');
   airportMarkers.addLayer(marker);
   })
 
 });
+
+// Search by ICAO ******************************
 
 const searchForm = document.querySelector('#single');
 const input = document.querySelector('input[name=icao]');
@@ -51,6 +52,7 @@ searchForm.addEventListener('submit', async (evt) => {
   map.flyTo([airport.latitude_deg, airport.longitude_deg]);
 });
 
+// Calculate distance between airports
 const distanceForm = document.querySelector('#calculate-distance');
 const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
@@ -62,4 +64,21 @@ distanceForm.addEventListener('submit', async(evt) => {
   const response = await fetch(`http://127.0.0.1:3000/calculateDistance?from=${airport1Icao}&to=${airport2Icao}`);
   const distance =await response.json();
   console.log(distance, 'distance')
+
+  const distanceResult = document.getElementById('distance_result');
+  const p = document.createElement('p');
+  p.innerText = Math.floor(distance) + 'km';
+  distanceResult.appendChild(p);
+});
+
+// Fly
+const flyButton = document.getElementById('fly_button');
+
+airportMarkers.addEventListener('click', async(evt) => {
+  // console.log(evt);
+  const airportLat = evt.latlng.lat;
+  const airportLng = evt.latlng.lng;
+  const response = await fetch(`http://127.0.0.1:3000/fly?lat=${airportLat}&lng=${airportLng}`);
+  const response_json = await response.json();
+  // console.log(response_json);
 });

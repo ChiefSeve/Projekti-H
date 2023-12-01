@@ -1,5 +1,5 @@
 from geopy import distance
-import backend.helpers.database_helpers as connector
+import helpers.database_helpers as connector
 
 
 def calculate_distance(current, target):
