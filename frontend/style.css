@@ -3,6 +3,19 @@ body {
     font-family: Verdana, sans-serif;
 }
 
+dialog {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    height: 500px;
+    justify-content: center;
+}
+
+dialog form {
+    position: relative;
+    justify-content: center;
+}
+
 #map {
     width: 100vw;
     height: 100vh;

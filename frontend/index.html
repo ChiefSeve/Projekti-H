@@ -9,14 +9,29 @@
     <script src="app.js" defer></script>
 </head>
 <body>
+<dialog id="user_dialog">
+    <form id="select_user" name="user_select">
+        <label for="select_user">Valitse käyttäjä</label>
+        <select id="user_drop_down">
+            <option>pöö</option>
+            <option>kukkuu</option>
+        </select>
+        <input id="select_user_submit" type="submit">
+    </form>
+    <form name="create_user">
+        <label for="create_user">Uusi Käyttäjä</label>
+        <input id="create_user_input" type="text">
+        <input id="create_user_submit" type="submit">
+    </form>
+</dialog>
 <div id="map"></div>
-<form id="single">
-    <label for="icao">Search for Airport</label>
+<form id="single" name="search_airport">
+    <label for="search_airport">Search for Airport</label>
     <input name="icao" placeholder="Input airport icao code">
     <input type="submit" value="Search">
 </form>
-<form id="calculate-distance">
-    <label for="airport1 airport2">Calculate Distance Between Airports</label>
+<form id="calculate-distance" name="calculate_distance">
+    <label for="calculate_distance">Calculate Distance Between Airports</label>
     <input name="airport1" placeholder="From airport(icao)">
     <input name="airport2" placeholder="To airport(icao)">
     <input value="Calculate" type="submit">

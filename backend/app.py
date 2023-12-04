@@ -196,6 +196,15 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+# Create user
+@app.route('/create_user')
+def create_user():
+    args = request.args
+    screen_name = args.get('screen_name')
+    airport = database.get_random_airport
+    weather = database.get_random_weather_id
+    database.create_user_by_name(screen_name, airport['ident'], weather)
+    return
 
 # Routes
 @app.route('/continents')
@@ -216,7 +225,7 @@ def countries_by_continent():
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
-
+        
 
 @app.route('/calculateDistance')
 def distance():
@@ -250,12 +259,12 @@ def airport(icao):
     return json.dumps(result)
 
 
-@app.route('/fly')
+""" @app.route('/fly')
 def fly():
     args = request.args
     airport_lat = args.get('lat')
     airport_lng = args.get('lng')
-    return database.get_airport_by_coordinates(airport_lat, airport_lng)
+    return database.get_airport_by_coordinates(airport_lat, airport_lng) """
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)
