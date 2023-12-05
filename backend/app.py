@@ -215,15 +215,6 @@ def create_user():
 
 
 # Routes
-@app.route('/continents')
-def continents():
-    sql = f'''SELECT DISTINCT continent
-              FROM country'''
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return json.dumps(result)
-
 
 @app.route('/getUsers')
 def users():
