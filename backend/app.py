@@ -196,6 +196,12 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+# Get screen names
+@app.route('/screen_names')
+def get_screen_names(): 
+    data = database.get_all_screen_names()
+    return json.dumps(data)
+
 # Create user
 @app.route('/create_user')
 def create_user():

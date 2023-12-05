@@ -32,7 +32,9 @@ window.addEventListener('load', async function(evt) {
   airportMarkers.addLayer(marker);
   })
 
+  // User selection/creation menu
   userDialog.showModal();
+  
 });
 
 // User selection/creation dialog box
