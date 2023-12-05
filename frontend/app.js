@@ -22,7 +22,6 @@ shadowSize: [41, 41]
 
 const airportMarkers = L.featureGroup().addTo(map);
 
-
 window.addEventListener('load', async function(evt) {
   evt.preventDefault();
   const resp = await fetch('http://127.0.0.1:3000/airportsAll/');
@@ -34,7 +33,41 @@ window.addEventListener('load', async function(evt) {
   airportMarkers.addLayer(marker);
   })
 
+  userDialog.showModal();
 });
+
+// User selection/creation dialog box
+const userDialog = document.getElementById('user_dialog')
+
+// Select user
+const activeUser = {
+  name: ''
+};
+const selectUserSubmit = document.getElementById('select_user_submit');
+const userDropDown = document.getElementById('user_drop_down');
+
+selectUserSubmit.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  activeUser.name = userDropDown.value;
+  userDialog.close();
+  return;
+})
+
+// Create user
+const createUserSubmit = document.getElementById('create_user_submit');
+const createUserInput = document.getElementById('create_user_input');
+
+createUserSubmit.addEventListener('click', async(evt) => {
+  evt.preventDefault();
+  try {
+    await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`)
+  }
+  catch(error) {
+    console.error(error);
+  }
+  activeUser.name = createUserInput.value;
+  userDialog.close();
+})
 
 // Search by ICAO ******************************
 

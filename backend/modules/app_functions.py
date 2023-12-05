@@ -38,6 +38,15 @@ def is_airport(icao):
         return True
 
 
+def is_player(screen_name):
+    result = connector.find_player(screen_name)
+    if result:
+        return True
+    else:
+        return False
+
+
+
 def all_airports_in_range(icao, flight_range):
     # jos lentokenttä palaa etäisyydellä <1500nm(2778km) se hyväksytään, muuten ei
     airport_list = connector.get_all_airport_icaos()
