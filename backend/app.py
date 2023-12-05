@@ -219,6 +219,7 @@ def users():
     return json.dumps(result)
 
 
+
 @app.route('/airportsAll/')
 def countries_by_continent():
     sql = f'''SELECT name, ident, latitude_deg, longitude_deg
