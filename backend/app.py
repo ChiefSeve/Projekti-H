@@ -196,6 +196,12 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+# Get screen names
+@app.route('/screen_names')
+def get_screen_names(): 
+    data = database.get_all_screen_names()
+    return json.dumps(data)
+
 # Create user
 @app.route('/create_user')
 def create_user():
@@ -206,13 +212,11 @@ def create_user():
     database.create_user_by_name(screen_name, airport['ident'], weather)
     return
 
-
 # Routes
-
-# Find users at the start of the app
-@app.route('/getUsers')
-def users():
-    sql = f'''SELECT * FROM game'''
+@app.route('/continents')
+def continents():
+    sql = f'''SELECT DISTINCT continent
+              FROM country'''
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -228,7 +232,7 @@ def countries_by_continent():
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
-
+        
 
 @app.route('/calculateDistance')
 def distance():
