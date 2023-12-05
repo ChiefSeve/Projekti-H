@@ -1,13 +1,7 @@
-const map = L.map('map', maxBounds = [[25, -125], [50, -66]], minZoom =5, maxZoom = 8)
-.setView([44.08, -99.71], 5)  ;
+const map = L.map('map').setView([44.08, -99.71], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
-
-map.setMaxBounds(maxBounds)
-map.fitBounds(maxBounds)
-map.setMinZoom(minZoom)
-map.setMaxZoom(maxZoom)
 
 const redIcon = new L.Icon({
 iconUrl:
@@ -19,60 +13,101 @@ iconAnchor: [12, 41],
 popupAnchor: [1, -34],
 shadowSize: [41, 41]
 });
-
 const airportMarkers = L.featureGroup().addTo(map);
+const userDialog = document.getElementById('user_dialog')
+const createUserSubmit = document.getElementById('create_user_submit');
+const createUserInput = document.getElementById('create_user_input');
+const searchForm = document.querySelector('#single');
+const input = document.querySelector('input[name=icao]');
+const distanceForm = document.querySelector('#calculate-distance');
+const airport1 = document.querySelector('input[name=airport1]');
+const airport2 = document.querySelector('input[name=airport2]');
+const flyButton = document.getElementById('fly_button');
+const activeUser = {
+  id: ''
+};
+
+
+
+
+
+
+async function createUser(){
+  createUserSubmit.addEventListener('click', async(evt) => {
+    evt.preventDefault();
+    try {
+      await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`)
+    }
+    catch(error) {
+      console.error(error);
+    }
+    activeUser.name = createUserInput.value;
+    userDialog.close();
+  })
+}
+
+async function createUserSelectForm(userData){
+  const userForm = document.createElement('form');
+  const userLabel = document.createElement('label');
+  const userSelect  = document.createElement('select');
+  const userButton  = document.createElement('button');
+  userForm.setAttribute('id','selectUser');
+  userLabel.innerHTML = 'Valitse käyttäjä';
+  userSelect.setAttribute('id','userDropDown');
+  userButton.setAttribute('id', 'selectUserSubmit')
+  userButton.setAttribute('type', 'button')
+  userButton.innerHTML = 'SUBMIT';
+  userButton.setAttribute('onclick','selectUser()')
+  userForm.appendChild(userLabel);
+  userForm.appendChild(userSelect);
+  userForm.appendChild(userButton);
+  userDialog.appendChild(userForm);
+  userData.forEach(user => {
+    const option = document.createElement('option');
+    option.value = user.id;
+    option.innerHTML = user.screen_name;
+    userSelect.appendChild(option)
+
+  });
+}
 
 window.addEventListener('load', async function(evt) {
   evt.preventDefault();
-  const resp = await fetch('http://127.0.0.1:3000/airportsAll/');
-  const airportsData = await resp.json();
+  const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');
+  const airportsData = await respAir.json();
   airportsData.forEach(airport =>{
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button">hallo</button>');
   airportMarkers.addLayer(marker);
   })
-
-  userDialog.showModal();
+  const usersResp = await fetch('http://127.0.0.1:3000/getUsers');
+  const userData = await usersResp.json();
+  if (userData){
+    await createUserSelectForm(userData);
+    await createUser();
+  } else {
+    await createUser();
+  }
 });
 
 // User selection/creation dialog box
-const userDialog = document.getElementById('user_dialog')
+
 
 // Select user
-const activeUser = {
-  name: ''
-};
-const selectUserSubmit = document.getElementById('select_user_submit');
-const userDropDown = document.getElementById('user_drop_down');
 
-selectUserSubmit.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  activeUser.name = userDropDown.value;
+function selectUser(){
+  const selectUserSubmit = document.getElementById('selectUserSubmit');
+  const userDropDown = document.getElementById('userDropDown');
+  activeUser.id = userDropDown.value;
   userDialog.close();
-  return;
-})
 
-// Create user
-const createUserSubmit = document.getElementById('create_user_submit');
-const createUserInput = document.getElementById('create_user_input');
+}
 
-createUserSubmit.addEventListener('click', async(evt) => {
-  evt.preventDefault();
-  try {
-    await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`)
-  }
-  catch(error) {
-    console.error(error);
-  }
-  activeUser.name = createUserInput.value;
-  userDialog.close();
-})
 
 // Search by ICAO ******************************
 
-const searchForm = document.querySelector('#single');
-const input = document.querySelector('input[name=icao]');
+
 searchForm.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   const icao = input.value;
@@ -92,9 +127,7 @@ searchForm.addEventListener('submit', async (evt) => {
 });
 
 // Calculate distance between airports
-const distanceForm = document.querySelector('#calculate-distance');
-const airport1 = document.querySelector('input[name=airport1]');
-const airport2 = document.querySelector('input[name=airport2]');
+
 
 distanceForm.addEventListener('submit', async(evt) => {
   evt.preventDefault();
@@ -111,7 +144,7 @@ distanceForm.addEventListener('submit', async(evt) => {
 });
 
 // Fly
-const flyButton = document.getElementById('fly_button');
+
 
 airportMarkers.addEventListener('click', async(evt) => {
   // console.log(evt);

@@ -206,11 +206,13 @@ def create_user():
     database.create_user_by_name(screen_name, airport['ident'], weather)
     return
 
+
 # Routes
-@app.route('/continents')
-def continents():
-    sql = f'''SELECT DISTINCT continent
-              FROM country'''
+
+# Find users at the start of the app
+@app.route('/getUsers')
+def users():
+    sql = f'''SELECT * FROM game'''
     cursor = db.get_conn().cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -225,7 +227,7 @@ def countries_by_continent():
     cursor.execute(sql)
     result = cursor.fetchall()
     return json.dumps(result)
-        
+
 
 @app.route('/calculateDistance')
 def distance():
