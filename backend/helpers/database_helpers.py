@@ -1,6 +1,9 @@
 import helpers.connector as connector
+import json
 
-my_cursor = connector.mydb.conn.cursor(dictionary=True, buffered=True)
+db = connector.Database()
+
+my_cursor = db.get_conn().cursor(dictionary=True, buffered=True) # connector.mydb.conn.cursor(dictionary=True, buffered=True)
 
 
 # Airport
@@ -81,6 +84,14 @@ def get_all_airport_icaos():
         return 'ERROR'
 
 
+def get_all_airports():
+    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
+              FROM airport'''
+    my_cursor.execute(sql)
+    result = my_cursor.fetchall()
+    return json.dumps(result)
+
+
 def get_airport_by_coordinates(lat, lng):
     sql = '''SELECT ident FROM airport 
     WHERE latitude_deg= %s
@@ -131,6 +142,16 @@ def get_random_weather_id():
         return 'ERROR'
 
 
+def get_random_weather():
+    sql = f'''SELECT * FROM weather order by RAND()'''
+    my_cursor.execute(sql)
+    result = my_cursor.fetchone()
+    if result:
+        return result
+    else:
+        return 'ERROR'
+
+
 def get_weather_info(weather_id):
     sql = f'''select * from weather where id = %s'''
     my_cursor.execute(sql, (weather_id,))
@@ -168,6 +189,26 @@ def find_player(name):
         return data_res
     else:
         return 'no data'
+    
+
+def get_player_by_id(id):
+    sql = f'''SELECT * FROM game where id=%s'''
+    my_cursor.execute(sql, (id, ))
+    data_res = my_cursor.fetchone()
+    if data_res:
+        return data_res
+    else:
+        return 'no data'
+
+
+def get_all_players():
+    sql = f'''SELECT * from game'''
+    my_cursor.execute(sql)
+    data_res = my_cursor.fetchall()
+    if data_res:
+        return data_res
+    else:
+        return 'no data'
 
 
 def get_all_screen_names():
@@ -184,7 +225,7 @@ def create_user_by_name(name, start_airport, start_weather):
     sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id) VALUES (%s, %s, %s, %s)'''
     values = (name, 0, start_airport['ident'], start_weather['id'])
     my_cursor.execute(sql, values)
-    connector.mydb.commit()
+    # connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
