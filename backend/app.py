@@ -208,32 +208,54 @@ def get_screen_names():
 def create_user():
     args = request.args
     screen_name = args.get('screen_name')
-    airport = database.get_random_airport
-    weather = database.get_random_weather_id
-    database.create_user_by_name(screen_name, airport['ident'], weather)
-    return
+    airport = database.get_random_airport()
+    weather = database.get_random_weather()
+    database.create_user_by_name(screen_name, airport, weather)
+    player = database.find_player(screen_name)
+    return json.dumps(player)
 
 
-# Routes
+# Get User(s)
 
-@app.route('/getUsers')
-def users():
-    sql = f'''SELECT * FROM game'''
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
+@app.route('/getUser')
+def user():
+    args = request.args
+    id = args.get('id')
+    result = database.get_player_by_id(id)
     return json.dumps(result)
 
+
+@app.route('/getUser/all')
+def users():
+    result = database.get_all_players()
+    return json.dumps(result)
+
+# Airports
 
 @app.route('/airportsAll/')
 def countries_by_continent():
-    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
-              FROM airport'''
+    result = database.get_all_airports()
+    return result
+
+
+# Currently not used
+""" @app.route('/airports/<country>')
+def airports_by_country(country):
+    sql = f'''SELECT ident, name, latitude_deg, longitude_deg
+              FROM airport
+              WHERE iso_country = %s'''
     cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql)
+    cursor.execute(sql, (country,))
     result = cursor.fetchall()
+    return json.dumps(result) """
+
+
+@app.route('/airport/<icao>')
+def airport(icao):
+    result = database.get_airport_by_icao(icao)
     return json.dumps(result)
 
+# Game Functions
 
 @app.route('/calculateDistance')
 def distance():
@@ -245,34 +267,14 @@ def distance():
     return json.dumps(result)
 
 
-@app.route('/airports/<country>')
-def airports_by_country(country):
-    sql = f'''SELECT ident, name, latitude_deg, longitude_deg
-              FROM airport
-              WHERE iso_country = %s'''
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql, (country,))
-    result = cursor.fetchall()
-    return json.dumps(result)
-
-
-@app.route('/airport/<icao>')
-def airport(icao):
-    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
-              FROM airport
-              WHERE ident=%s'''
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql, (icao,))
-    result = cursor.fetchone()
-    return json.dumps(result)
-
-
 """ @app.route('/fly')
 def fly():
     args = request.args
     airport_lat = args.get('lat')
     airport_lng = args.get('lng')
     return database.get_airport_by_coordinates(airport_lat, airport_lng) """
+
+# Flask app
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

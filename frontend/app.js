@@ -38,23 +38,34 @@ const activeUser = {
 };
 
 
-
-
+function deleteChildsOfElement(elementNode) {
+  while (elementNode.firstChild) {
+    elementNode.removeChild(elementNode.firstChild);
+  }
+}
 
 
 async function createUser(){
   createUserSubmit.addEventListener('click', async(evt) => {
     evt.preventDefault();
     try {
-      await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`)
+      const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
+      const player_json = await player.json();
+      // console.log(player_json);
+      activeUser.id = player_json['id'];
     }
     catch(error) {
       console.error(error);
     }
     activeUser.name = createUserInput.value;
-    userDialog.close();
+
+    // Delete form
+
+    const userDialog = document.getElementById('user_dialog');
+    deleteChildsOfElement(userDialog);
   })
 }
+
 
 async function createUserSelectForm(userData){
   const userForm = document.createElement('form');
@@ -81,6 +92,26 @@ async function createUserSelectForm(userData){
   });
 }
 
+
+async function selectUser() {
+  const userSelect = document.getElementById('userDropDown');
+  const userID = parseInt(userSelect.value);
+  activeUser.id = userID;
+  try {
+    const response = await fetch(`http://localhost:3000/getUser?id=${userID}`);
+    const playerData = await response.json();
+    console.log(playerData);
+    activeUser.name = playerData.screen_name;
+  }
+  catch(error) {
+    console.error(error);
+  }
+
+  // Delete form
+  const userDialog = document.getElementById('user_dialog');
+  deleteChildsOfElement(userDialog);
+}
+
 window.addEventListener('load', async function(evt) {
   evt.preventDefault();
   const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');
@@ -91,28 +122,21 @@ window.addEventListener('load', async function(evt) {
       bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button">hallo</button>');
   airportMarkers.addLayer(marker);
   })
-  const usersResp = await fetch('http://127.0.0.1:3000/getUsers');
+  const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
   const userData = await usersResp.json();
+  // console.log('käyttäjät', userData);
+
+  // Create create/select user form
+
   if (userData){
+    console.log('userData success');
     await createUserSelectForm(userData);
     await createUser();
   } else {
+    console.log('no data');
     await createUser();
   }
 });
-
-// User selection/creation dialog box
-
-
-// Select user
-
-function selectUser(){
-  const selectUserSubmit = document.getElementById('selectUserSubmit');
-  const userDropDown = document.getElementById('userDropDown');
-  activeUser.id = userDropDown.value;
-  userDialog.close();
-
-}
 
 
 // Search by ICAO ******************************
