@@ -238,18 +238,6 @@ def countries_by_continent():
     return result
 
 
-# Currently not used
-""" @app.route('/airports/<country>')
-def airports_by_country(country):
-    sql = f'''SELECT ident, name, latitude_deg, longitude_deg
-              FROM airport
-              WHERE iso_country = %s'''
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql, (country,))
-    result = cursor.fetchall()
-    return json.dumps(result) """
-
-
 @app.route('/airport/<icao>')
 def airport(icao):
     result = database.get_airport_by_icao(icao)
