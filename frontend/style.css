@@ -39,6 +39,10 @@ form {
     top: 7rem;
 }
 
+#fly_form {
+    top: 16rem;
+}
+
 input {
     padding: .5rem;
 }
