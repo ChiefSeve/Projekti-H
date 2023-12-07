@@ -1,7 +1,3 @@
-// const map = L.map('map').setView([44.08, -99.71], 5);
-// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-// }).addTo(map);
 const map = L.map('map', maxBounds = [[25, -125], [50, -66]], minZoom =5, maxZoom = 8)
 .setView([44.08, -99.71], 5) ;
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -49,10 +45,8 @@ function deleteChildsOfElement(elementNode) {
 
 
 async function flyToAirport(icao) {
-  console.log(icao, 'foobar icao')
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
   const response_json =  response.json();
-  console.log(response_json);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -63,7 +57,6 @@ async function createUser(){
     try {
       const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
       const player_json = await player.json();
-      // console.log(player_json);
       activeUser.id = player_json['id'];
     }
     catch(error) {
@@ -112,7 +105,6 @@ async function selectUser() {
   try {
     const response = await fetch(`http://localhost:3000/getUser?id=${userID}`);
     const playerData = await response.json();
-    console.log(playerData);
     activeUser.name = playerData.screen_name;
   }
   catch(error) {
@@ -137,7 +129,6 @@ window.addEventListener('load', async function(evt) {
   })
   const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
   const userData = await usersResp.json();
-  // Create create/select user form
   if (userData){
     console.log('userData success');
     await createUserSelectForm(userData);
@@ -193,7 +184,6 @@ distanceForm.addEventListener('submit', async(evt) => {
   const airport2Icao = airport2.value;
   const response = await fetch(`http://127.0.0.1:3000/calculateDistance?from=${airport1Icao}&to=${airport2Icao}`);
   const distance =await response.json();
-  console.log(distance, 'distance')
   p.innerText = Math.floor(distance) + 'km';
   distanceResult.appendChild(p);
 });
