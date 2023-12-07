@@ -32,6 +32,8 @@ const distanceForm = document.querySelector('#calculate-distance');
 const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
 const flyButton = document.getElementById('fly_button');
+const distanceResult = document.getElementById('distance_result');
+const p = document.getElementById('distance_km');
 const activeUser = {
   id: '',
   location: '',
@@ -46,8 +48,8 @@ function deleteChildsOfElement(elementNode) {
 }
 
 
-async function flyToAirport(icao,userId) {
-  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${userId}`);
+async function flyToAirport(icao) {
+  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
   const response_json =  response.json();
   console.log(response_json);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
@@ -126,9 +128,10 @@ window.addEventListener('load', async function(evt) {
   const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');
   const airportsData = await respAir.json();
   airportsData.forEach(airport =>{
+    const airportIcao = airport.ident
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button" onclick="flyToAirport()">Lennä</button>');
+      bindPopup(`${airport.name}(${airport.ident})`);
   airportMarkers.addLayer(marker);
   })
   const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
@@ -169,14 +172,12 @@ searchForm.addEventListener('submit', async (evt) => {
 
 distanceForm.addEventListener('submit', async(evt) => {
   evt.preventDefault();
+  p.innerText = '';
   const airport1Icao = airport1.value;
   const airport2Icao = airport2.value;
   const response = await fetch(`http://127.0.0.1:3000/calculateDistance?from=${airport1Icao}&to=${airport2Icao}`);
   const distance =await response.json();
   console.log(distance, 'distance')
-
-  const distanceResult = document.getElementById('distance_result');
-  const p = document.createElement('p');
   p.innerText = Math.floor(distance) + 'km';
   distanceResult.appendChild(p);
 });

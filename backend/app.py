@@ -50,7 +50,7 @@ def users():
 @app.route('/airportsAll/')
 def countries_by_continent():
     result = database.get_all_airports()
-    return json.dumps(result)
+    return result
 
 
 @app.route('/airport/<icao>')
