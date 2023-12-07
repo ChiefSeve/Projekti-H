@@ -16,8 +16,8 @@ map.setMaxZoom(maxZoom)
 const redIcon = new L.Icon({
 iconUrl:
   "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-shadowUrl:
-  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+//shadowUrl:
+  //"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 iconSize: [25, 41],
 iconAnchor: [12, 41],
 popupAnchor: [1, -34]
@@ -33,9 +33,7 @@ const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
 const flyButton = document.getElementById('fly_button');
 const activeUser = {
-  id: '',
-  location: '',
-  name: ''
+  id: ''
 };
 
 
@@ -45,14 +43,6 @@ function deleteChildsOfElement(elementNode) {
   }
 }
 
-
-async function flyToAirport(icao,userId) {
-  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${userId}`);
-  const response_json =  response.json();
-  console.log(response_json);
-//   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
-//   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
-}
 
 async function createUser(){
   createUserSubmit.addEventListener('click', async(evt) => {
@@ -128,12 +118,15 @@ window.addEventListener('load', async function(evt) {
   airportsData.forEach(airport =>{
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button" onclick="flyToAirport()">Lennä</button>');
+      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button">hallo</button>');
   airportMarkers.addLayer(marker);
   })
   const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
   const userData = await usersResp.json();
+  // console.log('käyttäjät', userData);
+
   // Create create/select user form
+
   if (userData){
     console.log('userData success');
     await createUserSelectForm(userData);
@@ -145,7 +138,9 @@ window.addEventListener('load', async function(evt) {
 });
 
 
-// Search by ICAO
+// Search by ICAO ******************************
+
+
 searchForm.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   const icao = input.value;
@@ -153,15 +148,22 @@ searchForm.addEventListener('submit', async (evt) => {
   const airport = await response.json();
   // remove possible other markers
   // add marker
-  const marker = L.marker([airport.latitude_deg, airport.longitude_deg], {
+  const markerred = L.marker([airport.latitude_deg, airport.longitude_deg], {
     icon: redIcon
   }).
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`).
       openPopup();
-  airportMarkers.addLayer(marker);
+
+  airportMarkers.addLayer(markerred);
+
+  markerred.getPopup().on('remove', function(){
+    airportMarkers.removeLayer(markerred);
+  });
+
+
   // pan map to selected airport
-  map.flyTo([airport.latitude_deg, airport.longitude_deg]);
+  //map.flyTo([airport.latitude_deg, airport.longitude_deg]);
 });
 
 // Calculate distance between airports
@@ -182,3 +184,13 @@ distanceForm.addEventListener('submit', async(evt) => {
 });
 
 // Fly
+
+
+airportMarkers.addEventListener('click', async(evt) => {
+  // console.log(evt);
+  const airportLat = evt.latlng.lat;
+  const airportLng = evt.latlng.lng;
+  const response = await fetch(`http://127.0.0.1:3000/fly?lat=${airportLat}&lng=${airportLng}`);
+  const response_json = await response.json();
+  // console.log(response_json);
+});
