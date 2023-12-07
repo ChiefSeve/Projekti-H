@@ -16,8 +16,8 @@ map.setMaxZoom(maxZoom)
 const redIcon = new L.Icon({
 iconUrl:
   "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-shadowUrl:
-  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+//shadowUrl:
+  //"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 iconSize: [25, 41],
 iconAnchor: [12, 41],
 popupAnchor: [1, -34]
@@ -32,6 +32,8 @@ const distanceForm = document.querySelector('#calculate-distance');
 const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
 const flyButton = document.getElementById('fly_button');
+const distanceResult = document.getElementById('distance_result');
+const p = document.getElementById('distance_km');
 const activeUser = {
   id: '',
   location: '',
@@ -46,8 +48,9 @@ function deleteChildsOfElement(elementNode) {
 }
 
 
-async function flyToAirport(icao,userId) {
-  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${userId}`);
+async function flyToAirport(icao) {
+  console.log(icao, 'foobar icao')
+  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
   const response_json =  response.json();
   console.log(response_json);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
@@ -126,9 +129,10 @@ window.addEventListener('load', async function(evt) {
   const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');
   const airportsData = await respAir.json();
   airportsData.forEach(airport =>{
+    const airportIcao = airport.ident
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br/><button id="fly_button" onclick="flyToAirport()">Lennä</button>');
+      bindPopup(`${airport.name}(${airport.ident})`);
   airportMarkers.addLayer(marker);
   })
   const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
@@ -153,15 +157,30 @@ searchForm.addEventListener('submit', async (evt) => {
   const airport = await response.json();
   // remove possible other markers
   // add marker
-  const marker = L.marker([airport.latitude_deg, airport.longitude_deg], {
+  const markerred = L.marker([airport.latitude_deg, airport.longitude_deg], {
     icon: redIcon
   }).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`).
+      bindPopup(`${airport.name}(${airport.ident})`+'<br><div id="button_div"></div>').
       openPopup();
-  airportMarkers.addLayer(marker);
+
+  airportMarkers.addLayer(markerred);
+  const flyButton = document.createElement('button');
+  const buttonDiv = document.getElementById('button_div');
+  flyButton.setAttribute('id', 'fly_button');
+  flyButton.setAttribute('type', 'button');
+  flyButton.innerHTML = 'FLY';
+  flyButton.addEventListener('click', function(){
+    flyToAirport(icao)
+  });
+  buttonDiv.appendChild(flyButton);
+  markerred.getPopup().on('remove', function(){
+    airportMarkers.removeLayer(markerred);
+  });
+
+
   // pan map to selected airport
-  map.flyTo([airport.latitude_deg, airport.longitude_deg]);
+  //map.flyTo([airport.latitude_deg, airport.longitude_deg]);
 });
 
 // Calculate distance between airports
@@ -169,14 +188,12 @@ searchForm.addEventListener('submit', async (evt) => {
 
 distanceForm.addEventListener('submit', async(evt) => {
   evt.preventDefault();
+  p.innerText = '';
   const airport1Icao = airport1.value;
   const airport2Icao = airport2.value;
   const response = await fetch(`http://127.0.0.1:3000/calculateDistance?from=${airport1Icao}&to=${airport2Icao}`);
   const distance =await response.json();
   console.log(distance, 'distance')
-
-  const distanceResult = document.getElementById('distance_result');
-  const p = document.createElement('p');
   p.innerText = Math.floor(distance) + 'km';
   distanceResult.appendChild(p);
 });
