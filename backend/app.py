@@ -235,7 +235,7 @@ def users():
 @app.route('/airportsAll/')
 def countries_by_continent():
     result = database.get_all_airports()
-    return result
+    return json.dumps(result)
 
 
 @app.route('/airport/<icao>')
@@ -251,16 +251,13 @@ def distance():
     airportFrom = args.get('from')
     airportTo = args.get('to')
     result = module.calculate_distance(airportFrom, airportTo)
-    # print(airportFrom, airportTo, 'foobar')
     return json.dumps(result)
 
 
-""" @app.route('/fly')
-def fly():
-    args = request.args
-    airport_lat = args.get('lat')
-    airport_lng = args.get('lng')
-    return database.get_airport_by_coordinates(airport_lat, airport_lng) """
+@app.route('/fly/')
+# User ID, Lentokenttä ICAO, Katsotaan että on etäisyyden sisällä
+def fly(icao):
+    return database.get_airport_by_coordinates(airport_lat, airport_lng)
 
 # Flask app
 
