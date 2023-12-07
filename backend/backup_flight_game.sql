@@ -138,10 +138,10 @@ CREATE TABLE IF NOT EXISTS `game` (
 -- Dumping data for table flight_game.game: ~4 rows (suunnilleen)
 DELETE FROM `game`;
 INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `score`, `range`, `jumps`) VALUES
-	(4, 00000000, 'KONT', 'testi', 1),
-	(10, 00000020, 'KONT', 'testiname', 33),
-	(11, 00000000, 'KABE', 'testi1', 2),
-	(12, 00000000, 'KSMF', 'Uusiman', 4);
+	(4, 00000000, 'KONT', 'testi', 1, 0, 2778, 0),
+	(10, 00000020, 'KONT', 'testiname', 33, 0, 2778, 0),
+	(11, 00000000, 'KABE', 'testi1', 2, 0, 2778, 0),
+	(12, 00000000, 'KSMF', 'Uusiman', 4, 0, 2778, 0);
 
 -- Dumping structure for taulu flight_game.weather
 DROP TABLE IF EXISTS `weather`;
