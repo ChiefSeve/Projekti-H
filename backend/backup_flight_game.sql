@@ -127,6 +127,9 @@ CREATE TABLE IF NOT EXISTS `game` (
   `location` varchar(10) DEFAULT NULL,
   `screen_name` varchar(40) DEFAULT NULL,
   `weather_id` int(10) DEFAULT NULL,
+  `score` int(10) DEFAULT NULL,
+  `range` int(10) DEFAULT NULL,
+  `jumps` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `location` (`location`),
   CONSTRAINT `game_ibfk_1` FOREIGN KEY (`location`) REFERENCES `airport` (`ident`)
@@ -134,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `game` (
 
 -- Dumping data for table flight_game.game: ~4 rows (suunnilleen)
 DELETE FROM `game`;
-INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `score` `range`, `jumps`) VALUES
+INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `score`, `range`, `jumps`) VALUES
 	(4, 00000000, 'KONT', 'testi', 1),
 	(10, 00000020, 'KONT', 'testiname', 33),
 	(11, 00000000, 'KABE', 'testi1', 2),
