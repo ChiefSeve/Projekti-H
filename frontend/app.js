@@ -49,6 +49,7 @@ function deleteChildsOfElement(elementNode) {
 
 
 async function flyToAirport(icao) {
+  console.log(icao, 'foobar icao')
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
   const response_json =  response.json();
   console.log(response_json);
@@ -160,11 +161,19 @@ searchForm.addEventListener('submit', async (evt) => {
     icon: redIcon
   }).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`).
+      bindPopup(`${airport.name}(${airport.ident})`+'<br><div id="button_div"></div>').
       openPopup();
 
   airportMarkers.addLayer(markerred);
-
+  const flyButton = document.createElement('button');
+  const buttonDiv = document.getElementById('button_div');
+  flyButton.setAttribute('id', 'fly_button');
+  flyButton.setAttribute('type', 'button');
+  flyButton.innerHTML = 'FLY';
+  flyButton.addEventListener('click', function(){
+    flyToAirport(icao)
+  });
+  buttonDiv.appendChild(flyButton);
   markerred.getPopup().on('remove', function(){
     airportMarkers.removeLayer(markerred);
   });
