@@ -36,8 +36,13 @@ const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
 const activeUser = {
   id: '',
+  frustration: '',
   location: '',
-  name: ''
+  name: '',
+  weatherId: '',
+  score: '',
+  range: '',
+  jumps: ''
 };
 
 
@@ -48,14 +53,31 @@ function deleteChildsOfElement(elementNode) {
 }
 
 
+function updatedUserData(userData) {
+  user = {
+    id: userData.id,
+    frustration: userData.frustration,
+    location: userData.location,
+    name: userData.screen_name,
+    weatherId: userData.weatherId,
+    score: userData.score,
+    range: userData.userDatarange,
+    jumps: userData.jumps
+  };
+  return user;
+}
+
+
 async function flyToAirport(icao) {
   console.log(icao, 'foobar icao')
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
-  const response_json =  response.json();
-  console.log(response_json);
+  const playerData =  response.json();
+  activeUser = updatedUserData(playerData);
+  console.log('activeUser', response_json);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
+
 
 async function createUser(){
   createUserSubmit.addEventListener('click', async(evt) => {
@@ -64,12 +86,21 @@ async function createUser(){
       const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
       const player_json = await player.json();
       // console.log(player_json);
-      activeUser.id = player_json['id'];
+      activeUser = updatedUserData(player_json);
+      /* activeUser = {
+        id: player_json.id,
+        frustration: player_json.frustration,
+        location: player_json.location,
+        name: player_json.screen_name,
+        weatherId: player_json.weatherId,
+        score: player_json.score,
+        range: player_json.range,
+        jumps: player_json.jumps
+      }; */
     }
     catch(error) {
       console.error(error);
     }
-    activeUser.name = createUserInput.value;
 
     // Delete form
 
@@ -113,7 +144,17 @@ async function selectUser() {
     const response = await fetch(`http://localhost:3000/getUser?id=${userID}`);
     const playerData = await response.json();
     console.log(playerData);
-    activeUser.name = playerData.screen_name;
+    activeUser = updatedUserData(playerData);
+    /* activeUser = {
+      id: player_json.id,
+      frustration: player_json.frustration,
+      location: player_json.location,
+      name: player_json.screen_name,
+      weatherId: player_json.weatherId,
+      score: player_json.score,
+      range: player_json.range,
+      jumps: player_json.jumps
+    }; */
   }
   catch(error) {
     console.error(error);
@@ -207,4 +248,8 @@ distanceForm.addEventListener('submit', async(evt) => {
   distanceResult.appendChild(p);
 });
 
-// Fly
+// Fly button
+flyButton.addEventListener('click', async(evt) => {
+  const icao_input = document.querySelector('input[name="dest_airport"]');
+  flyToAirport(icao_input.value);
+})

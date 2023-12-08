@@ -71,8 +71,35 @@ def distance():
 
 @app.route('/fly/')
 # User ID, Lentokenttä ICAO, Katsotaan että on etäisyyden sisällä
-def fly(icao):
-    return database.get_airport_by_coordinates(airport_lat, airport_lng)
+def fly():
+    args = request.args
+    icao = args.get('icao')
+    user_id = args.get('UserId')
+    player = database.get_player_by_id(user_id)
+    airport = database.get_airport_by_icao(icao)
+    airport_distance = module.calculate_distance(player.location, icao)
+    if airport_distance <= player.range:
+        database.update_player_location(icao, user_id)
+        module.frustration_adder(
+            player.weather_id,
+            airport.weather_id,
+            airport.iso_region,
+            player.region_goal
+        )
+        if airport.weather_id == player.weather_id:
+            new_score = player.score + 1
+            database.update_player_score(new_score, player.id)
+        if player.score == 3:
+            new_range = player.range / 2
+            database.update_player_range(new_range, player.id)
+        elif player.score == 5:
+            new_range = player.range / 2
+            database.update_player_range(new_range, player.id)
+    
+    player = database.get_player_by_id(user_id)
+
+    return json.dumps(player)
+
 
 # Flask app
 

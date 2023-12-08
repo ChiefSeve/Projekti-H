@@ -262,3 +262,23 @@ def update_player_frustration(frust, player_id):
         return True
     else:
         return 'ERROR'
+
+
+def update_player_range(new_range, player_id):
+    sql = f'''UPDATE game SET range=%s WHERE id=%s'''
+    val = (new_range, player_id)
+    my_cursor.execute(sql, val)
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'
+
+
+def update_player_score(new_score, player_id):
+    sql = f'''UPDATE game SET score=%s WHERE id=%s'''
+    val = (new_score, player_id)
+    my_cursor.execute(sql, val)
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'
