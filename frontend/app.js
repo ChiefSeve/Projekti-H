@@ -156,6 +156,7 @@ searchForm.addEventListener('submit', async (evt) => {
   const response = await fetch('http://127.0.0.1:3000/airport/' + icao);
   const airport = await response.json();
   // remove possible other markers
+
   // add marker
   const markerred = L.marker([airport.latitude_deg, airport.longitude_deg], {
     icon: redIcon
@@ -163,12 +164,12 @@ searchForm.addEventListener('submit', async (evt) => {
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`+'<br><div id="button_div"></div>').
       openPopup();
-
   airportMarkers.addLayer(markerred);
 
   const flightcircle = L.circle([airport.latitude_deg, airport.longitude_deg], {
-    radius: 2778000
+    radius: 2778000,
     //radius väliaikainen, muutetaan myöhemmin ottamaan flight_range
+    //color: "pink"
   });
   airportMarkers.addLayer(flightcircle);
 
