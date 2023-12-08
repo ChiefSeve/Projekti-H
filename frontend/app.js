@@ -2,8 +2,8 @@
 // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 // }).addTo(map);
-const map = L.map('map', maxBounds = [[25, -125], [50, -66]], minZoom =5, maxZoom = 8)
-.setView([44.08, -99.71], 5) ;
+const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =5, maxZoom = 8)
+.setView([44.08, -99.71], 6) ;
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
@@ -165,6 +165,13 @@ searchForm.addEventListener('submit', async (evt) => {
       openPopup();
 
   airportMarkers.addLayer(markerred);
+
+  const flightcircle = L.circle([airport.latitude_deg, airport.longitude_deg], {
+    radius: 2778000
+    //radius väliaikainen, muutetaan myöhemmin ottamaan flight_range
+  });
+  airportMarkers.addLayer(flightcircle);
+
   const flyButton = document.createElement('button');
   const buttonDiv = document.getElementById('button_div');
   flyButton.setAttribute('id', 'fly_button');
@@ -176,11 +183,12 @@ searchForm.addEventListener('submit', async (evt) => {
   buttonDiv.appendChild(flyButton);
   markerred.getPopup().on('remove', function(){
     airportMarkers.removeLayer(markerred);
+    airportMarkers.removeLayer(flightcircle);
   });
 
 
   // pan map to selected airport
-  //map.flyTo([airport.latitude_deg, airport.longitude_deg]);
+  map.flyTo([airport.latitude_deg, airport.longitude_deg]);
 });
 
 // Calculate distance between airports
