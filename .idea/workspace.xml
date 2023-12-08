@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a55c89f6-d980-42db-8abb-d70ee0971b48" name="Changes" comment="lentoympyrä asetuksia pelleilty">
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/helpers/database_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/helpers/database_helpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/modules/app_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/modules/app_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Juhowm&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="5ecb618f-d223-4046-8308-5aebaa360455" />
+        <option name="url" value="https://github.com/ChiefSeve/Projekti-H.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2W480dE2NtPvep62actPTUJ1xek" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging ohjelmisto2",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Juho Mäkeläinen/PycharmProjects/Projekti-H/venv/Lib/site-packages/_virtualenv.pth",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="app.js" type="NodeJSConfigurationType" path-to-node="$PROJECT_DIR$/../../Projekti-H/venv/Lib/site-packages/_virtualenv.pth" nameIsGenerated="true" path-to-js-file="app.js" working-dir="$PROJECT_DIR$/frontend">
+      <method v="2" />
+    </configuration>
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Projekti-H" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.9 (Projekti-H)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a55c89f6-d980-42db-8abb-d70ee0971b48" name="Changes" comment="" />
+      <created>1695980270582</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695980270582</updated>
+      <workItem from="1695980271882" duration="7851000" />
+      <workItem from="1696327818776" duration="38153000" />
+      <workItem from="1698054354748" duration="140000" />
+      <workItem from="1701689882188" duration="19831000" />
+    </task>
+    <task id="LOCAL−00001" summary="frustration_adder added">
+      <option name="closed" value="true" />
+      <created>1695983334273</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1695983334273</updated>
+    </task>
+    <task id="LOCAL−00002" summary="frustration_adder added">
+      <option name="closed" value="true" />
+      <created>1695983361587</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1695983361587</updated>
+    </task>
+    <task id="LOCAL−00003" summary="frustration_adder added">
+      <option name="closed" value="true" />
+      <created>1696337066203</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1696337066203</updated>
+    </task>
+    <task id="LOCAL−00004" summary="Säätilageneraattoriin lisätty rajauksia">
+      <option name="closed" value="true" />
+      <created>1696500258331</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1696500258332</updated>
+    </task>
+    <task id="LOCAL−00005" summary="lentokenttärajoitus poistettu">
+      <option name="closed" value="true" />
+      <created>1696507480844</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1696507480844</updated>
+    </task>
+    <task id="LOCAL−00006" summary="generoidaan enemmän säitä">
+      <option name="closed" value="true" />
+      <created>1696508104429</created>
+      <option name="number" value="LOCAL−00006" />
+      <option name="presentableId" value="LOCAL−00006" />
+      <updated>1696508104429</updated>
+    </task>
+    <task id="LOCAL−00007" summary="Frustadderiin lisätty region-ehto">
+      <option name="closed" value="true" />
+      <created>1696589107119</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1696589107119</updated>
+    </task>
+    <task id="LOCAL−00008" summary="Frustadderiin lisätty region-ehto">
+      <option name="closed" value="true" />
+      <created>1696590113559</created>
+      <option name="number" value="LOCAL−00008" />
+      <option name="presentableId" value="LOCAL−00008" />
+      <updated>1696590113559</updated>
+    </task>
+    <task id="LOCAL−00009" summary="Frustadderiin lisätty ehtoja">
+      <option name="closed" value="true" />
+      <created>1696590336224</created>
+      <option name="number" value="LOCAL−00009" />
+      <option name="presentableId" value="LOCAL−00009" />
+      <updated>1696590336224</updated>
+    </task>
+    <task id="LOCAL−00010" summary="Frustadder korjattu">
+      <option name="closed" value="true" />
+      <created>1696877987749</created>
+      <option name="number" value="LOCAL−00010" />
+      <option name="presentableId" value="LOCAL−00010" />
+      <updated>1696877987749</updated>
+    </task>
+    <task id="LOCAL−00011" summary="kartta pomppaa nyt takasiin karkeasti pohjois-amerikkaan">
+      <option name="closed" value="true" />
+      <created>1701695992041</created>
+      <option name="number" value="LOCAL−00011" />
+      <option name="presentableId" value="LOCAL−00011" />
+      <updated>1701695992041</updated>
+    </task>
+    <task id="LOCAL−00012" summary="kartan zoomaus rajattu">
+      <option name="closed" value="true" />
+      <created>1701765160944</created>
+      <option name="number" value="LOCAL−00012" />
+      <option name="presentableId" value="LOCAL−00012" />
+      <updated>1701765160945</updated>
+    </task>
+    <task id="LOCAL−00013" summary="punainen täppä saatu lähtemään">
+      <option name="closed" value="true" />
+      <created>1701948662377</created>
+      <option name="number" value="LOCAL−00013" />
+      <option name="presentableId" value="LOCAL−00013" />
+      <updated>1701948662377</updated>
+    </task>
+    <task id="LOCAL−00014" summary="lentoympyrä lisätty alustavasti, kameran liikkeen rajoja kasvatettu">
+      <option name="closed" value="true" />
+      <created>1702028167197</created>
+      <option name="number" value="LOCAL−00014" />
+      <option name="presentableId" value="LOCAL−00014" />
+      <updated>1702028167198</updated>
+    </task>
+    <task id="LOCAL−00015" summary="lentoympyrä asetuksia pelleilty">
+      <option name="closed" value="true" />
+      <created>1702028946215</created>
+      <option name="number" value="LOCAL−00015" />
+      <option name="presentableId" value="LOCAL−00015" />
+      <updated>1702028946215</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge remote-tracking branch 'origin/first_features' into first_features" />
+    <MESSAGE value="frustration_adder added" />
+    <MESSAGE value="Säätilageneraattoriin lisätty rajauksia" />
+    <MESSAGE value="lentokenttärajoitus poistettu" />
+    <MESSAGE value="generoidaan enemmän säitä" />
+    <MESSAGE value="Frustadderiin lisätty region-ehto" />
+    <MESSAGE value="Frustadderiin lisätty ehtoja" />
+    <MESSAGE value="Frustadder korjattu" />
+    <MESSAGE value="kartta pomppaa nyt takasiin karkeasti pohjois-amerikkaan" />
+    <MESSAGE value="kartan zoomaus rajattu" />
+    <MESSAGE value="punainen täppä saatu lähtemään" />
+    <MESSAGE value="lentoympyrä lisätty alustavasti, kameran liikkeen rajoja kasvatettu" />
+    <MESSAGE value="lentoympyrä asetuksia pelleilty" />
+    <option name="LAST_COMMIT_MESSAGE" value="lentoympyrä asetuksia pelleilty" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Projekti_H$wege.coverage" NAME="wege Coverage Results" MODIFIED="1696502909645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projekti_H$testifilu.coverage" NAME="testifilu Coverage Results" MODIFIED="1696500101959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projekti_H$connector.coverage" NAME="connector Coverage Results" MODIFIED="1701692586163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/helpers" />
+    <SUITE FILE_PATH="coverage/Projekti_H$app.coverage" NAME="app Coverage Results" MODIFIED="1702027023382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+  </component>
+</project>
