@@ -101,11 +101,7 @@ INSERT INTO `airport` (`id`, `ident`, `type`, `name`, `latitude_deg`, `longitude
 	(3913, 'KSYR', 'large_airport', 'Syracuse Hancock International Airport', 43.11119842529297, -76.1063003540039, 'Syracuse', 16),
 	(3926, 'KTPA', 'large_airport', 'Tampa International Airport', 27.975500106811523, -82.533203125, 'Tampa', 25),
 	(3930, 'KTUL', 'large_airport', 'Tulsa International Airport', 36.19839859008789, -95.88809967041016, 'Tulsa', 6),
-	(342308, 'LHS', 'large_airport', 'Lake Havasu City International Airport', 34.43826, -114.222531, 'Lake Havasu City', 4),
-	(5360, 'PAFA', 'large_airport', 'Fairbanks International Airport', 64.81510162, -147.8560028, 'Fairbanks', 8),
-	(5388, 'PANC', 'large_airport', 'Ted Stevens Anchorage International Airp', 61.1744, -149.996002, 'Anchorage', 28),
-	(5453, 'PHNL', 'large_airport', 'Daniel K Inouye International Airport', 21.32062, -157.924228, 'Honolulu', 20);
-
+	(342308, 'LHS', 'large_airport', 'Lake Havasu City International Airport', 34.43826, -114.222531, 'Lake Havasu City', 4);
 -- Dumping structure for taulu flight_game.game
 DROP TABLE IF EXISTS `game`;
 CREATE TABLE IF NOT EXISTS `game` (

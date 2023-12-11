@@ -49,7 +49,7 @@ def users():
 @app.route('/airportsAll/')
 def countries_by_continent():
     result = database.get_all_airports()
-    return result
+    return json.dumps(result)
 
 
 @app.route('/airport/<icao>')
@@ -96,15 +96,21 @@ def fly():
             player["region_goal"]
         )
         new_frust = player["frustration"] + frust
-        database.update_player_frustration(new_frust, player["id"])
-        if airport["weather_id"] == player["weather_id"]:
-            new_score = player["score"] + 1
-            database.update_player_score(new_score, player["id"])
-        if player["score"] == 3 or player["Score"] == 5:
-            new_range = player["range"] / 2
-            database.update_player_range(new_range, player["id"])
-        """ if player["score"] >= 5:
-            database.    """         
+        if new_frust >= 100:
+            database.clear_player_data(player['id'])
+            return 'END'
+        else:
+            database.update_player_frustration(new_frust, player["id"])
+            if airport["weather_id"] == player["weather_id"]:
+                new_score = player["score"] + 1
+                database.update_player_score(new_score, player["id"])
+                module.create_new_weather_goal(player['id'])
+            if player["score"] == 3:
+                new_range = player["range"] / 2
+                database.update_player_range(new_range, player["id"])
+            elif player["score"] == 5:
+                new_range = player["range"] / 2
+                database.update_player_range(new_range, player["id"])
     
     player = database.get_player_by_id(user_id)
 
