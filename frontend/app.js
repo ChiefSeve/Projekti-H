@@ -1,13 +1,14 @@
 const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =5, maxZoom = 8)
-.setView([44.08, -99.71], 6) ;
+.setView([37, -90], 4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
 map.setMaxBounds(maxBounds)
 map.fitBounds(maxBounds)
-map.setMinZoom(minZoom)
 map.setMaxZoom(maxZoom)
+map.setMinZoom(minZoom)
+
 
 const redIcon = new L.Icon({
 iconUrl:
