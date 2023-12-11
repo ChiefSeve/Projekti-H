@@ -214,6 +214,10 @@ async function selectUser() {
   deleteChildsOfElement(userDialog);
 }
 
+function gameOverScreen(playerData) {
+  
+}
+
 window.addEventListener('load', async function(evt) {
   evt.preventDefault();
   const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');

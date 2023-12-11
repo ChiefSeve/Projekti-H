@@ -100,12 +100,11 @@ def fly():
         if airport["weather_id"] == player["weather_id"]:
             new_score = player["score"] + 1
             database.update_player_score(new_score, player["id"])
-        if player["score"] == 3:
+        if player["score"] == 3 or player["Score"] == 5:
             new_range = player["range"] / 2
             database.update_player_range(new_range, player["id"])
-        elif player["score"] == 5:
-            new_range = player["range"] / 2
-            database.update_player_range(new_range, player["id"])
+        """ if player["score"] >= 5:
+            database.    """         
     
     player = database.get_player_by_id(user_id)
 
