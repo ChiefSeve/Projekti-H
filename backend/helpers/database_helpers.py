@@ -64,7 +64,6 @@ def update_airport_weather(weather_id):
     weather = get_random_weather_id(weather_id)
     sql = f'''UPDATE airport SET weather_id = %s WHERE id = %s'''
     my_cursor.execute(sql, (weather['id'], airports['id']))
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
@@ -122,7 +121,6 @@ def update_region_airport_weather(weather_id, region):
     new_sql = '''UPDATE airport SET weather_id = %s WHERE id = %s'''
     val = (weather_id, data['id'])
     my_cursor.execute(new_sql, val)
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
@@ -174,7 +172,6 @@ def update_player_goal(weather_id, user_id):
     sql = f'''UPDATE game SET weather_id = %s WHERE id = %s'''
     values = (weather_id, user_id)
     my_cursor.execute(sql, values)
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
@@ -225,7 +222,6 @@ def create_user_by_name(name, start_airport, start_weather):
     sql = f"INSERT INTO game (screen_name, frustration, location, weather_id, score, range, jumps) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = (name, 0, start_airport['ident'], start_weather['id'], 0, 2778, 0)
     my_cursor.execute(sql, values)
-    # connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
@@ -235,7 +231,6 @@ def create_user_by_name(name, start_airport, start_weather):
 def reset_frustration(player_id):
     sql = f'''UPDATE game SET frustration=0 WHERE id=%s'''
     my_cursor.execute(sql, (player_id,))
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:
@@ -256,7 +251,6 @@ def update_player_frustration(frust, player_id):
     sql = f'''UPDATE game SET frustration=%s WHERE id=%s'''
     val = (frust, player_id)
     my_cursor.execute(sql, val)
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:

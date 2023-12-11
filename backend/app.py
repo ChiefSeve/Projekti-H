@@ -97,7 +97,7 @@ def fly():
             player["region_goal"]
         )
         new_frust = player["frustration"] + frust
-        database.update_player_frustration(new_frust)
+        database.update_player_frustration(new_frust, player["id"])
         if airport["weather_id"] == player["weather_id"]:
             new_score = player["score"] + 1
             database.update_player_score(new_score, player["id"])

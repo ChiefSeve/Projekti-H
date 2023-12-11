@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `airport` (
   `name` varchar(40) DEFAULT NULL,
   `latitude_deg` double DEFAULT NULL,
   `longitude_deg` double DEFAULT NULL,
-  `municipality` varchar(40) DEFAULT NULL,
+  `iso_region` varchar(40) DEFAULT NULL,
   `weather_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ident`),
   KEY `weather_id` (`weather_id`),
