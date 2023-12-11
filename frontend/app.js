@@ -1,7 +1,3 @@
-// const map = L.map('map').setView([44.08, -99.71], 5);
-// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-// }).addTo(map);
 const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =5, maxZoom = 8)
 .setView([44.08, -99.71], 6) ;
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
