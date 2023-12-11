@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `airport` (
 
 -- Dumping data for table flight_game.airport: ~66 rows (suunnilleen)
 DELETE FROM `airport`;
-INSERT INTO `airport` (`id`, `ident`, `type`, `name`, `latitude_deg`, `longitude_deg`, `municipality`, `weather_id`) VALUES
+INSERT INTO `airport` (`id`, `ident`, `type`, `name`, `latitude_deg`, `longitude_deg`, `iso_region`, `weather_id`) VALUES
 	(3364, 'KADW', 'large_airport', 'Joint Base Andrews', 38.810799, -76.866997, 'Camp Springs', 29),
 	(3384, 'KATL', 'large_airport', 'Hartsfield Jackson Atlanta International', 33.6367, -84.428101, 'Atlanta', 12),
 	(3386, 'KAUS', 'large_airport', 'Austin Bergstrom International Airport', 30.197535, -97.662015, 'Austin', 17),
