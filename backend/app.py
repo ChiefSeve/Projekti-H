@@ -23,9 +23,8 @@ def get_screen_names():
 def create_user():
     args = request.args
     screen_name = args.get('screen_name')
-    airport = database.get_random_airport()
-    weather = database.get_random_weather()
-    database.create_user_by_name(screen_name, airport, weather)
+    module.create_user(screen_name)
+
     player = database.find_player(screen_name)
     return json.dumps(player)
 

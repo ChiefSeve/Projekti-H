@@ -219,8 +219,8 @@ def get_all_screen_names():
 
 
 def create_user_by_name(name, start_airport, start_weather):
-    sql = f"INSERT INTO game (screen_name, frustration, location, weather_id, score, range, jumps) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = (name, 0, start_airport['ident'], start_weather['id'], 0, 2778, 0)
+    sql = f"INSERT INTO game (screen_name, frustration, location, weather_id, score, jumps) VALUES (%s, %s, %s, %s, %s, %s)"
+    values = (name, 0, start_airport['ident'], start_weather['id'], 0, 0)
     my_cursor.execute(sql, values)
     if my_cursor.rowcount:
         return True
