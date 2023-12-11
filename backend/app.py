@@ -98,6 +98,7 @@ def fly():
         new_frust = player["frustration"] + frust
         if new_frust >= 100:
             database.clear_player_data(player['id'])
+            return 'END'
         else:
             database.update_player_frustration(new_frust, player["id"])
             if airport["weather_id"] == player["weather_id"]:
