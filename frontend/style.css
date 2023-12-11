@@ -21,6 +21,15 @@ dialog form {
     height: 100vh;
 }
 
+#info {
+    background-color: #ccc;
+    position: absolute;
+    left: 2rem;
+    top: 5rem;
+    padding: 1rem;
+    z-index: 999;
+}
+
 form {
     position: absolute;
     right: 2rem;

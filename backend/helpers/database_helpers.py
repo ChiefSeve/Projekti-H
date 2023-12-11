@@ -49,7 +49,7 @@ def get_airports_by_weather_and_region(weather_id, iso_region):
 
 
 def get_airport_by_icao(icao):
-    sql = f'''select iso_country, ident, name, latitude_deg, longitude_deg, weather_id, iso_region
+    sql = f'''select ident, name, latitude_deg, longitude_deg, weather_id, iso_region
      FROM airport WHERE ident = %s'''
     my_cursor.execute(sql, (icao,))
     result = my_cursor.fetchone()
@@ -222,7 +222,7 @@ def get_all_screen_names():
 
 
 def create_user_by_name(name, start_airport, start_weather):
-    sql = f'''INSERT INTO game (screen_name, frustration, location, weather_id, score, range, jumps) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
+    sql = f"INSERT INTO game (screen_name, frustration, location, weather_id, score, range, jumps) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = (name, 0, start_airport['ident'], start_weather['id'], 0, 2778, 0)
     my_cursor.execute(sql, values)
     # connector.mydb.commit()
@@ -246,7 +246,6 @@ def update_player_location(icao, player):
     sql = f'''UPDATE game SET location=%s WHERE id=%s'''
     val = (icao, player)
     my_cursor.execute(sql, val)
-    connector.mydb.commit()
     if my_cursor.rowcount:
         return True
     else:

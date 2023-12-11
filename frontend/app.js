@@ -34,7 +34,8 @@ const airport2 = document.querySelector('input[name=airport2]');
 const flyButton = document.getElementById('fly_button');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
-const activeUser = {
+const info = document.getElementById('info');
+let activeUser = {
   id: '',
   frustration: '',
   location: '',
@@ -52,17 +53,64 @@ function deleteChildsOfElement(elementNode) {
   }
 }
 
+async function updateInfo(infoNode, playerObject) {
+  // Clear previous info
+  deleteChildsOfElement(infoNode);
+
+  // Create texts
+  const nameNode = document.createElement('p');
+  const locationNode = document.createElement('p');
+  const scoreNode = document.createElement('p');
+  const frustrationNode = document.createElement('p');
+  const weatherNode = document.createElement('p');
+  const rangeNode = document.createElement('p');
+
+  // Text contents
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerObject.weatherId}`);
+    const weatherObject = await response.json();
+    weatherNode.textContent = `Weather Goal: ${weatherObject.status} ${weatherObject.temperature}`;
+  }
+  catch(error) {
+    console.error(error);
+  }
+  nameNode.textContent = `Name: ${playerObject.name}`;
+  locationNode.textContent = `Location: ${playerObject.location}`;
+  scoreNode.textContent = `Score: ${playerObject.score}`;
+  frustrationNode.textContent = `Frustration: ${playerObject.frustration}`;
+  rangeNode.textContent = `Range: ${playerObject.range}`;
+
+  // Appends
+  const nodes = [
+    nameNode,
+    locationNode,
+    scoreNode,
+    frustrationNode,
+    weatherNode,
+    rangeNode
+  ];
+  nodes.forEach(node => {
+    infoNode.appendChild(node);
+  })
+  /* infoNode.appendChild(nameNode);
+  infoNode.appendChild(locationNode);
+  infoNode.appendChild(scoreNode);
+  infoNode.appendChild(frustrationNode);
+  infoNode.appendChild(weatherNode);
+  infoNode.appendChild(rangeNode); */
+}
 
 function updatedUserData(userData) {
+  // Data comes directly from database. Not activeUser
   user = {
     id: userData.id,
-    frustration: userData.frustration,
-    location: userData.location,
-    name: userData.screen_name,
-    weatherId: userData.weatherId,
-    score: userData.score,
-    range: userData.userDatarange,
-    jumps: userData.jumps
+    frustration: userData['frustration'],
+    location: userData['location'],
+    name: userData['screen_name'],
+    weatherId: userData['weather_id'],
+    score: userData['score'],
+    range: userData['range'],
+    jumps: userData['jumps']
   };
   return user;
 }
@@ -71,9 +119,10 @@ function updatedUserData(userData) {
 async function flyToAirport(icao) {
   console.log(icao, 'foobar icao')
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
-  const playerData =  response.json();
+  const playerData =  await response.json();
   activeUser = updatedUserData(playerData);
-  console.log('activeUser', response_json);
+  updateInfo(info, activeUser);
+  console.log('activeUser', activeUser);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -87,6 +136,8 @@ async function createUser(){
       const player_json = await player.json();
       // console.log(player_json);
       activeUser = updatedUserData(player_json);
+      updateInfo(inof, activeUser);
+      console.log(activeUser);
       /* activeUser = {
         id: player_json.id,
         frustration: player_json.frustration,
@@ -143,8 +194,9 @@ async function selectUser() {
   try {
     const response = await fetch(`http://localhost:3000/getUser?id=${userID}`);
     const playerData = await response.json();
-    console.log(playerData);
     activeUser = updatedUserData(playerData);
+    console.log('ActiveUser', activeUser)
+    updateInfo(info, activeUser);
     /* activeUser = {
       id: player_json.id,
       frustration: player_json.frustration,
@@ -243,13 +295,13 @@ distanceForm.addEventListener('submit', async(evt) => {
   const airport2Icao = airport2.value;
   const response = await fetch(`http://127.0.0.1:3000/calculateDistance?from=${airport1Icao}&to=${airport2Icao}`);
   const distance =await response.json();
-  console.log(distance, 'distance')
   p.innerText = Math.floor(distance) + 'km';
   distanceResult.appendChild(p);
 });
 
 // Fly button
 flyButton.addEventListener('click', async(evt) => {
+  evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
   flyToAirport(icao_input.value);
 })
