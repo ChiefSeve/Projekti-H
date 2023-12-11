@@ -20,6 +20,7 @@ iconAnchor: [12, 41],
 popupAnchor: [1, -34]
 });
 const airportMarkers = L.featureGroup().addTo(map);
+const locMarker = L.featureGroup().addTo(map);
 const userDialog = document.getElementById('user_dialog')
 const createUserSubmit = document.getElementById('create_user_submit');
 const createUserInput = document.getElementById('create_user_input');
@@ -130,15 +131,13 @@ async function drawOnLocation(icao){
   const markerplayer = L.marker([locData.latitude_deg, locData.longitude_deg], {
     icon: redIcon
   }).addTo(map);
-  locMarker.removeLayer(markerplayer).
-  addLayer(markerplayer);
+  locMarker.addLayer(markerplayer);
 
   const flightcircleplayer = L.circle([locData.latitude_deg, locData.longitude_deg], {
     radius: activeUser.range * 1000,
     //color: "pink"
   });
-  locMarker.removeLayer(flightcircleplayer).
-  addLayer(flightcircleplayer);
+  locMarker.addLayer(flightcircleplayer);
 }
 
 async function createUser(){
