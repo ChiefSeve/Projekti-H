@@ -58,10 +58,10 @@ def all_airports_in_range(icao, flight_range):
     return airports_in_range
 
 
-def create_new_weather_goal(player_id, player_name):
+def create_new_weather_goal(player_id):
     weather_id = connector.get_assigned_weather_id()
     weather = connector.get_weather_info(weather_id)
-    user = connector.find_player(player_name)
+    user = connector.get_player_by_id(player_id)
     user_location = connector.get_airport_by_icao(user["location"])
     while weather["id"] == user_location["weather_id"]:
         weather_id = connector.get_assigned_weather_id()

@@ -113,12 +113,10 @@ function updatedUserData(userData) {
 
 
 async function flyToAirport(icao) {
-  console.log(icao, 'foobar icao')
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
   const playerData =  await response.json();
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
-  console.log('activeUser', activeUser);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -130,10 +128,8 @@ async function createUser(){
     try {
       const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
       const player_json = await player.json();
-      // console.log(player_json);
       activeUser = updatedUserData(player_json);
       updateInfo(inof, activeUser);
-      console.log(activeUser);
       /* activeUser = {
         id: player_json.id,
         frustration: player_json.frustration,
@@ -191,7 +187,6 @@ async function selectUser() {
     const response = await fetch(`http://localhost:3000/getUser?id=${userID}`);
     const playerData = await response.json();
     activeUser = updatedUserData(playerData);
-    console.log('ActiveUser', activeUser)
     updateInfo(info, activeUser);
     /* activeUser = {
       id: player_json.id,
@@ -217,13 +212,15 @@ window.addEventListener('load', async function(evt) {
   evt.preventDefault();
   const respAir = await fetch('http://127.0.0.1:3000/airportsAll/');
   const airportsData = await respAir.json();
-  airportsData.forEach(airport =>{
+  for (const airport of airportsData) {
+    const weatherResp = await fetch(`http://127.0.0.1:3000/weather?weather=${airport.weather_id}`);
+    const weatherData = await weatherResp.json();
     const airportIcao = airport.ident
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`);
+    bindPopup(`${airport.name}(${airport.ident})`+ '<br>' + `Olosuhde: ${weatherData.status}` + '<br>' + `Lämpötila: ${weatherData.temperature}C`);
   airportMarkers.addLayer(marker);
-  })
+  }
   const usersResp = await fetch('http://127.0.0.1:3000/getUser/all');
   const userData = await usersResp.json();
   // Create create/select user form

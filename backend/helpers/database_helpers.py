@@ -83,12 +83,14 @@ def get_all_airport_icaos():
         return 'ERROR'
 
 
+
+
 def get_all_airports():
-    sql = f'''SELECT name, ident, latitude_deg, longitude_deg
+    sql = f'''SELECT name, ident, latitude_deg, longitude_deg, weather_id
               FROM airport'''
     my_cursor.execute(sql)
     result = my_cursor.fetchall()
-    return json.dumps(result)
+    return result
 
 
 def get_airport_by_coordinates(lat, lng):
@@ -270,6 +272,16 @@ def update_player_range(new_range, player_id):
 def update_player_score(new_score, player_id):
     sql = f'''UPDATE game SET score=%s WHERE id=%s'''
     val = (new_score, player_id)
+    my_cursor.execute(sql, val)
+    if my_cursor.rowcount:
+        return True
+    else:
+        return 'ERROR'
+
+
+def clear_player_data(playerId):
+    sql = f'''UPDATE game SET frustration = 0, region_goal = 'null', jumps = 0 WHERE id = %s '''
+    val = (playerId,)
     my_cursor.execute(sql, val)
     if my_cursor.rowcount:
         return True
