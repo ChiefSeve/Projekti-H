@@ -20,6 +20,7 @@ iconAnchor: [12, 41],
 popupAnchor: [1, -34]
 });
 const airportMarkers = L.featureGroup().addTo(map);
+const locMarker = L.featureGroup().addTo(map);
 const userDialog = document.getElementById('user_dialog')
 const createUserSubmit = document.getElementById('create_user_submit');
 const createUserInput = document.getElementById('create_user_input');
@@ -116,10 +117,26 @@ async function flyToAirport(icao) {
   if ():
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
+  console.log('activeUser', activeUser);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
 
+async function drawOnLocation(icao){
+  console.log(icao, 'tarkastus')
+  const response = await fetch('http://127.0.0.1:3000/airport/' + icao);
+  const locData = await response.json();
+  const markerplayer = L.marker([locData.latitude_deg, locData.longitude_deg], {
+    icon: redIcon
+  }).addTo(map);
+  locMarker.addLayer(markerplayer);
+
+  const flightcircleplayer = L.circle([locData.latitude_deg, locData.longitude_deg], {
+    radius: activeUser.range * 1000,
+    //color: "pink"
+  });
+  locMarker.addLayer(flightcircleplayer);
+}
 
 async function createUser(){
   createUserSubmit.addEventListener('click', async(evt) => {
@@ -316,11 +333,5 @@ distanceForm.addEventListener('submit', async(evt) => {
 flyButton.addEventListener('click', async(evt) => {
   evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
-  if (flyToAirport(icao_input.value) == 'END') {
-    gameOverScreen(activeUser, userDialog);
-    return;
-  }
-  else {
-    return;
-  }
+  flyToAirport(icao_input.value);
 })
