@@ -54,13 +54,23 @@ async function updateInfo(infoNode, playerObject) {
   // Clear previous info
   deleteChildsOfElement(infoNode);
 
-  // Create texts
+  // Creating nodes
   const nameNode = document.createElement('p');
   const locationNode = document.createElement('p');
   const scoreNode = document.createElement('p');
   const frustrationNode = document.createElement('p');
   const weatherNode = document.createElement('p');
   const rangeNode = document.createElement('p');
+
+  // Node Array
+  const nodes = [
+    nameNode,
+    locationNode,
+    scoreNode,
+    frustrationNode,
+    weatherNode,
+    rangeNode
+  ];
 
   // Text contents
   try {
@@ -78,23 +88,9 @@ async function updateInfo(infoNode, playerObject) {
   rangeNode.textContent = `Range: ${playerObject.range}`;
 
   // Appends
-  const nodes = [
-    nameNode,
-    locationNode,
-    scoreNode,
-    frustrationNode,
-    weatherNode,
-    rangeNode
-  ];
   nodes.forEach(node => {
     infoNode.appendChild(node);
   })
-  /* infoNode.appendChild(nameNode);
-  infoNode.appendChild(locationNode);
-  infoNode.appendChild(scoreNode);
-  infoNode.appendChild(frustrationNode);
-  infoNode.appendChild(weatherNode);
-  infoNode.appendChild(rangeNode); */
 }
 
 function updatedUserData(userData) {
@@ -114,8 +110,10 @@ function updatedUserData(userData) {
 
 
 async function flyToAirport(icao) {
-  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao}&userId=${activeUser.id}`);
+  const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const playerData =  await response.json();
+  console.log('playerData', playerData)
+  if ():
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
@@ -130,7 +128,7 @@ async function createUser(){
       const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
       const player_json = await player.json();
       activeUser = updatedUserData(player_json);
-      updateInfo(inof, activeUser);
+      updateInfo(info, activeUser);
       /* activeUser = {
         id: player_json.id,
         frustration: player_json.frustration,
@@ -209,8 +207,25 @@ async function selectUser() {
   deleteChildsOfElement(userDialog);
 }
 
-function gameOverScreen(playerData) {
-  
+function gameOverScreen(playerData, dialogNode) {
+  // Creating of nodes
+  const gameOverNode = document.createElement('p');
+  const playerScoreNode = document.createElement('p');
+
+  // Node Array
+  const nodes = [
+    gameOverNode,
+    playerScoreNode
+  ];
+
+  // Node contents
+  gameOverNode.textContent = 'Game Over';
+  playerScoreNode.textContent = `Score: ${playerData.score}`;
+
+  // Appends
+  nodes.forEach(node => {
+    dialogNode.appendChild(node);
+  });
 }
 
 window.addEventListener('load', async function(evt) {
@@ -301,5 +316,11 @@ distanceForm.addEventListener('submit', async(evt) => {
 flyButton.addEventListener('click', async(evt) => {
   evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
-  flyToAirport(icao_input.value);
+  if (flyToAirport(icao_input.value) == 'END') {
+    gameOverScreen(activeUser, userDialog);
+    return;
+  }
+  else {
+    return;
+  }
 })

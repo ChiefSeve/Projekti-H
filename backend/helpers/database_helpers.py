@@ -9,7 +9,7 @@ my_cursor = db.get_conn().cursor(dictionary=True, buffered=True) # connector.myd
 # Airport
 
 def get_random_airport():
-    sql = f'SELECT name, type, id, ident FROM airport ORDER BY RAND()'
+    sql = f'SELECT * FROM airport ORDER BY RAND()'
     my_cursor.execute(sql)
     result = my_cursor.fetchone()
     if result:
