@@ -37,7 +37,7 @@ const airport2 = document.querySelector('input[name=airport2]');
 const flyForm = document.getElementById('fly_form');
 const flyButton = document.getElementById('fly_button');
 const airportsArticle = document.getElementById('airports_article');
-const airportsHeading = document.getElementById('airports_h');
+const airportsHeading = document.getElementById('airports_heading');
 const airportsRefresh = document.getElementById('airports_refresh');
 const airportsList = document.getElementById('airports_ul');
 const tooFar = document.getElementById('too_far');
@@ -122,8 +122,32 @@ function updatedUserData(userData) {
 }
 
 async function refreshAirports() {
+  airportsHeading.textContent = '';
+  airportsList.innerHTML = '';
   const WeatherId = activeUser.weatherId;
-  const weather = await fetch(`http://127.0.0.1:3000/weather?weather=${weather}`);
+  // Update Heading
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/weather?weather=${WeatherId}`);
+    const weather = await response.json();
+    airportsHeading.textContent = `${weather.status} and ${weather.temperature}`;
+  }
+  catch(error) {
+    console.error(error);
+  }
+  // Update List
+  try {
+    const response = await fetch(`http://127.0.0.1:3000/airport/${WeatherId}`);
+    console.log('response', response);
+    const airports = await response.json();
+    console.log('airports', airports);
+    airports.forEach(airport => {
+      airportsList.innerHTML += `<li>${airport.ident} - ${airport.name}</li>`
+    })
+  }
+  catch(error) {
+    console.error(error);
+  }
+  return;
 }
 
 async function flyToAirport(icao) {
@@ -361,4 +385,9 @@ flyButton.addEventListener('click', async(evt) => {
   evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
   await flyToAirport(icao_input.value);
+})
+
+// Airports list
+airportsRefresh.addEventListener('click', async() => {
+  refreshAirports();
 })
