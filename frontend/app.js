@@ -298,7 +298,7 @@ searchForm.addEventListener('submit', async (evt) => {
     icon: redIcon
   }).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br><div id="button_div"></div>').
+      bindPopup(`${airport.name}(${airport.ident})`).
       openPopup();
   airportMarkers.addLayer(markerred);
 
@@ -309,15 +309,6 @@ searchForm.addEventListener('submit', async (evt) => {
   });
   airportMarkers.addLayer(flightcircle);
 
-  const flyButton = document.createElement('button');
-  const buttonDiv = document.getElementById('button_div');
-  flyButton.setAttribute('id', 'fly_button');
-  flyButton.setAttribute('type', 'button');
-  flyButton.innerHTML = 'FLY';
-  flyButton.addEventListener('click', function(){
-    flyToAirport(icao)
-  });
-  buttonDiv.appendChild(flyButton);
   markerred.getPopup().on('remove', function(){
     airportMarkers.removeLayer(markerred);
     airportMarkers.removeLayer(flightcircle);
