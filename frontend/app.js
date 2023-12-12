@@ -210,13 +210,15 @@ async function createUserSelectForm(userData){
   userForm.appendChild(userSelect);
   userForm.appendChild(userButton);
   userDialog.appendChild(userForm);
-  userData.forEach(user => {
+  console.log()
+  if (userData !== 'no data') {
+     userData.forEach(user => {
     const option = document.createElement('option');
     option.value = user.id;
     option.innerHTML = user.screen_name;
     userSelect.appendChild(option)
-
   });
+  }
 }
 
 
