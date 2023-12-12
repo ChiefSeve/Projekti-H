@@ -36,7 +36,16 @@ dialog p {
     z-index: 999;
 }
 
-form {
+h3 {
+    display: inline;
+}
+
+#airports_refresh {
+    display: block;
+    margin-top: 10px;
+}
+
+form, article {
     z-index: 999;
     padding: 1rem;
     background-color: #ccc;
