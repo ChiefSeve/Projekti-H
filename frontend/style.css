@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Verdana, sans-serif;
-    color: white;
+    color: yellow;
 
 }
 
@@ -21,7 +21,7 @@ dialog p {
     z-index: 999;
     padding: 3rem;
     border: 1px black solid;
-    background-color: #ccc;
+    background-color: #6b4b4ba1;
     align-self: center;
     justify-content: center;
 }
@@ -43,7 +43,7 @@ dialog p {
 }
 
 #info {
-    background-color: #ccc;
+    background-color: #6b4b4ba1;
     position: absolute;
     left: 2rem;
     top: 5rem;
@@ -53,7 +53,7 @@ dialog p {
 
 h3 {
     display: inline;
-    color: white;
+    color: yellow;
     -webkit-text-stroke-width:0.8px ;
     -webkit-text-stroke-color:black ;
 }
@@ -66,8 +66,8 @@ h3 {
 form, article {
     z-index: 999;
     padding: 1rem;
-    background-color: #ccc;
-    border: 1px solid #000;
+    background-color: #6b4b4ba1;
+    border: 1px solid black;
     width: 20rem;
 }
 
