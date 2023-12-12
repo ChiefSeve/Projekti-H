@@ -137,10 +137,10 @@ async function flyToAirport(icao) {
     return;
   }
   activeUser = updatedUserData(playerData);
-  updateInfo(info, activeUser);
-  await drawOnLocation(activeUser.location)
+  await updateInfo(info, activeUser);
+  locMarker.clearLayers();
+  await drawOnLocation(activeUser.location);
   console.log('siirtyi');
-  return;
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -151,7 +151,6 @@ async function drawOnLocation(icao){
   const markerplayer = L.marker([locData.latitude_deg, locData.longitude_deg], {
     icon: redIcon
   }).addTo(map);
-  locMarker.clearLayers();
   locMarker.addLayer(markerplayer);
 
   const flightcircleplayer = L.circle([locData.latitude_deg, locData.longitude_deg], {
@@ -304,7 +303,7 @@ searchForm.addEventListener('submit', async (evt) => {
 
   // add marker
   const markerred = L.marker([airport.latitude_deg, airport.longitude_deg], {
-    icon: redIcon
+    icon: redIcon, color: 'orange'
   }).
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`).
