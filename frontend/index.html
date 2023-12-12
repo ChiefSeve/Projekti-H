@@ -17,24 +17,26 @@
     </form>
 </dialog>
 <div id="map"></div>
-<form id="single" name="search_airport">
-    <label for="search_airport">Search for Airport</label>
-    <input name="icao" placeholder="Input airport icao code">
-    <input type="submit" value="Search">
-</form>
-<form id="calculate-distance" name="calculate_distance">
-    <label for="calculate_distance">Calculate Distance Between Airports</label>
-    <input name="airport1" placeholder="From airport(icao)">
-    <input name="airport2" placeholder="To airport(icao)">
-    <input value="Calculate" type="submit">
-    <div id="distance_result"></div>
-        <p id="distance_km"></p>
-</form>
-<form id="fly_form" name="fly">
-    <label for="fly">Fly to Airport</label>
-    <input name="dest_airport" type="text" placeholder="Airport ICAO">
-    <input id="fly_button" value="Fly" type="submit">
-</form>
+<div id="right_forms">
+    <form id="single" name="search_airport">
+        <label for="search_airport">Search for Airport</label>
+        <input name="icao" placeholder="Input airport icao code">
+        <input type="submit" value="Search">
+    </form>
+    <form id="calculate-distance" name="calculate_distance">
+        <label for="calculate_distance">Calculate Distance Between Airports</label>
+        <input name="airport1" placeholder="From airport(icao)">
+        <input name="airport2" placeholder="To airport(icao)">
+        <input value="Calculate" type="submit">
+        <div id="distance_result"></div>
+            <p id="distance_km"></p>
+    </form>
+    <form id="fly_form" name="fly">
+        <label for="fly">Fly to Airport</label>
+        <input name="dest_airport" type="text" placeholder="Airport ICAO">
+        <input id="fly_button" value="Fly" type="submit">
+    </form>
+</div>
 <div id="info">
 </div>
 </body>

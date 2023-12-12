@@ -6,15 +6,11 @@ body {
 dialog {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
+    flex-direction: column-reverse;
     justify-content: center;
     align-content: center;
-}
-
-dialog form {
-    position: relative;
-    justify-content: center;
+    height: 90%;
+    width: 90%;
 }
 
 dialog p {
@@ -41,13 +37,19 @@ dialog p {
 }
 
 form {
-    position: absolute;
-    right: 2rem;
     z-index: 999;
     padding: 1rem;
     background-color: #ccc;
     border: 1px solid #000;
     width: 20rem;
+}
+
+#right_forms {
+    display: flex;
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    flex-direction: column;
 }
 
 #single {
