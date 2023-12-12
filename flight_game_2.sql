@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `game` (
 
 -- Dumping data for table flight_game.game: ~4 rows (suunnilleen)
 DELETE FROM `game`;
-INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `region_goal`, `score`, `range`, `jumps`) VALUES
+INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `region_goal`, `score`, `flight_range`, `jumps`) VALUES
 	(4, 00000000, 'KONT', 'testi', 1, NULL, 0, 2778, 0),
 	(10, 00000025, 'KSMF', 'testiname', 7, NULL, 0, 2778, 0),
 	(11, 00000000, 'KABE', 'testi1', 2, NULL, 0, 2778, 0),
