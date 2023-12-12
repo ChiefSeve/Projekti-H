@@ -7,7 +7,7 @@ map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
 map.setMaxZoom(maxZoom);
 map.setMinZoom(minZoom);
-map.flyTo([40, -90], 5);
+map.flyTo([40, -95], 5);
 
 const redIcon = new L.Icon({
 iconUrl:
