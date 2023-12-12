@@ -74,6 +74,7 @@ async function updateInfo(infoNode, playerObject) {
   const weatherNode = document.createElement('p');
   const rangeNode = document.createElement('p');
   infoNode.removeAttribute('style');
+  rightFormDiv.removeAttribute('style');
 
   // Node Array
   const nodes = [
