@@ -6,13 +6,23 @@ body {
 dialog {
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
     justify-content: center;
+    align-content: center;
 }
 
 dialog form {
     position: relative;
+    justify-content: center;
+}
+
+dialog p {
+    z-index: 999;
+    padding: 3rem;
+    border: 1px black solid;
+    background-color: #ccc;
+    align-self: center;
     justify-content: center;
 }
 

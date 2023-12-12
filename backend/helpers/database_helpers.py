@@ -261,7 +261,7 @@ def update_player_frustration(frust, player_id):
 
 def update_player_range(new_range, player_id):
     sql = f'''UPDATE game SET range=%s WHERE id=%s'''
-    val = (new_range, player_id)
+    val = (int(new_range), player_id)
     my_cursor.execute(sql, val)
     if my_cursor.rowcount:
         return True

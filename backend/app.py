@@ -89,6 +89,7 @@ def fly():
     airport_distance = module.calculate_distance(player["location"], icao)
     if airport_distance <= player["range"]:
         database.update_player_location(icao, user_id)
+        player = database.get_player_by_id(user_id)
         frust = module.frustration_adder(
             player["weather_id"],
             airport["weather_id"],

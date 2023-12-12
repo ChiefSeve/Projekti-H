@@ -29,6 +29,7 @@ const input = document.querySelector('input[name=icao]');
 const distanceForm = document.querySelector('#calculate-distance');
 const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
+const flyForm = document.getElementById('fly_form');
 const flyButton = document.getElementById('fly_button');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
@@ -114,7 +115,18 @@ async function flyToAirport(icao) {
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const playerData =  await response.json();
   console.log('playerData', playerData)
-  if ():
+  if ('game_over' in playerData) {
+    gameOverScreen(activeUser, userDialog);
+    const nodes = [
+      searchForm,
+      distanceForm,
+      flyForm
+    ]
+    nodes.forEach(node => {
+      node.setAttribute('style', 'display: none')
+    })
+    return;
+  }
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
   console.log('activeUser', activeUser);
