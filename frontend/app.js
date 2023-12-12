@@ -1,5 +1,4 @@
-const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =4, maxZoom = 8)
-.setView([37, -90], 5);
+const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =4, maxZoom = 8);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
@@ -8,7 +7,7 @@ map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
 map.setMaxZoom(maxZoom);
 map.setMinZoom(minZoom);
-
+map.flyTo([40, -90], 5);
 
 const redIcon = new L.Icon({
 iconUrl:
