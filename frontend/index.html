@@ -12,6 +12,8 @@
 <dialog id="user_dialog">
     <form id="create_user">
         <label for="create_user">Uusi Käyttäjä</label>
+    <form name="create_user">
+        <h3 for="create_user">Uusi Käyttäjä</h3>
         <input id="create_user_input" type="text">
         <input id="create_user_submit" type="submit">
     </form>
@@ -21,12 +23,12 @@
 <div id="map"></div>
 <div id="right_forms" style="display: none">
     <form id="single" name="search_airport">
-        <label for="single">Search for Airport</label>
+        <h3 for="search_airport">Search for Airport</h3>
         <input name="icao" placeholder="Input airport icao code">
         <input type="submit" value="Search">
     </form>
     <form id="calculate-distance" name="calculate_distance">
-        <label for="calculate_distance">Calculate Distance Between Airports</label>
+        <h3 for="calculate_distance">Calculate Distance Between Airports</h3>
         <input name="airport1" placeholder="From airport(icao)">
         <input name="airport2" placeholder="To airport(icao)">
         <input value="Calculate" type="submit">
@@ -34,7 +36,7 @@
             <p id="distance_km"></p>
     </form>
     <form id="fly_form" name="fly">
-        <label for="fly_form">Fly to Airport</label>
+        <h3 for="fly">Fly to Airport</h3>
         <input name="dest_airport" type="text" placeholder="Airport ICAO">
         <input id="fly_button" value="Fly" type="submit">
         <div id="too_far"></div>
