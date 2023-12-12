@@ -38,6 +38,9 @@ dialog p {
 
 h3 {
     display: inline;
+    color: white;
+    -webkit-text-stroke-width:0.8px ;
+    -webkit-text-stroke-color:black ;
 }
 
 #airports_refresh {
