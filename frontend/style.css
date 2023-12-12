@@ -49,6 +49,7 @@ dialog p {
     top: 5rem;
     padding: 1rem;
     z-index: 999;
+    border: 1px black solid;
 }
 
 h3 {
@@ -102,7 +103,7 @@ select {
 }
 
 .text_border {
-    color: white;
+    color: yellow;
     -webkit-text-stroke-width:0.8px ;
     -webkit-text-stroke-color:black ;
 }
