@@ -29,9 +29,12 @@ def get_random_airports():
 
 
 def get_airports_by_weather(weather_id):
-    sql = f'''SELECT ident, name FROM airport WHERE weather_id=%s'''
+    sql = f'''SELECT * FROM airport WHERE weather_id=%s'''
     my_cursor.execute(sql, (weather_id,))
     result = my_cursor.fetchall()
+    print('----------------------------------------------')
+    print(result)
+    print('----------------------------------------------')
     if result:
         return result
     else:
@@ -153,9 +156,10 @@ def get_random_weather():
 
 
 def get_weather_info(weather_id):
-    sql = f'''select * from weather where id = %s'''
+    sql = f'''select * from weather where id=%s'''
     my_cursor.execute(sql, (weather_id,))
-    return my_cursor.fetchone()
+    result = my_cursor.fetchone()
+    return result
 
 
 def get_assigned_weather_id():
