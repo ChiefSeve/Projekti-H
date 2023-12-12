@@ -63,6 +63,7 @@ async function updateInfo(infoNode, playerObject) {
   const frustrationNode = document.createElement('p');
   const weatherNode = document.createElement('p');
   const rangeNode = document.createElement('p');
+  infoNode.removeAttribute('style');
 
   // Node Array
   const nodes = [
@@ -104,7 +105,7 @@ function updatedUserData(userData) {
     name: userData['screen_name'],
     weatherId: userData['weather_id'],
     score: userData['score'],
-    range: userData['range'],
+    range: userData['flight_range'],
     jumps: userData['jumps']
   };
   return user;
@@ -302,7 +303,7 @@ searchForm.addEventListener('submit', async (evt) => {
   airportMarkers.addLayer(markerred);
 
   const flightcircle = L.circle([airport.latitude_deg, airport.longitude_deg], {
-    radius: 2778000,
+    radius: activeUser.range * 1000,
     //radius väliaikainen, muutetaan myöhemmin ottamaan flight_range
     //color: "pink"
   });

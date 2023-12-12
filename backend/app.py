@@ -87,7 +87,7 @@ def fly():
     player = database.get_player_by_id(user_id)
     airport = database.get_airport_by_icao(icao)
     airport_distance = module.calculate_distance(player["location"], icao)
-    if airport_distance <= player["range"]:
+    if airport_distance <= player["flight_range"]:
         database.update_player_location(icao, user_id)
         player = database.get_player_by_id(user_id)
         frust = module.frustration_adder(
@@ -107,10 +107,10 @@ def fly():
                 database.update_player_score(new_score, player["id"])
                 module.create_new_weather_goal(player['id'])
             if player["score"] == 3:
-                new_range = player["range"] / 2
+                new_range = player["flight_range"] / 2
                 database.update_player_range(new_range, player["id"])
             elif player["score"] == 5:
-                new_range = player["range"] / 2
+                new_range = player["flight_range"] / 2
                 database.update_player_range(new_range, player["id"])
     
     player = database.get_player_by_id(user_id)
