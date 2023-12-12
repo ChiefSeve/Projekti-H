@@ -98,45 +98,18 @@ def frustration_adder(goal_id, local_weather_id, local_region, goal_region):
     frust = 0
     goal = connector.get_weather_info(goal_id)
     weather = connector.get_weather_info(local_weather_id)
-    region = local_region
-    if goal_region != 0:
-        if goal == weather and region == goal_region:
-            frust += 0
-            return frust
-        elif goal == weather:
-            frust += 5
-            return frust
-        elif region == goal_region and goal['status'] == weather['status']:
-            frust += 5
-            return frust
-        elif region == goal_region and goal['temperature'] == weather['temperature']:
-            frust += 5
-            return frust
-        elif goal['status'] == weather['status']:
-            frust += 10
-            return frust
-        elif goal['temperature'] == weather['temperature']:
-            frust += 10
-            return frust
-        elif region == goal_region:
-            frust += 10
-            return frust
-        else:
-            frust += 15
-            return frust
+    if goal == weather:
+        frust += 0
+        return frust
+    elif goal['status'] == weather['status']:
+        frust += 5
+        return frust
+    elif goal['temperature'] == weather['temperature']:
+        frust += 5
+        return frust
     else:
-        if goal == weather:
-            frust += 0
-            return frust
-        elif goal['status'] == weather['status']:
-            frust += 5
-            return frust
-        elif goal['temperature'] == weather['temperature']:
-            frust += 5
-            return frust
-        else:
-            frust += 10
-            return frust
+        frust += 10
+        return frust
 
 
 def change_current_airport(icao, player):

@@ -280,7 +280,7 @@ def update_player_score(new_score, player_id):
 
 
 def clear_player_data(playerId):
-    sql = f'''UPDATE game SET frustration = 0, region_goal = 'null', jumps = 0 WHERE id = %s '''
+    sql = f'''UPDATE game SET frustration = 0, region_goal = 'null', jumps = 0, score = 0, flight_range = 2887 WHERE id = %s '''
     val = (playerId,)
     my_cursor.execute(sql, val)
     if my_cursor.rowcount:
