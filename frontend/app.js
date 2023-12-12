@@ -13,11 +13,16 @@ map.setMinZoom(minZoom)
 const redIcon = new L.Icon({
 iconUrl:
   "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-//shadowUrl:
-  //"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 iconSize: [25, 41],
 iconAnchor: [12, 41],
 popupAnchor: [1, -34]
+});
+const orangeIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
 });
 const airportMarkers = L.featureGroup().addTo(map);
 const locMarker = L.featureGroup().addTo(map);
@@ -137,9 +142,10 @@ async function flyToAirport(icao) {
     return;
   }
   activeUser = updatedUserData(playerData);
-  updateInfo(info, activeUser);
-  await drawOnLocation(activeUser.location)
-  return;
+  await updateInfo(info, activeUser);
+  locMarker.clearLayers();
+  await drawOnLocation(activeUser.location);
+  console.log('siirtyi');
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -150,12 +156,9 @@ async function drawOnLocation(icao){
   const markerplayer = L.marker([locData.latitude_deg, locData.longitude_deg], {
     icon: redIcon
   }).addTo(map);
-  locMarker.clearLayers();
   locMarker.addLayer(markerplayer);
-
   const flightcircleplayer = L.circle([locData.latitude_deg, locData.longitude_deg], {
     radius: activeUser.range * 1000,
-    //color: "pink"
   });
   locMarker.addLayer(flightcircleplayer);
 }
@@ -302,13 +305,13 @@ searchForm.addEventListener('submit', async (evt) => {
   // remove possible other markers
 
   // add marker
-  const markerred = L.marker([airport.latitude_deg, airport.longitude_deg], {
-    icon: redIcon
+  const markerorange = L.marker([airport.latitude_deg, airport.longitude_deg], {
+    icon: orangeIcon
   }).
       addTo(map).
       bindPopup(`${airport.name}(${airport.ident})`).
       openPopup();
-  airportMarkers.addLayer(markerred);
+  airportMarkers.addLayer(markerorange);
 
   const flightcircle = L.circle([airport.latitude_deg, airport.longitude_deg], {
     radius: activeUser.range * 1000,
@@ -317,8 +320,8 @@ searchForm.addEventListener('submit', async (evt) => {
   });
   airportMarkers.addLayer(flightcircle);
 
-  markerred.getPopup().on('remove', function(){
-    airportMarkers.removeLayer(markerred);
+  markerorange.getPopup().on('remove', function(){
+    airportMarkers.removeLayer(markerorange);
     airportMarkers.removeLayer(flightcircle);
   });
 
