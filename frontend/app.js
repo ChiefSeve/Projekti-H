@@ -1,13 +1,13 @@
-const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =5, maxZoom = 8)
-.setView([37, -90], 4);
+const map = L.map('map', maxBounds = [[0, -170], [57, -30]], minZoom =4, maxZoom = 8)
+.setView([37, -90], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-map.setMaxBounds(maxBounds)
-map.fitBounds(maxBounds)
-map.setMaxZoom(maxZoom)
-map.setMinZoom(minZoom)
+map.setMaxBounds(maxBounds);
+map.fitBounds(maxBounds);
+map.setMaxZoom(maxZoom);
+map.setMinZoom(minZoom);
 
 
 const redIcon = new L.Icon({
@@ -178,7 +178,7 @@ async function createUser(){
       const player = await fetch(`http://localhost:3000/create_user?screen_name=${createUserInput.value}`);
       const player_json = await player.json();
       activeUser = updatedUserData(player_json);
-      updateInfo(info, activeUser);
+      await updateInfo(info, activeUser);
       /* activeUser = {
         id: player_json.id,
         frustration: player_json.frustration,
@@ -198,6 +198,8 @@ async function createUser(){
 
     const userDialog = document.getElementById('user_dialog');
     deleteChildsOfElement(userDialog);
+    locMarker.clearLayers();
+    await drawOnLocation(activeUser.location);
   })
 }
 
@@ -255,6 +257,8 @@ async function selectUser() {
   // Delete form
   const userDialog = document.getElementById('user_dialog');
   deleteChildsOfElement(userDialog);
+  locMarker.clearLayers();
+  await drawOnLocation(activeUser.location);
 }
 
 function gameOverScreen(playerData, dialogNode) {
