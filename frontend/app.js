@@ -139,7 +139,6 @@ async function flyToAirport(icao) {
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
   await drawOnLocation(activeUser.location)
-  console.log('siirtyi');
   return;
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen

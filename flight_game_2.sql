@@ -75,7 +75,7 @@ INSERT INTO `airport` (`id`, `ident`, `type`, `name`, `latitude_deg`, `longitude
 	(3711, 'KMSY', 'large_airport', 'Louis Armstrong New Orleans Internationa', 29.99340057373047, -90.25800323486328, 'New Orleans', 28),
 	(3744, 'KOAK', 'large_airport', 'Metropolitan Oakland International Airpo', 37.721298, -122.221001, 'Oakland', 4),
 	(3752, 'KONT', 'large_airport', 'Ontario International Airport', 34.055999755859375, -117.60099792480469, 'Ontario', 7),
-	(3754, 'KORD', 'large_airport', 'Chicago O\'Hare International Airport', 41.9786, -87.9048, 'Chicago', 19),
+	(3754, 'KORD', 'large_airport', "Chicago O'Hare International Airport", 41.9786, -87.9048, 'Chicago', 19),
 	(3766, 'KPBI', 'large_airport', 'Palm Beach International Airport', 26.68320083618164, -80.09559631347656, 'West Palm Beach', 19),
 	(3768, 'KPDX', 'large_airport', 'Portland International Airport', 45.58869934, -122.5979996, 'Portland', 28),
 	(3771, 'KPHL', 'large_airport', 'Philadelphia International Airport', 39.87189865112305, -75.24109649658203, 'Philadelphia', 2),
