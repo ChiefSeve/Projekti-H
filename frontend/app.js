@@ -255,6 +255,9 @@ function gameOverScreen(playerData, dialogNode) {
   // Creating of nodes
   const gameOverNode = document.createElement('p');
   const playerScoreNode = document.createElement('p');
+  locMarker.clearLayers();
+  map.flyTo([40, -95], 4);
+  map.dragging.disable();
 
   // Node Array
   const nodes = [
