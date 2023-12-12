@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Verdana, sans-serif;
-    color: yellow;
+    color: white;
 
 }
 
@@ -21,7 +21,7 @@ dialog p {
     z-index: 999;
     padding: 3rem;
     border: 1px black solid;
-    background-color: #6b4b4ba1;
+    background-color: #120101a1;
     align-self: center;
     justify-content: center;
 }
@@ -43,7 +43,7 @@ dialog p {
 }
 
 #info {
-    background-color: #6b4b4ba1;
+    background-color: #120101a1;
     position: absolute;
     left: 2rem;
     top: 5rem;
@@ -54,7 +54,7 @@ dialog p {
 
 h3 {
     display: inline;
-    color: yellow;
+    color: white;
     -webkit-text-stroke-width:0.8px ;
     -webkit-text-stroke-color:black ;
 }
@@ -67,7 +67,7 @@ h3 {
 form, article {
     z-index: 999;
     padding: 1rem;
-    background-color: #6b4b4ba1;
+    background-color: #120101a1;
     border: 1px solid black;
     width: 20rem;
 }
@@ -103,7 +103,7 @@ select {
 }
 
 .text_border {
-    color: yellow;
+    color: white;
     -webkit-text-stroke-width:0.8px ;
     -webkit-text-stroke-color:black ;
 }
