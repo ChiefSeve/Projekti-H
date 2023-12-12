@@ -58,7 +58,7 @@ def airport(icao):
     return json.dumps(result)
 
 
-@app.route('/airport/<weather_id>')
+@app.route('/airport_weather/<weather_id>')
 def airport_by_weather(weather_id):
     print('---------------------------------------------------------')
     result = database.get_airports_by_weather(weather_id)
