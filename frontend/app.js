@@ -132,8 +132,7 @@ async function flyToAirport(icao) {
     const nodes = [
       searchForm,
       distanceForm,
-      flyForm,
-      map
+      flyForm
     ]
     nodes.forEach(node => {
       node.setAttribute('style', 'display: none')
