@@ -29,6 +29,7 @@ const input = document.querySelector('input[name=icao]');
 const distanceForm = document.querySelector('#calculate-distance');
 const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
+const flyForm = document.getElementById('fly_form');
 const flyButton = document.getElementById('fly_button');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
@@ -62,6 +63,7 @@ async function updateInfo(infoNode, playerObject) {
   const frustrationNode = document.createElement('p');
   const weatherNode = document.createElement('p');
   const rangeNode = document.createElement('p');
+  infoNode.removeAttribute('style');
 
   // Node Array
   const nodes = [
@@ -103,7 +105,7 @@ function updatedUserData(userData) {
     name: userData['screen_name'],
     weatherId: userData['weather_id'],
     score: userData['score'],
-    range: userData['range'],
+    range: userData['flight_range'],
     jumps: userData['jumps']
   };
   return user;
@@ -114,7 +116,18 @@ async function flyToAirport(icao) {
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const playerData =  await response.json();
   console.log('playerData', playerData)
-  //if ():
+  if ('game_over' in playerData) {
+    gameOverScreen(activeUser, userDialog);
+    const nodes = [
+      searchForm,
+      distanceForm,
+      flyForm
+    ]
+    nodes.forEach(node => {
+      node.setAttribute('style', 'display: none')
+    })
+    return;
+  }
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
   console.log('activeUser', activeUser);
@@ -286,7 +299,7 @@ searchForm.addEventListener('submit', async (evt) => {
     icon: redIcon
   }).
       addTo(map).
-      bindPopup(`${airport.name}(${airport.ident})`+'<br><div id="button_div"></div>').
+      bindPopup(`${airport.name}(${airport.ident})`).
       openPopup();
   airportMarkers.addLayer(markerred);
 
@@ -297,15 +310,6 @@ searchForm.addEventListener('submit', async (evt) => {
   });
   airportMarkers.addLayer(flightcircle);
 
-  const flyButton = document.createElement('button');
-  const buttonDiv = document.getElementById('button_div');
-  flyButton.setAttribute('id', 'fly_button');
-  flyButton.setAttribute('type', 'button');
-  flyButton.innerHTML = 'FLY';
-  flyButton.addEventListener('click', function(){
-    flyToAirport(icao)
-  });
-  buttonDiv.appendChild(flyButton);
   markerred.getPopup().on('remove', function(){
     airportMarkers.removeLayer(markerred);
     airportMarkers.removeLayer(flightcircle);

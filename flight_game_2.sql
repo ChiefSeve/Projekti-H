@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `game` (
   `weather_id` int(10) DEFAULT NULL,
   `region_goal` varchar(50) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
-  `range` int(11) DEFAULT 2778,
+  `flight_range` int(11) DEFAULT NULL,
   `jumps` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `location` (`location`),
