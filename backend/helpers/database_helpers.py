@@ -32,13 +32,11 @@ def get_airports_by_weather(weather_id):
     sql = f'''SELECT * FROM airport WHERE weather_id=%s'''
     my_cursor.execute(sql, (weather_id,))
     result = my_cursor.fetchall()
-    print('----------------------------------------------')
-    print(result)
-    print('----------------------------------------------')
-    if result:
-        return result
-    else:
-        return 'ERROR'
+    return result
+    # if result:
+    #     return result
+    # else:
+    #     return 'ERROR'
 
 
 def get_airports_by_weather_and_region(weather_id, iso_region):

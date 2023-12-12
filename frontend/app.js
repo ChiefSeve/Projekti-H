@@ -43,6 +43,7 @@ const tooFar = document.getElementById('too_far');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
 const info = document.getElementById('info');
+const rightFormDiv = document.getElementById('right_forms');
 let activeUser = {
   id: '',
   frustration: '',
@@ -135,7 +136,7 @@ async function refreshAirports() {
   }
   // Update List
   try {
-    const response = await fetch(`http://127.0.0.1:3000/airport/${WeatherId}`);
+    const response = await fetch(`http://127.0.0.1:3000/airport_weather/${WeatherId}`);
     console.log('response', response);
     const airports = await response.json();
     console.log('airports', airports);
@@ -162,9 +163,7 @@ async function flyToAirport(icao) {
   else if ('game_over' in playerData) {
     gameOverScreen(activeUser, userDialog);
     const nodes = [
-      searchForm,
-      distanceForm,
-      flyForm
+      rightFormDiv
     ]
     nodes.forEach(node => {
       node.setAttribute('style', 'display: none')
