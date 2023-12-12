@@ -36,6 +36,10 @@ const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
 const flyForm = document.getElementById('fly_form');
 const flyButton = document.getElementById('fly_button');
+const airportsArticle = document.getElementById('airports_article');
+const airportsHeading = document.getElementById('airports_h');
+const airportsRefresh = document.getElementById('airports_refresh');
+const airportsList = document.getElementById('airports_ul');
 const tooFar = document.getElementById('too_far');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
@@ -117,6 +121,10 @@ function updatedUserData(userData) {
   return user;
 }
 
+async function refreshAirports() {
+  const WeatherId = activeUser.weatherId;
+  const weather = await fetch(`http://127.0.0.1:3000/weather?weather=${weather}`);
+}
 
 async function flyToAirport(icao) {
   deleteChildsOfElement(tooFar);
