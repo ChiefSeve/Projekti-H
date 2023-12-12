@@ -93,6 +93,10 @@ def fly():
     args = request.args
     icao = args.get('icao')
     user_id = args.get('userId')
+    booleans = {
+        "range_changed": False,
+        "reached_goal": False
+        }
     player = database.get_player_by_id(user_id)
     airport = database.get_airport_by_icao(icao)
     airport_distance = module.calculate_distance(player["location"], icao)
@@ -115,18 +119,23 @@ def fly():
                 new_score = player["score"] + 1
                 database.update_player_score(new_score, player["id"])
                 module.create_new_weather_goal(player['id'])
+                booleans["reached_goal"] = True
             if player["score"] == 3:
-                new_range = player["flight_range"] / 2
+                new_range = 1389
                 database.update_player_range(new_range, player["id"])
+                booleans["range_changed"] = True
             elif player["score"] == 5:
-                new_range = player["flight_range"] / 2
+                new_range = 857
                 database.update_player_range(new_range, player["id"])
+                booleans["range_changed"] = True
     else:
         return json.dumps({"too_far": True})
     
     player = database.get_player_by_id(user_id)
 
-    return json.dumps(player)
+    results = [player, booleans]
+
+    return json.dumps(results)
 
 
 # Flask app

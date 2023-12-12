@@ -22,6 +22,17 @@ dialog p {
     justify-content: center;
 }
 
+.notification {
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    text-align: center;
+}
+
+.notification h3 {
+    align-self: center;
+}
+
 #map {
     width: 100vw;
     height: 100vh;

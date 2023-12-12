@@ -44,6 +44,10 @@ const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
 const info = document.getElementById('info');
 const rightFormDiv = document.getElementById('right_forms');
+const rangeNotifDialog = document.getElementById('range_notification');
+const goalNotifDialog = document.getElementById('goal_notification');
+const refreshNotUsedNode = document.getElementById('refresh_not_used');
+let refreshNotUsed = true;
 let activeUser = {
   id: '',
   frustration: '',
@@ -61,6 +65,7 @@ function deleteChildsOfElement(elementNode) {
     elementNode.removeChild(elementNode.firstChild);
   }
 }
+
 
 async function updateInfo(infoNode, playerObject) {
   // Clear previous info
@@ -100,6 +105,7 @@ async function updateInfo(infoNode, playerObject) {
   scoreNode.textContent = `Score: ${playerObject.score}`;
   frustrationNode.textContent = `Frustration: ${playerObject.frustration}`;
   rangeNode.textContent = `Range: ${playerObject.range}`;
+  refreshNotUsedNode.textContent = `Not used: ${refreshNotUsed}`;
 
   // Appends
   nodes.forEach(node => {
@@ -138,9 +144,7 @@ async function refreshAirports() {
   // Update List
   try {
     const response = await fetch(`http://127.0.0.1:3000/airport_weather/${WeatherId}`);
-    console.log('response', response);
     const airports = await response.json();
-    console.log('airports', airports);
     airports.forEach(airport => {
       airportsList.innerHTML += `<li>${airport.ident} - ${airport.name}</li>`
     })
@@ -148,20 +152,106 @@ async function refreshAirports() {
   catch(error) {
     console.error(error);
   }
+  refreshNotUsed = false;
+  refreshNotUsedNode.textContent = `Not used: ${refreshNotUsed}`;
   return;
+}
+
+
+function rangeHalfInfo(targetNode) {
+  // Creating Nodes
+  const h3 = document.createElement('h3');
+  const p = document.createElement('p');
+  const notifClose = document.createElement('input')
+
+  // Node Array
+  const nodes = [
+    h3,
+    p,
+    notifClose
+  ]
+
+  // Node Contents
+  h3.textContent = 'Employer Notification'
+  p.textContent = 'To save money and to preserve the environment, your fuel capacity has been reduced';
+  notifClose.setAttribute('type', 'button');
+  notifClose.setAttribute('value', 'Close');
+  notifClose.addEventListener('click', () => {
+    deleteChildsOfElement(targetNode);
+    targetNode.close();
+  })
+
+  // Appends
+  nodes.forEach(node => {
+    targetNode.appendChild(node);
+  });
+  
+  // Show Modal
+  targetNode.showModal();
+}
+
+async function reachedGoalInfo(targetNode, playerData) {
+  // Creating Nodes
+  const h3 = document.createElement('h3');
+  const p1 = document.createElement('p');
+  const p2 = document.createElement('p');
+  const notifClose = document.createElement('input');
+
+  // Node list
+  const nodes = [
+    h3,
+    p1,
+    p2,
+    notifClose
+  ];
+
+  // Node Contents
+  h3.textContent = 'Goal Reached';
+  p1.textContent = 'Your next goal is:'
+  try {
+    console.log('node creation playerdata weatherID', playerData.weatherId);
+    const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
+    const weather = await response.json();
+    console.log('weather', weather)
+    p2.textContent = `${weather.status} & ${weather.temperature}`;
+  }
+  catch(error) {
+    console.error(error);
+  }
+  notifClose.setAttribute('type', 'button');
+  notifClose.setAttribute('value', 'Close');
+  notifClose.addEventListener('click', () => {
+    deleteChildsOfElement(targetNode);
+    targetNode.close();
+  })
+
+  // Appends
+  nodes.forEach(node => {
+    targetNode.appendChild(node);
+  });
+
+  // Show modal
+  targetNode.showModal();
 }
 
 async function flyToAirport(icao) {
   deleteChildsOfElement(tooFar);
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
-  const playerData =  await response.json();
-  if ('too_far' in playerData) {
+  const data =  await response.json();
+  console.log('data', data)
+
+  // If destination is out of range or frustration gets over 100
+
+  if ('too_far' in data) {
     const p = document.createElement('p');
     p.textContent = 'Destination out of Range';
     tooFar.appendChild(p);
     return;
   }
-  else if ('game_over' in playerData) {
+  else if ('game_over' in data) {
+    if (refreshNotUsed) {
+      activeUser.score *= 2;
+    }
     gameOverScreen(activeUser, userDialog);
     const nodes = [
       rightFormDiv
@@ -171,11 +261,34 @@ async function flyToAirport(icao) {
     })
     return;
   }
+
+  // If fetch returns playerdata and booleans
+
+  const playerData = data[0];
+  const booleans = data[1];
   activeUser = updatedUserData(playerData);
   await updateInfo(info, activeUser);
   locMarker.clearLayers();
   await drawOnLocation(activeUser.location);
-  console.log('siirtyi');
+  
+  if (booleans.reached_goal == true) {
+    reachedGoalInfo(goalNotifDialog, activeUser);
+  }
+
+  if (booleans.range_changed == true) {
+    switch(activeUser.range) {
+      case 2778:
+        break;
+      case 1389:
+        rangeHalfInfo(rangeNotifDialog);
+        break;
+      case 857:
+        rangeHalfInfo(rangeNotifDialog);
+        break;
+    }
+}
+
+  
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -201,16 +314,6 @@ async function createUser(){
       const player_json = await player.json();
       activeUser = updatedUserData(player_json);
       await updateInfo(info, activeUser);
-      /* activeUser = {
-        id: player_json.id,
-        frustration: player_json.frustration,
-        location: player_json.location,
-        name: player_json.screen_name,
-        weatherId: player_json.weatherId,
-        score: player_json.score,
-        range: player_json.range,
-        jumps: player_json.jumps
-      }; */
     }
     catch(error) {
       console.error(error);
@@ -222,6 +325,7 @@ async function createUser(){
     deleteChildsOfElement(userDialog);
     locMarker.clearLayers();
     await drawOnLocation(activeUser.location);
+    userDialog.close();
   })
 }
 
@@ -242,7 +346,6 @@ async function createUserSelectForm(userData){
   userForm.appendChild(userSelect);
   userForm.appendChild(userButton);
   userDialog.appendChild(userForm);
-  console.log()
   if (userData !== 'no data') {
      userData.forEach(user => {
     const option = document.createElement('option');
@@ -263,16 +366,6 @@ async function selectUser() {
     const playerData = await response.json();
     activeUser = updatedUserData(playerData);
     updateInfo(info, activeUser);
-    /* activeUser = {
-      id: player_json.id,
-      frustration: player_json.frustration,
-      location: player_json.location,
-      name: player_json.screen_name,
-      weatherId: player_json.weatherId,
-      score: player_json.score,
-      range: player_json.range,
-      jumps: player_json.jumps
-    }; */
   }
   catch(error) {
     console.error(error);
@@ -313,7 +406,6 @@ window.addEventListener('load', async function(evt) {
   for (const airport of airportsData) {
     const weatherResp = await fetch(`http://127.0.0.1:3000/weather?weather=${airport.weather_id}`);
     const weatherData = await weatherResp.json();
-    const airportIcao = airport.ident
     const marker = L.marker([airport.latitude_deg, airport.longitude_deg]).
       addTo(map).
     bindPopup(`${airport.name}(${airport.ident})`+ '<br>' + `Olosuhde: ${weatherData.status}` + '<br>' + `Lämpötila: ${weatherData.temperature}C`);
@@ -326,7 +418,6 @@ window.addEventListener('load', async function(evt) {
     await createUserSelectForm(userData);
     await createUser();
   } else {
-    console.log('no data');
     await createUser();
   }
 });
@@ -365,6 +456,7 @@ searchForm.addEventListener('submit', async (evt) => {
   // pan map to selected airport
   map.flyTo([airport.latitude_deg, airport.longitude_deg]);
 });
+
 
 // Calculate distance between airports
 

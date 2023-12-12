@@ -10,16 +10,18 @@
 </head>
 <body>
 <dialog id="user_dialog">
-    <form name="create_user">
+    <form id="create_user">
         <label for="create_user">Uusi Käyttäjä</label>
         <input id="create_user_input" type="text">
         <input id="create_user_submit" type="submit">
     </form>
 </dialog>
+<dialog id="range_notification" class="notification"></dialog>
+<dialog id="goal_notification" class="notification"></dialog>
 <div id="map"></div>
 <div id="right_forms" style="display: none">
     <form id="single" name="search_airport">
-        <label for="search_airport">Search for Airport</label>
+        <label for="single">Search for Airport</label>
         <input name="icao" placeholder="Input airport icao code">
         <input type="submit" value="Search">
     </form>
@@ -32,7 +34,7 @@
             <p id="distance_km"></p>
     </form>
     <form id="fly_form" name="fly">
-        <label for="fly">Fly to Airport</label>
+        <label for="fly_form">Fly to Airport</label>
         <input name="dest_airport" type="text" placeholder="Airport ICAO">
         <input id="fly_button" value="Fly" type="submit">
         <div id="too_far"></div>
@@ -41,6 +43,7 @@
         <h3>Airports with: </h3> <h3 id="airports_heading"></h3>
         <input id="airports_refresh" type="button" value="Refresh">
         <ul id="airports_ul"></ul>
+        <p id="refresh_not_used"></p>
     </article>
 </div>
 <div id="info" style="display: none">
