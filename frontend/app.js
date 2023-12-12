@@ -31,6 +31,7 @@ const airport1 = document.querySelector('input[name=airport1]');
 const airport2 = document.querySelector('input[name=airport2]');
 const flyForm = document.getElementById('fly_form');
 const flyButton = document.getElementById('fly_button');
+const tooFar = document.getElementById('too_far');
 const distanceResult = document.getElementById('distance_result');
 const p = document.getElementById('distance_km');
 const info = document.getElementById('info');
@@ -113,9 +114,16 @@ function updatedUserData(userData) {
 
 
 async function flyToAirport(icao) {
+  deleteChildsOfElement(tooFar);
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const playerData =  await response.json();
-  if ('game_over' in playerData) {
+  if ('too_far' in playerData) {
+    const p = document.createElement('p');
+    p.textContent = 'Destination out of Range';
+    tooFar.appendChild(p);
+    return;
+  }
+  else if ('game_over' in playerData) {
     gameOverScreen(activeUser, userDialog);
     const nodes = [
       searchForm,
@@ -130,6 +138,9 @@ async function flyToAirport(icao) {
   }
   activeUser = updatedUserData(playerData);
   updateInfo(info, activeUser);
+  await drawOnLocation(activeUser.location)
+  console.log('siirtyi');
+  return;
 //   Jos backend onnistuu eli sijainti muuttuu, vaihetaan kartalla käyttäjän sijainti punaisella merkillä. Eli poistetaan Nykynen punainen merkki ja laitetaan tilalle sininen.
 //   Paikka mihin lennetään, sieltä poistetaan sininen merkki ja laitetaan tilalle punainen
 }
@@ -336,5 +347,4 @@ flyButton.addEventListener('click', async(evt) => {
   evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
   await flyToAirport(icao_input.value);
-  await drawOnLocation(activeUser.location)
 })

@@ -112,6 +112,8 @@ def fly():
             elif player["score"] == 5:
                 new_range = player["flight_range"] / 2
                 database.update_player_range(new_range, player["id"])
+    else:
+        return json.dumps({"too_far": True})
     
     player = database.get_player_by_id(user_id)
 
