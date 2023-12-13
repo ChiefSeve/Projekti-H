@@ -123,7 +123,9 @@ CREATE TABLE IF NOT EXISTS `game` (
 -- Dumping data for table flight_game.game: ~5 rows (suunnilleen)
 DELETE FROM `game`;
 INSERT INTO `game` (`id`, `frustration`, `location`, `screen_name`, `weather_id`, `region_goal`, `score`, `flight_range`, `jumps`) VALUES
-	(1, 00000000, 'KPIT', 'Pasi', 8, NULL, 0, 2778, 0);
+	(1, 00000000, 'KPIT', 'Pasi', 8, NULL, 0, 2778, 0),
+	(2, 00000095, 'KLAX', 'Pasi (huono)', 8, NULL, 2, 2778, 0),
+	(69420, 00000000, 'KJFK', 'xxxPasixxx (legenda)', 8, NULL, 2000, 2778, 0);
 
 -- Dumping structure for taulu flight_game.weather
 DROP TABLE IF EXISTS `weather`;
