@@ -125,7 +125,7 @@ def fly():
                 database.update_player_range(new_range, player["id"])
                 booleans["range_changed"] = True
             elif player["score"] == 5:
-                new_range = 857
+                new_range = 858
                 database.update_player_range(new_range, player["id"])
                 booleans["range_changed"] = True
     else:
