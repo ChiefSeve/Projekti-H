@@ -1,9 +1,11 @@
 import random
 import backend.helpers.connector as connector
 
-my_cursor = connector.mydb.cursor(dictionary=True, buffered=True)
+db = connector.Database()
 
-status = ['pilvinen', 'aurinkoinen', 'sateinen', 'luminen', 'sumuinen']
+my_cursor = db.get_conn().cursor(dictionary=True, buffered=True)
+
+status = ['cloudy', 'sunny', 'raining', 'snowing', 'foggy']
 
 
 def temperature():
@@ -35,7 +37,6 @@ def generate_weather():
                         sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
                         values = (weather.status, weather.temperature)
                         my_cursor.execute(sql, values)
-                        connector.mydb.commit()
                         i += 1
                 else:
                     print('Not valid')
@@ -45,7 +46,6 @@ def generate_weather():
             sql = '''INSERT INTO weather (status, temperature) VALUES (%s, %s)'''
             values = (weather.status, weather.temperature)
             my_cursor.execute(sql, values)
-            connector.mydb.commit()
             i += 1
 
 
@@ -72,8 +72,7 @@ def update_weather():
         weather = get_weather()
         values = (weather['id'], airport['id'])
         my_cursor.execute(sql, values)
-        connector.mydb.commit()
 
 
-# update_weather()
+update_weather()
 

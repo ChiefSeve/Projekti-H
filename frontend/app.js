@@ -384,7 +384,7 @@ async function createUserSelectForm(userData){
   const userSelect  = document.createElement('select');
   const userButton  = document.createElement('button');
   userForm.setAttribute('id','selectUser');
-  userLabel.innerHTML = 'Valitse käyttäjä';
+  userLabel.innerHTML = 'Select user';
   userSelect.setAttribute('id','userDropDown');
   userButton.setAttribute('id', 'selectUserSubmit')
   userButton.setAttribute('type', 'button')
