@@ -11,7 +11,6 @@
 <body>
 <dialog id="user_dialog">
     <form id="create_user">
-        <label for="create_user">Uusi Käyttäjä</label>
     <form name="create_user">
         <h3 for="create_user">Uusi Käyttäjä</h3>
         <input id="create_user_input" type="text">
@@ -46,6 +45,14 @@
         <input id="airports_refresh" type="button" value="Refresh">
         <ul id="airports_ul"></ul>
         <p id="refresh_not_used"></p>
+    </article>
+    <article>
+        <button onclick="openInfoBox()" id="infoBoxButton">Show info</button>
+        <div id="infoBox" style="display: none;">
+            <h3>Tutorial</h3>
+            <p>Try to fly to airport with goal weather and get the highest score possible. If you fly to wrong airport, you get frustration. If your frustration reaches 100, you will lose.</p>
+            <button onclick="closeInfoBox()">Close</button>
+        </div>
     </article>
 </div>
 <div id="info" style="display: none">
