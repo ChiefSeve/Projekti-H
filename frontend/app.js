@@ -546,3 +546,19 @@ flyButton.addEventListener('click', async(evt) => {
 airportsRefresh.addEventListener('click', async() => {
   refreshAirports();
 })
+
+
+
+// Button function
+const infoBox = document.getElementById('infoBox');
+const infoBoxButton = document.getElementById('infoBoxButton');
+function openInfoBox(){
+  infoBox.removeAttribute('style');
+  infoBoxButton.setAttribute('style', 'display:none');
+
+}
+
+function closeInfoBox() {
+  infoBox.setAttribute('style', 'display:none');
+  infoBoxButton.removeAttribute('style');
+}
