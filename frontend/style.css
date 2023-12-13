@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    font-family: Verdana, sans-serif;
+    color: white;
+
+}
+
+
+
+dialog {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-content: center;
+    height: 90%;
+    width: 90%;
+}
+
+dialog p {
+    z-index: 999;
+    padding: 3rem;
+    border: 1px black solid;
+    background-color: #120101a1;
+    align-self: center;
+    justify-content: center;
+}
+
+#user_dialog {
+    color: white;
+}
+
+.notification {
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    text-align: center;
+}
+
+.notification h3 {
+    align-self: center;
+    color: black;
+}
+
+.notification p {
+    color: white;
+}
+
+#cheat_list {
+    text-decoration: underline;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+}
+
+#info {
+    background-color: #120101a1;
+    position: absolute;
+    left: 2rem;
+    top: 5rem;
+    padding: 1rem;
+    z-index: 999;
+    border: 1px black solid;
+}
+
+h3 {
+    display: block;
+    color: white;
+    -webkit-text-stroke-width:0px ;
+    -webkit-text-stroke-color:black ;
+}
+
+#airports_refresh {
+    display: block;
+    margin-top: 10px;
+}
+
+form, article {
+    z-index: 999;
+    padding: 1rem;
+    background-color: #120101a1;
+    border: 1px solid black;
+    width: 20rem;
+}
+
+#right_forms {
+    display: flex;
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    flex-direction: column;
+}
+
+#single {
+    top: 2rem;
+}
+
+#calculate-distance {
+    top: 7rem;
+}
+
+#fly_form {
+    top: 16rem;
+}
+
+input {
+    padding: .3rem;
+}
+
+select {
+    display: block;
+    padding: .5rem;
+    margin-bottom: .3rem;
+}
+
+.text_border {
+    color: white;
+    -webkit-text-stroke-width:0px ;
+    -webkit-text-stroke-color:black ;
+}

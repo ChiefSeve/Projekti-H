@@ -38,6 +38,15 @@ def is_airport(icao):
         return True
 
 
+def is_player(screen_name):
+    result = connector.find_player(screen_name)
+    if result:
+        return True
+    else:
+        return False
+
+
+
 def all_airports_in_range(icao, flight_range):
     # jos lentokenttä palaa etäisyydellä <1500nm(2778km) se hyväksytään, muuten ei
     airport_list = connector.get_all_airport_icaos()
@@ -49,10 +58,10 @@ def all_airports_in_range(icao, flight_range):
     return airports_in_range
 
 
-def create_new_weather_goal(player_id, player_name):
+def create_new_weather_goal(player_id):
     weather_id = connector.get_assigned_weather_id()
     weather = connector.get_weather_info(weather_id)
-    user = connector.find_player(player_name)
+    user = connector.get_player_by_id(player_id)
     user_location = connector.get_airport_by_icao(user["location"])
     while weather["id"] == user_location["weather_id"]:
         weather_id = connector.get_assigned_weather_id()
@@ -72,6 +81,11 @@ def find_player(name):
 
 def create_user(name):
     airport = connector.get_random_airport()
+    print(f'''
+    --------------------------------------------------------------------------
+        airport: {airport}      
+    --------------------------------------------------------------------------
+''')
     start_weather = connector.get_random_weather_id()
     resp = connector.create_user_by_name(name, airport, start_weather)
     if resp != 'ERROR':
@@ -84,45 +98,18 @@ def frustration_adder(goal_id, local_weather_id, local_region, goal_region):
     frust = 0
     goal = connector.get_weather_info(goal_id)
     weather = connector.get_weather_info(local_weather_id)
-    region = local_region
-    if goal_region != 0:
-        if goal == weather and region == goal_region:
-            frust += 0
-            return frust
-        elif goal == weather:
-            frust += 5
-            return frust
-        elif region == goal_region and goal['status'] == weather['status']:
-            frust += 5
-            return frust
-        elif region == goal_region and goal['temperature'] == weather['temperature']:
-            frust += 5
-            return frust
-        elif goal['status'] == weather['status']:
-            frust += 10
-            return frust
-        elif goal['temperature'] == weather['temperature']:
-            frust += 10
-            return frust
-        elif region == goal_region:
-            frust += 10
-            return frust
-        else:
-            frust += 15
-            return frust
+    if goal == weather:
+        frust += 0
+        return frust
+    elif goal['status'] == weather['status']:
+        frust += 5
+        return frust
+    elif goal['temperature'] == weather['temperature']:
+        frust += 5
+        return frust
     else:
-        if goal == weather:
-            frust += 0
-            return frust
-        elif goal['status'] == weather['status']:
-            frust += 5
-            return frust
-        elif goal['temperature'] == weather['temperature']:
-            frust += 5
-            return frust
-        else:
-            frust += 10
-            return frust
+        frust += 10
+        return frust
 
 
 def change_current_airport(icao, player):

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Surveyor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+<dialog id="user_dialog">
+    <form id="create_user">
+    <form name="create_user">
+        <h3 for="create_user">Create new user</h3>
+        <input id="create_user_input" type="text">
+        <input id="create_user_submit" type="submit">
+    </form>
+</dialog>
+<dialog id="range_notification" class="notification"></dialog>
+<dialog id="goal_notification" class="notification"></dialog>
+<div id="map"></div>
+<div id="right_forms" style="display: none">
+    <form id="single" name="search_airport">
+        <h3 for="search_airport">Search for Airport</h3>
+        <input name="icao" placeholder="Input airport icao code">
+        <input type="submit" value="Search">
+    </form>
+    <form id="calculate-distance" name="calculate_distance">
+        <h3 for="calculate_distance">Calculate Distance Between Airports</h3>
+        <input name="airport1" placeholder="From airport(icao)">
+        <input name="airport2" placeholder="To airport(icao)">
+        <input value="Calculate" type="submit">
+        <div id="distance_result"></div>
+            <p id="distance_km"></p>
+    </form>
+    <form id="fly_form" name="fly">
+        <h3 for="fly">Fly to Airport</h3>
+        <input name="dest_airport" type="text" placeholder="Airport ICAO">
+        <input id="fly_button" value="Fly" type="submit">
+        <div id="too_far"></div>
+    </form>
+    <article id="airports_article">
+        <h3 id="cheat_list">Cheat List</h3>
+        <h3>Airports with: </h3> <h3 id="airports_heading"></h3>
+        <input id="airports_refresh" type="button" value="Refresh">
+        <ul id="airports_ul"></ul>
+        <p id="refresh_not_used"></p>
+    </article>
+    <article>
+        <button onclick="openInfoBox()" id="infoBoxButton">Show info</button>
+        <div id="infoBox" style="display: none;">
+            <h3>Tutorial</h3>
+            <p>Try to fly to an airport where the weather matches the weather goal. If you have to fly to other airports, your boss gets more frustrated. If their frustration reaches 100, you will lose.</p>
+            <button onclick="closeInfoBox()">Close</button>
+        </div>
+    </article>
+</div>
+<div id="info" style="display: none">
+</div>
+</body>
+</html>
