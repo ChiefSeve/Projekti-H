@@ -95,7 +95,7 @@ async function updateInfo(infoNode, playerObject) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerObject.weatherId}`);
     const weatherObject = await response.json();
-    weatherNode.textContent = `Weather Goal: ${weatherObject.status} ${weatherObject.temperature}`;
+    weatherNode.textContent = `Weather Goal: ${weatherObject.status} and ${weatherObject.temperature} \u00b0C`;
   }
   catch(error) {
     console.error(error);
@@ -234,6 +234,52 @@ async function reachedGoalInfo(targetNode, playerData) {
   targetNode.showModal();
 }
 
+
+async function GoalInfo(targetNode, playerData) {
+  // Creating Nodes
+  const h3 = document.createElement('h3');
+  const p1 = document.createElement('p');
+  const p2 = document.createElement('p');
+  const notifClose = document.createElement('input');
+
+  // Node list
+  const nodes = [
+    h3,
+    p1,
+    p2,
+    notifClose
+  ];
+
+  // Node Contents
+  h3.textContent = 'Goal';
+  p1.textContent = 'Your next goal is:'
+  try {
+    console.log('node creation playerdata weatherID', playerData.weatherId);
+    const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
+    const weather = await response.json();
+    console.log('weather', weather)
+    p2.textContent = `${weather.status} & ${weather.temperature}`;
+  }
+  catch(error) {
+    console.error(error);
+  }
+  notifClose.setAttribute('type', 'button');
+  notifClose.setAttribute('value', 'Close');
+  notifClose.addEventListener('click', () => {
+    deleteChildsOfElement(targetNode);
+    targetNode.close();
+  })
+
+  // Appends
+  nodes.forEach(node => {
+    targetNode.appendChild(node);
+  });
+
+  // Show modal
+  targetNode.showModal();
+}
+
+
 async function flyToAirport(icao) {
   deleteChildsOfElement(tooFar);
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
@@ -282,7 +328,7 @@ async function flyToAirport(icao) {
       case 1389:
         rangeHalfInfo(rangeNotifDialog);
         break;
-      case 857:
+      case 858:
         rangeHalfInfo(rangeNotifDialog);
         break;
     }
@@ -326,6 +372,8 @@ async function createUser(){
     locMarker.clearLayers();
     await drawOnLocation(activeUser.location);
     userDialog.close();
+
+    GoalInfo(goalNotifDialog, activeUser);
   })
 }
 
@@ -382,19 +430,29 @@ function gameOverScreen(playerData, dialogNode) {
   // Creating of nodes
   const gameOverNode = document.createElement('p');
   const playerScoreNode = document.createElement('p');
+  const scoreModifierNode = document.createElement('p');
   locMarker.clearLayers();
   map.flyTo([40, -95], 4);
   map.dragging.disable();
 
   // Node Array
   const nodes = [
-    gameOverNode,
-    playerScoreNode
+    playerScoreNode,
+    scoreModifierNode,
+    gameOverNode
   ];
 
   // Node contents
   gameOverNode.textContent = 'Game Over';
-  playerScoreNode.textContent = `Score: ${playerData.score}`;
+
+  if (refreshNotUsed == true) {
+    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List not Used: x2';
+  }
+  else {
+    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List Used: x1';
+  }
+
+  playerScoreNode.textContent = `Final Score: ${playerData.score}`;
 
   // Appends
   nodes.forEach(node => {
@@ -480,6 +538,8 @@ flyButton.addEventListener('click', async(evt) => {
   evt.preventDefault();
   const icao_input = document.querySelector('input[name="dest_airport"]');
   await flyToAirport(icao_input.value);
+  document.querySelector('input[name="dest_airport"]').value = '';
+
 })
 
 // Airports list
