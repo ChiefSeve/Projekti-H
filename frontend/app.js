@@ -100,6 +100,7 @@ async function updateInfo(infoNode, playerObject) {
   catch(error) {
     console.error(error);
   }
+  weatherNode.setAttribute('id', 'weather_node');
   nameNode.textContent = `Name: ${playerObject.name}`;
   locationNode.textContent = `Location: ${playerObject.location}`;
   scoreNode.textContent = `Score: ${playerObject.score}`;
@@ -179,6 +180,7 @@ function rangeHalfInfo(targetNode) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
+    console.log('closed');
   })
 
   // Appends
@@ -223,6 +225,7 @@ async function reachedGoalInfo(targetNode, playerData) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
+    console.log('closed');
   })
 
   // Appends
@@ -268,6 +271,7 @@ async function GoalInfo(targetNode, playerData) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
+    console.log('closed');
   })
 
   // Appends
@@ -325,12 +329,12 @@ async function flyToAirport(icao) {
     switch(activeUser.range) {
       case 2778:
         break;
-      case 1389:
+      case 1389 || 858:
         rangeHalfInfo(rangeNotifDialog);
         break;
-      case 858:
+      /* case 858:
         rangeHalfInfo(rangeNotifDialog);
-        break;
+        break; */
     }
 }
 
@@ -367,11 +371,12 @@ async function createUser(){
 
     // Delete form
 
-    const userDialog = document.getElementById('user_dialog');
+    /* const userDialog = document.getElementById('user_dialog'); */
     deleteChildsOfElement(userDialog);
     locMarker.clearLayers();
     await drawOnLocation(activeUser.location);
     userDialog.close();
+    console.log('closed');
 
     GoalInfo(goalNotifDialog, activeUser);
   })
@@ -401,6 +406,10 @@ async function createUserSelectForm(userData){
     option.innerHTML = user.screen_name;
     userSelect.appendChild(option)
   });
+  userButton.addEventListener('click', () => {
+    userDialog.close();
+    console.log('closed');
+  });
   }
 }
 
@@ -420,10 +429,11 @@ async function selectUser() {
   }
 
   // Delete form
-  const userDialog = document.getElementById('user_dialog');
+  /* const userDialog = document.getElementById('user_dialog'); */
   deleteChildsOfElement(userDialog);
   locMarker.clearLayers();
   await drawOnLocation(activeUser.location);
+  GoalInfo(goalNotifDialog, activeUser);
 }
 
 function gameOverScreen(playerData, dialogNode) {
@@ -481,6 +491,7 @@ window.addEventListener('load', async function(evt) {
   } else {
     await createUser();
   }
+  userDialog.showModal();
 });
 
 
@@ -549,7 +560,7 @@ airportsRefresh.addEventListener('click', async() => {
 
 
 
-// Button function
+// Info Button function
 const infoBox = document.getElementById('infoBox');
 const infoBoxButton = document.getElementById('infoBoxButton');
 function openInfoBox(){

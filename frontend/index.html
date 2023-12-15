@@ -10,17 +10,17 @@
     <script src="app.js" defer></script>
 </head>
 <body>
-<dialog id="user_dialog">
+<dialog id="user_dialog" class="box">
     <form id="create_user">
         <h3>Create new user</h3>
         <input id="create_user_input" type="text">
         <input id="create_user_submit" type="submit">
     </form>
 </dialog>
-<dialog id="range_notification" class="notification"></dialog>
-<dialog id="goal_notification" class="notification"></dialog>
+<dialog id="range_notification" class="notification box"></dialog>
+<dialog id="goal_notification" class="notification box"></dialog>
 <div id="map"></div>
-<div id="right_forms" style="display: none">
+<div id="right_forms" class="box" style="display: none">
     <form id="single" name="search_airport">
         <h3>Search for Airport</h3>
         <input name="icao" placeholder="Input airport icao code">
@@ -56,7 +56,7 @@
         </div>
     </article>
 </div>
-<div id="info" style="display: none">
+<div id="info" class="box" style="display: none">
 </div>
 </body>
 </html>

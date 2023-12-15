@@ -9,31 +9,39 @@ body {
     box-sizing: border-box;
 }
 
-dialog {
+.box {
+    background-color: #292622e1;
+    border: 0.65rem double #f7e9e9e1;
+    border-radius: 5px;
+}
+
+dialog[open] {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column-reverse;
     justify-content: center;
     align-content: center;
-    height: 90%;
-    width: 90%;
+    position: absolute;
+    bottom: 20%;
+    height: 67%;
+    width: 50%;
 }
 
-dialog p {
+dialog[open] form {
+    border: 0;
+}
+
+dialog[open] p {
     z-index: 999;
     padding: 3rem;
-    border: 1px black solid;
-    background-color: #120101a1;
+    /* border: 1px black solid;
+    background-color: #120101a1; */
     align-self: center;
     justify-content: center;
 }
 
-#user_dialog {
-    color: white;
-}
-
 .notification {
-    flex-direction: column;
+    flex-direction: column !important;
     width: 50%;
     height: 50%;
     text-align: center;
@@ -41,11 +49,16 @@ dialog p {
 
 .notification h3 {
     align-self: center;
-    color: black;
+    color: #f7e9e9;
 }
 
 .notification p {
-    color: white;
+    color: #f7e9e9;
+}
+
+#user_dialog {
+    color: #f7e9e9;
+    z-index: 999;
 }
 
 #cheat_list {
@@ -82,8 +95,8 @@ h3 {
 form, article {
     z-index: 999;
     padding: 1rem;
-    background-color: #f0c15d;
-    /* border-bottom: 1px solid black; */
+    background-image: none;
+    border-bottom: 1px solid black;
     width: 20rem;
 }
 
@@ -94,7 +107,6 @@ form, article {
     top: 1rem;
     z-index: 999;
     flex-direction: column;
-    border: 0.6rem double rgb(212, 45, 45);
 }
 
 #single {
