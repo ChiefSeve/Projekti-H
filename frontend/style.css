@@ -5,7 +5,9 @@ body {
 
 }
 
-
+* {
+    box-sizing: border-box;
+}
 
 dialog {
     display: flex;
@@ -80,8 +82,8 @@ h3 {
 form, article {
     z-index: 999;
     padding: 1rem;
-    background-color: #120101a1;
-    border: 1px solid black;
+    background-color: #f0c15d;
+    /* border-bottom: 1px solid black; */
     width: 20rem;
 }
 
@@ -90,7 +92,9 @@ form, article {
     position: absolute;
     right: 2rem;
     top: 1rem;
+    z-index: 999;
     flex-direction: column;
+    border: 0.6rem double rgb(212, 45, 45);
 }
 
 #single {
