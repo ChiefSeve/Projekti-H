@@ -13,7 +13,7 @@
 <dialog id="user_dialog" class="box">
     <form id="create_user">
         <h3>Create new user</h3>
-        <input id="create_user_input" type="text">
+        <input id="create_user_input" class="no_underline" type="text">
         <input id="create_user_submit" type="submit">
     </form>
 </dialog>
@@ -23,13 +23,13 @@
 <div id="right_forms" class="box" style="display: none">
     <form id="single" name="search_airport">
         <h3>Search for Airport</h3>
-        <input name="icao" placeholder="Input airport icao code">
+        <input type="text" name="icao" placeholder="Input airport icao code">
         <input type="submit" value="Search">
     </form>
     <form id="calculate-distance" name="calculate_distance">
         <h3>Calculate Distance Between Airports</h3>
-        <input name="airport1" placeholder="From airport(icao)">
-        <input name="airport2" placeholder="To airport(icao)">
+        <input type="text" name="airport1" placeholder="From airport(icao)">
+        <input type="text" name="airport2" placeholder="To airport(icao)">
         <input value="Calculate" type="submit">
         <div id="distance_result"></div>
             <p id="distance_km"></p>

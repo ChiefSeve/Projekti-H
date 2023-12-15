@@ -59,6 +59,7 @@ let activeUser = {
   jumps: ''
 };
 
+// Styling functions
 
 function deleteChildsOfElement(elementNode) {
   while (elementNode.firstChild) {
@@ -66,6 +67,17 @@ function deleteChildsOfElement(elementNode) {
   }
 }
 
+function underlineNodeOnHover(hoverNode, targetNode) {
+  hoverNode.addEventListener('mouseover', () => {
+    targetNode.setAttribute('style', 'text-decoration: underline');
+    hoverNode.addEventListener('mouseleave', () => {
+      targetNode.removeAttribute('style');
+    })
+  })
+  return;
+}
+
+// Rest
 
 async function updateInfo(infoNode, playerObject) {
   // Clear previous info
@@ -209,9 +221,8 @@ async function reachedGoalInfo(targetNode, playerData) {
 
   // Node Contents
   h3.textContent = 'Goal Reached';
-  p1.textContent = 'Your next goal is:'
+  p1.textContent = 'Your next goal is any airport with:'
   try {
-    console.log('node creation playerdata weatherID', playerData.weatherId);
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
     console.log('weather', weather)
@@ -255,9 +266,8 @@ async function GoalInfo(targetNode, playerData) {
 
   // Node Contents
   h3.textContent = 'Goal';
-  p1.textContent = 'Your next goal is:'
+  p1.textContent = 'Your next goal is any airport with:'
   try {
-    console.log('node creation playerdata weatherID', playerData.weatherId);
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
     console.log('weather', weather)
@@ -411,6 +421,9 @@ async function createUserSelectForm(userData){
     console.log('closed');
   });
   }
+
+  // Styling
+  underlineNodeOnHover(userForm, userLabel);
 }
 
 
@@ -429,10 +442,9 @@ async function selectUser() {
   }
 
   // Delete form
-  /* const userDialog = document.getElementById('user_dialog'); */
   deleteChildsOfElement(userDialog);
   locMarker.clearLayers();
-  await drawOnLocation(activeUser.location);
+  setTimeout(async() => {await drawOnLocation(activeUser.location)}, 50);
   GoalInfo(goalNotifDialog, activeUser);
 }
 
@@ -468,6 +480,8 @@ function gameOverScreen(playerData, dialogNode) {
   nodes.forEach(node => {
     dialogNode.appendChild(node);
   });
+
+  dialogNode.showModal();
 }
 
 window.addEventListener('load', async function(evt) {
@@ -492,6 +506,11 @@ window.addEventListener('load', async function(evt) {
     await createUser();
   }
   userDialog.showModal();
+
+  // Styling
+  const createUserForm = document.getElementById('create_user');
+  const h3 = document.querySelector('#create_user h3');
+  underlineNodeOnHover(createUserForm, h3);
 });
 
 

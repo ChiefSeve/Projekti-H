@@ -1,12 +1,41 @@
 body {
     margin: 0;
     font-family: Verdana, sans-serif;
-    color: white;
+    color: #f7e9e9;
 
 }
 
 * {
     box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    background: #292622;
+    width: 0.7rem;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(#cfc7c7, white, #a39e9e);
+}
+
+input[type=text],
+select {
+    border-radius: 5px;
+    background-color: #3d3d3d;
+    color: #f7e9e9;
+}
+
+select {
+    border-top: 2px solid #292622;
+    border-left: 2px solid #292622;
+    border-bottom: 2px solid #767676;
+    border-right: 2px solid #767676;
+}
+
+button,
+input[type=submit] {
+    display: blocK;
 }
 
 .box {
@@ -20,6 +49,7 @@ dialog[open] {
     flex-wrap: wrap;
     flex-direction: column-reverse;
     justify-content: center;
+    align-items: center;
     align-content: center;
     position: absolute;
     bottom: 20%;
@@ -28,14 +58,29 @@ dialog[open] {
 }
 
 dialog[open] form {
+    display: flex;
+    flex-wrap: nowrap;
     border: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+dialog[open] form:last-of-type {
+    margin-bottom: 1.5rem;
+}
+
+dialog[open] button,
+dialog[open] input[type=submit],
+dialog[open] input[type=button] {
+    margin-top: 2rem;
+    justify-self: center;
 }
 
 dialog[open] p {
+    font-size: 1.3rem;
     z-index: 999;
-    padding: 3rem;
-    /* border: 1px black solid;
-    background-color: #120101a1; */
     align-self: center;
     justify-content: center;
 }
@@ -50,6 +95,7 @@ dialog[open] p {
 .notification h3 {
     align-self: center;
     color: #f7e9e9;
+    font-size: 2rem;
 }
 
 .notification p {
@@ -71,20 +117,18 @@ dialog[open] p {
 }
 
 #info {
-    background-color: #120101a1;
     position: absolute;
     left: 2rem;
     top: 5rem;
     padding: 1rem;
     z-index: 999;
-    border: 1px black solid;
 }
 
 h3 {
     display: block;
-    color: white;
+    color: #f7e9e9;
     -webkit-text-stroke-width:0px ;
-    -webkit-text-stroke-color:black ;
+    -webkit-text-stroke-color:#292622 ;
 }
 
 #airports_refresh {
@@ -96,17 +140,29 @@ form, article {
     z-index: 999;
     padding: 1rem;
     background-image: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #292622;
     width: 20rem;
 }
 
 #right_forms {
     display: flex;
     position: absolute;
+    max-height: 90%;
     right: 2rem;
     top: 1rem;
     z-index: 999;
     flex-direction: column;
+    overflow-y: scroll;
+}
+
+#right_forms button,
+#right_forms input[type=submit],
+#right_forms input[type=button] {
+    margin-top: 1rem;
+}
+
+#infoBoxButton {
+    margin: 0 !important;
 }
 
 #single {
@@ -129,10 +185,4 @@ select {
     display: block;
     padding: .5rem;
     margin-bottom: .3rem;
-}
-
-.text_border {
-    color: white;
-    -webkit-text-stroke-width:0px ;
-    -webkit-text-stroke-color:black ;
 }
