@@ -450,9 +450,11 @@ async function selectUser() {
 
 function gameOverScreen(playerData, dialogNode) {
   // Creating of nodes
-  const gameOverNode = document.createElement('p');
+  const gameOverNode = document.createElement('h3');
+  const scoreModifierDivNode = document.createElement('div');
   const playerScoreNode = document.createElement('p');
-  const scoreModifierNode = document.createElement('p');
+  const scoreModifierHeaderNode = document.createElement('p');
+  const scoreModifiersNode = document.createElement('p');
   locMarker.clearLayers();
   map.flyTo([40, -95], 4);
   map.dragging.disable();
@@ -460,23 +462,29 @@ function gameOverScreen(playerData, dialogNode) {
   // Node Array
   const nodes = [
     playerScoreNode,
-    scoreModifierNode,
+    scoreModifierDivNode,
     gameOverNode
   ];
 
   // Node contents
   gameOverNode.textContent = 'Game Over';
+  gameOverNode.setAttribute('id', 'game_over_h3');
+  scoreModifierHeaderNode.textContent = 'Score Modifiers:';
+  scoreModifierDivNode.setAttribute('id', 'game_over_div');
 
   if (refreshNotUsed == true) {
-    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List not Used: x2';
+    scoreModifiersNode.innerHTML = 'Cheat List not Used: x2';
   }
   else {
-    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List Used: x1';
+    scoreModifiersNode.innerHTML = 'Cheat List Used: x1';
   }
 
   playerScoreNode.textContent = `Final Score: ${playerData.score}`;
+  playerScoreNode.setAttribute('id', 'game_over_p');
 
   // Appends
+  scoreModifierDivNode.appendChild(scoreModifierHeaderNode);
+  scoreModifierDivNode.appendChild(scoreModifiersNode);
   nodes.forEach(node => {
     dialogNode.appendChild(node);
   });
