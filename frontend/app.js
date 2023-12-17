@@ -192,7 +192,6 @@ function rangeHalfInfo(targetNode) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
-    console.log('closed');
   })
 
   // Appends
@@ -225,7 +224,6 @@ async function reachedGoalInfo(targetNode, playerData) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
-    console.log('weather', weather)
     p2.textContent = `${weather.status} & ${weather.temperature}`;
   }
   catch(error) {
@@ -236,7 +234,6 @@ async function reachedGoalInfo(targetNode, playerData) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
-    console.log('closed');
   })
 
   // Appends
@@ -270,7 +267,6 @@ async function GoalInfo(targetNode, playerData) {
   try {
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
-    console.log('weather', weather)
     p2.textContent = `${weather.status} & ${weather.temperature}`;
   }
   catch(error) {
@@ -281,7 +277,6 @@ async function GoalInfo(targetNode, playerData) {
   notifClose.addEventListener('click', () => {
     deleteChildsOfElement(targetNode);
     targetNode.close();
-    console.log('closed');
   })
 
   // Appends
@@ -298,7 +293,6 @@ async function flyToAirport(icao) {
   deleteChildsOfElement(tooFar);
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const data =  await response.json();
-  console.log('data', data)
 
   // If destination is out of range or frustration gets over 100
 
@@ -386,7 +380,6 @@ async function createUser(){
     locMarker.clearLayers();
     await drawOnLocation(activeUser.location);
     userDialog.close();
-    console.log('closed');
 
     GoalInfo(goalNotifDialog, activeUser);
   })
@@ -418,7 +411,6 @@ async function createUserSelectForm(userData){
   });
   userButton.addEventListener('click', () => {
     userDialog.close();
-    console.log('closed');
   });
   }
 
