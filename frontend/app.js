@@ -59,6 +59,7 @@ let activeUser = {
   jumps: ''
 };
 
+// Styling functions
 
 function deleteChildsOfElement(elementNode) {
   while (elementNode.firstChild) {
@@ -66,6 +67,17 @@ function deleteChildsOfElement(elementNode) {
   }
 }
 
+function underlineNodeOnHover(hoverNode, targetNode) {
+  hoverNode.addEventListener('mouseover', () => {
+    targetNode.setAttribute('style', 'text-decoration: underline');
+    hoverNode.addEventListener('mouseleave', () => {
+      targetNode.removeAttribute('style');
+    })
+  })
+  return;
+}
+
+// Rest
 
 async function updateInfo(infoNode, playerObject) {
   // Clear previous info
@@ -100,6 +112,7 @@ async function updateInfo(infoNode, playerObject) {
   catch(error) {
     console.error(error);
   }
+  weatherNode.setAttribute('id', 'weather_node');
   nameNode.textContent = `Name: ${playerObject.name}`;
   locationNode.textContent = `Location: ${playerObject.location}`;
   scoreNode.textContent = `Score: ${playerObject.score}`;
@@ -207,12 +220,10 @@ async function reachedGoalInfo(targetNode, playerData) {
 
   // Node Contents
   h3.textContent = 'Goal Reached';
-  p1.textContent = 'Your next goal is:'
+  p1.textContent = 'Your next goal is any airport with:'
   try {
-    console.log('node creation playerdata weatherID', playerData.weatherId);
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
-    console.log('weather', weather)
     p2.textContent = `${weather.status} & ${weather.temperature}`;
   }
   catch(error) {
@@ -252,12 +263,10 @@ async function GoalInfo(targetNode, playerData) {
 
   // Node Contents
   h3.textContent = 'Goal';
-  p1.textContent = 'Your next goal is:'
+  p1.textContent = 'Your next goal is any airport with:'
   try {
-    console.log('node creation playerdata weatherID', playerData.weatherId);
     const response = await fetch(`http://127.0.0.1:3000/weather?weather=${playerData.weatherId}`);
     const weather = await response.json();
-    console.log('weather', weather)
     p2.textContent = `${weather.status} & ${weather.temperature}`;
   }
   catch(error) {
@@ -284,7 +293,6 @@ async function flyToAirport(icao) {
   deleteChildsOfElement(tooFar);
   const response = await fetch(`http://127.0.0.1:3000/fly?icao=${icao.toUpperCase()}&userId=${activeUser.id}`);
   const data =  await response.json();
-  console.log('data', data)
 
   // If destination is out of range or frustration gets over 100
 
@@ -325,12 +333,12 @@ async function flyToAirport(icao) {
     switch(activeUser.range) {
       case 2778:
         break;
-      case 1389:
+      case 1389 || 858:
         rangeHalfInfo(rangeNotifDialog);
         break;
-      case 858:
+      /* case 858:
         rangeHalfInfo(rangeNotifDialog);
-        break;
+        break; */
     }
 }
 
@@ -367,7 +375,7 @@ async function createUser(){
 
     // Delete form
 
-    const userDialog = document.getElementById('user_dialog');
+    /* const userDialog = document.getElementById('user_dialog'); */
     deleteChildsOfElement(userDialog);
     locMarker.clearLayers();
     await drawOnLocation(activeUser.location);
@@ -401,7 +409,13 @@ async function createUserSelectForm(userData){
     option.innerHTML = user.screen_name;
     userSelect.appendChild(option)
   });
+  userButton.addEventListener('click', () => {
+    userDialog.close();
+  });
   }
+
+  // Styling
+  underlineNodeOnHover(userForm, userLabel);
 }
 
 
@@ -420,17 +434,19 @@ async function selectUser() {
   }
 
   // Delete form
-  const userDialog = document.getElementById('user_dialog');
   deleteChildsOfElement(userDialog);
   locMarker.clearLayers();
-  await drawOnLocation(activeUser.location);
+  setTimeout(async() => {await drawOnLocation(activeUser.location)}, 50);
+  GoalInfo(goalNotifDialog, activeUser);
 }
 
 function gameOverScreen(playerData, dialogNode) {
   // Creating of nodes
-  const gameOverNode = document.createElement('p');
+  const gameOverNode = document.createElement('h3');
+  const scoreModifierDivNode = document.createElement('div');
   const playerScoreNode = document.createElement('p');
-  const scoreModifierNode = document.createElement('p');
+  const scoreModifierHeaderNode = document.createElement('p');
+  const scoreModifiersNode = document.createElement('p');
   locMarker.clearLayers();
   map.flyTo([40, -95], 4);
   map.dragging.disable();
@@ -438,26 +454,34 @@ function gameOverScreen(playerData, dialogNode) {
   // Node Array
   const nodes = [
     playerScoreNode,
-    scoreModifierNode,
+    scoreModifierDivNode,
     gameOverNode
   ];
 
   // Node contents
   gameOverNode.textContent = 'Game Over';
+  gameOverNode.setAttribute('id', 'game_over_h3');
+  scoreModifierHeaderNode.textContent = 'Score Modifiers:';
+  scoreModifierDivNode.setAttribute('id', 'game_over_div');
 
   if (refreshNotUsed == true) {
-    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List not Used: x2';
+    scoreModifiersNode.innerHTML = 'Cheat List not Used: x2';
   }
   else {
-    scoreModifierNode.innerHTML = 'Score Modifiers: <br><br> Cheat List Used: x1';
+    scoreModifiersNode.innerHTML = 'Cheat List Used: x1';
   }
 
   playerScoreNode.textContent = `Final Score: ${playerData.score}`;
+  playerScoreNode.setAttribute('id', 'game_over_p');
 
   // Appends
+  scoreModifierDivNode.appendChild(scoreModifierHeaderNode);
+  scoreModifierDivNode.appendChild(scoreModifiersNode);
   nodes.forEach(node => {
     dialogNode.appendChild(node);
   });
+
+  dialogNode.showModal();
 }
 
 window.addEventListener('load', async function(evt) {
@@ -481,6 +505,12 @@ window.addEventListener('load', async function(evt) {
   } else {
     await createUser();
   }
+  userDialog.showModal();
+
+  // Styling
+  const createUserForm = document.getElementById('create_user');
+  const h3 = document.querySelector('#create_user h3');
+  underlineNodeOnHover(createUserForm, h3);
 });
 
 
@@ -549,7 +579,7 @@ airportsRefresh.addEventListener('click', async() => {
 
 
 
-// Button function
+// Info Button function
 const infoBox = document.getElementById('infoBox');
 const infoBoxButton = document.getElementById('infoBoxButton');
 function openInfoBox(){
